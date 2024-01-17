@@ -1,0 +1,200 @@
+:root{
+   --page_padding: 0;
+   --page-margin: 0;
+   --box-sizing: border-box;
+   --page-background: #232627;
+   --page-color: #eee;
+   --btn-background: rgb(231, 96, 34);
+}
+*{
+   padding: var(--page_padding);
+   margin: var(--page-margin);
+   box-sizing: var(--box-sizing);
+   color: var(--page-color);
+   text-decoration: none;
+   outline: none;
+   border: none;
+   scroll-behavior: smooth;
+   list-style: none;
+   overflow-x: hidden;
+   -webkit-transition: ease-in .3s;
+   transition: ease-in .3s;
+}
+body{
+   width: 100%;
+   height: 100%;
+   overflow-x: hidden;
+   background: var(--page-background);
+}
+::placeholder{
+   color: rgb(204, 203, 203);
+   font-size: 14px;
+}
+
+main.main-content{
+   width: 100%;
+   height: 43rem;
+   overflow-y: visible;
+
+   header.page-header{
+      width: 100%;
+      padding: 4px 5%;
+      height: 6rem;
+      overflow-y: hidden;
+      background: #8b8a8a21;
+      position: relative;
+      margin-top: 1.5rem;
+
+      // mixin
+      @mixin item_size($height){
+      height: $height;
+      }
+      div.img-wrapper > a >  img{
+         // usage
+         @include item_size(85px - 5);
+      }
+   }
+
+   section.form-section{
+      position: relative;
+      justify-content: center;
+      padding: 2rem 2%;
+      overflow-x: visible;
+      margin-top: 6.5rem;
+      box-shadow: 0px 0px 2rem rgb(20, 20, 20);
+      left: 33%;
+      border: 1.1px solid #a3a2a2;
+      border-radius: .4rem;
+      width: 28rem;
+      height: 20rem;
+      
+      // mixin
+      @mixin form_title($size,$color,$text-align){
+      font-size: $size;
+      color: $color;
+      text-align: $text-align;
+      }
+
+      h2.title,h2{
+         // usage
+         @include form_title(19px,rgb(211, 207, 207),center);
+         font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+         letter-spacing: 1px;
+         font-weight: 200;
+      }
+
+      input{
+         // mixin
+         @mixin inputbox_style($font-size,$letter-spacing,$height,$width,$border-radius,$padding,$background){
+            font-size: $font-size;
+            letter-spacing: $letter-spacing;
+            height: $height;
+            width: $width;
+            border-radius: $border-radius; 
+            padding: $padding;
+            background: $background;
+         }
+
+         // usage
+         @include inputbox_style(15px, .7px, 2rem, 24rem, .3rem, 1.6rem 5%, none);
+         filter: opacity(70%);
+         box-shadow: 0px 0px 2rem rgb(20, 20, 20);
+         border: 1.4px solid rgb(161, 160, 160);
+         font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+         &:hover{
+            filter: opacity(100%) !important;
+            transition: ease-in-out .3s;
+         }
+
+         &:focus{
+            border: 1.4px solid rgb(151, 151, 221) !important;
+         }
+       }
+
+      button[type="submit"]{
+         color: #eee;
+         background: var(--btn-background);
+         padding: 1rem 20%;
+         cursor: pointer;
+         font-size: 15px;
+         border-radius: 4px;
+         align-items: center;
+         position: relative;
+         left: 22.1%;
+
+         &:hover{
+            -webkit-filter: contrast(80%);
+            filter: contrast(80%);
+            transition: ease-in .2s;
+         }
+      }
+
+      // view/hide password text in input box
+      fieldset span.password-view{ 
+      //mixin
+      @mixin password-view-hide-text($cursor,$position,$left,$bottom,$color,$font-size) {
+         cursor: $cursor;
+         position: $position;
+         left: $left;
+         bottom: $bottom;
+         color: $color;
+         font-size: $font-size;
+      }
+      // usage
+      @include password-view-hide-text(pointer, relative, 21rem, 2.2rem, rgb(189, 186, 186), 12px);
+      font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      }
+}
+
+footer.footer{
+   // mixin
+   @mixin footer($padding-top,$display,$text-align,$position,$top,$left,$color) {
+      padding-top: $padding-top;
+      display: $display;
+      text-align: $text-align;
+      position: $position;
+      top: $top;
+      left: $left;
+      color: $color;
+   }
+
+   // usage
+   @include footer(4px + 3, inline, start, relative, 3rem, 3rem, rgb(231, 96, 34));
+   border-top: 1px dashed rgb(216, 215, 215);
+
+   span{
+      color: rgb(216, 215, 215);
+      font-size: 13px;
+   }
+}
+}
+
+
+
+
+
+
+// media queries
+@media all and(max-width: 850px){
+   section.form-section{
+      transition: inherit;
+      left: 15% !important;
+   }
+}
+
+@media  all and(max-width: 830px) {
+   // view/hide password text in input box
+   fieldset span.password-view{
+      position: relative;
+      left: -2.7rem !important;
+      bottom: 1px !important;
+}
+}
+
+@media all and(max-width: 700px){
+   section.form-section{
+      transition: inherit;
+      left: 4% !important;
+   }
+}

@@ -1,0 +1,175 @@
+:root{
+   --page_padding: 0;
+   --page-margin: 0;
+   --box-sizing: border-box;
+   --page-background: #232627;
+   --color-orange: rgb(231, 96, 34);
+   --font-family: 'Courier New', Courier, monospace;
+}
+*{ 
+   padding: var(--page_padding);
+   margin: var(--page-margin);
+   box-sizing: var(--box-sizing);
+   color: var(--page-color);
+   text-decoration: none;
+   outline: none;
+   border: none;
+   scroll-behavior: smooth;
+   list-style: none;
+   overflow-x: hidden;
+}
+body{
+   width: 100%;
+   height: 100vh;
+   overflow-x: hidden;
+   background: var(--page-background);
+}
+::placeholder{
+   color: rgb(204, 203, 203);
+   font-size: 16.5px;
+   font-family: var(--font-family);
+}  
+header.page-header.active{
+   height: 6.3rem !important;
+   border-bottom: 1.1px solid rgb(83, 81, 81);
+   background: var(--page-background)!important;
+   transition: all .3s ease-in-out;
+}
+
+/*## scroll bar styles ##*/
+::-webkit-scrollbar{
+   width: 3px;
+   background: gray;
+ }
+ ::-webkit-scrollbar-button{
+   background: rgb(175, 171, 171);
+ }
+ ::-webkit-scrollbar-thumb{
+   background:  rgb(179, 176, 176);
+}
+
+main.main-content{
+   header.page-header{
+      width: 100%;
+      padding: 4px 5%;
+      height: 6rem;
+      overflow-y: hidden;
+      z-index: 99999;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background: #8b8a8a21;
+      margin-top: 15px;
+
+      // mixin
+      @mixin item_size($height){
+      height: $height;
+      }
+      div.img-wrapper > a >  img{
+         // usage
+         @include item_size(85px - 5);
+      }
+   }
+
+   section.cart-section{
+      position: absolute;
+      z-index: 999;
+      overflow: hidden;
+      top: 35%;
+      width: 100%;
+      -webkit-transform: translate(22.8%,0);
+      transform: translate(22.8%,0);
+
+      // text input
+      input[type="text"]{
+         // mixin
+         @mixin text-input($height,$width,$padding,$border-radius,$letter-spacing,$background,$color,$font-size){
+            height: $height;
+            width: $width;
+            padding: $padding;
+            border-radius: $border-radius;
+            letter-spacing: $letter-spacing;
+            background: $background;
+            color: $color;
+            font-size: $font-size;  
+         }
+         // usage
+         @include text-input(3rem, 52%, 1.5rem 2%, 5px, 1px, none, #eaeaea, 16.5px);
+         border: 2px solid var(--color-orange);
+         font-family: var(--font-family);
+      }
+    
+      div.cart-wrapper{
+        display: flex;
+        gap: 2rem;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        width: 52%;
+        padding-top: 18px;
+        border-top: 1.1px solid rgb(78, 75, 72);
+
+        .product{
+         color: #eee;
+         font-size: 20px;
+         height: auto;
+         border-radius: .5rem;
+         text-align: center;
+         width: auto;
+         cursor: pointer;
+         padding: 15px 2rem;
+         box-shadow: 1px 1px 4rem rgb(58, 57, 57);
+         display: inline;
+         align-items: center;
+         position: relative;
+         background: var(--color-orange);
+
+         &:hover{
+            -webkit-filter: contrast(80%);
+            filter: contrast(80%);
+            -webkit-filter: brightness(80%);
+            filter: brightness(80%);
+            transition: ease-in .2s;
+         }
+         span{
+            font-size: 15px;
+         }
+        }
+      }
+      samp.title{
+         position: relative;
+         margin-top: 4rem;
+         font-size: 20px;
+         color: #eee;
+      }
+      input[type="submit"]{
+         background: none;
+         cursor: pointer;
+         color: #eee;
+         text-decoration: none;
+
+         &:hover{
+            text-decoration: underline;
+            transition: .3s ease-in; 
+         }
+     }
+   footer.footer{
+   // mixin
+   @mixin footer($padding-top,$display,$position,$right,$color) {
+      padding-top: $padding-top;
+      display: $display;
+      position: $position;
+      margin-right: $right;
+      color: $color;
+   }
+
+   // usage
+   @include footer(4px + 3, inline, relative, 2rem, rgb(231, 96, 34));
+   border-top: 1px dashed rgb(216, 215, 215);
+
+   span{
+      color: rgb(216, 215, 215);
+      font-size: 13px;
+   }
+ }
+}
+}
