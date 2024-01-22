@@ -87,6 +87,8 @@ if (!isset($_SESSION["password"]) || $_SESSION["password"] !== "iamadmin") {
                alert("product deleted sucessfully!");
             </script>
             <?php
+         } else {
+            echo "AN ERROR OCCURED:" .$conn->error;
          }
          }
 
@@ -97,24 +99,37 @@ if (!isset($_SESSION["password"]) || $_SESSION["password"] !== "iamadmin") {
          }
          ?>
          <section class="section3 page">
-            <h2 class="title">(<?= mysqli_num_rows($result) ?>) Products in system.</h2> 
+            <h2 class="title">(<?= number_format(mysqli_num_rows($result)) ?>) Products in system.</h2> 
             <br/><br/>
+            <div class="product-wrapper">
+               <div class="product">
+                  PRODUCT NAME
+               </div>
+               <div class="product">
+                  PRODUCT PRICE
+               </div>
+               <div class="product">
+                  BARCODE
+               </div>
+               <div class="product">
+                 PRODUCT VAT
+               </div>
+               <div class="product sec3 del_col">
+               </div>
+             </div>
+             <br/>
             <?php
             $i = 1;
             while ($row = mysqli_fetch_array($result)){               
-             ?>
-            <div class="product-wrapper">
-               <div class="product"><?= $row["product_name"] ?>
-                   <span class="detail">product name</span>
+             ?> 
+             <div class="product-wrapper">
+               <div class="product sec3"><?= $row["product_name"] ?>
                </div>
-               <div class="product">&#8358;<?= $row["product_price"] ?>
-                  <span class="detail">price</span>
+               <div class="product sec3">&#8358;<?= $row["product_price"] ?>
                </div>
-               <div class="product"><?= $row["bar_code"] ?>
-                  <span class="detail">barcode</span>
+               <div class="product sec3"><?= $row["bar_code"] ?>
                </div>
-               <div class="product">&#8358;<?= $row["tax"] ?> 
-                  <span class="detail">vat</span>
+               <div class="product sec3">&#8358;<?= $row["tax"] ?> 
                </div>
                <?= "<a href='admin_home.php?id=".$row['id']."' class='product delete' title='delete product'>delete</a>" ?>
             </div>
@@ -151,19 +166,30 @@ if (!isset($_SESSION["password"]) || $_SESSION["password"] !== "iamadmin") {
            $day = $_POST["day"];
 
            $result = mysqli_query($conn, "SELECT * FROM `sales` WHERE `month` = '$month' AND `day` = '$day'");
-           if (mysqli_num_rows($result) > 0) {
-            # code...
-            $row = mysqli_fetch_array($result);
+           ## Variable to store total amount
+           $totalamount = 0;
+
+           $num_rows = mysqli_num_rows($result);
+
+           if ($num_rows > 0) {
+            while ($row = mysqli_fetch_array($result)) {
+               ## fetch the prices of rows that matches query
+               $totalamount += $row["total"];
+           }
            }
            }
            ?>
 
             <div class="product-wrapper">
                <div class="product sales-count">
-                  <?= mysqli_num_rows($result) ?> <span>sales made</span>
+                  <div> 
+                     <?= number_format(@$num_rows) ?> <span>sales made</span>
+                  </div>
                </div>
                <div class="product sales-count">
-                  &#8358;230022 <span>total income</span>
+                  <div>
+                     &#8358;<?= number_format(@$totalamount, 2) ?> <span>total income</span>
+                  </div>
                </div>
             </div>
             <br/>
@@ -195,29 +221,20 @@ if (isset($_POST["product_name"]) && $_SERVER["REQUEST_METHOD"] === "POST") {
          alert("Product already exist in the system!");
       </script>
       <?php
-   } else {
+    } else {
       $sql = "INSERT INTO `products` (product_name, product_price, bar_code, tax, year, month, day)
               VALUES ('$product_name', '$product_price', '$barcode', '$product_vat', '$year', '$month', '$day')";
 
-      if($conn->query($sql) === true){
-         ?>
-         <script type="text/javascript">
-            alert("product added sucessfully");
-         </script>
-         <?php
-      } else {
-         ?>
-         <script type="text/javascript">
-            alert("AN ERROR OCCURED: ");
-         </script>
-         <?php
+       if($conn->query($sql) === true){
+         echo '<script>
+         alert("Success!");
+         window.location = "./admin_home.php";
+         </script>';
+
+      } else { 
+         echo "AN ERROR OCCURED:" .$conn->error;
       }
    }
 }
 ## insert new products ends here
-
-
-## track sales starts here
-
-## track sales ends here
 ?>

@@ -130,13 +130,30 @@ main.main-content section.cart-section samp.title {
   font-size: 20px;
   color: #eee;
 }
-main.main-content section.cart-section input[type=submit] {
+main.main-content section.cart-section form input[type=number] {
+  width: 11rem;
+  border-radius: 0.2rem;
+  color: rgba(201, 199, 199, 0.986);
+  border: 1.1px solid #3f3e3e;
+  padding: 12px 10px;
+  background: none;
+  box-shadow: 2px 1px 2rem #302e2e;
+}
+main.main-content section.cart-section form input[type=number]::placeholder {
+  font-size: 13px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: rgba(201, 199, 199, 0.986) !important;
+}
+main.main-content section.cart-section form span.payment-label {
+  color: rgba(201, 199, 199, 0.986);
+}
+main.main-content section.cart-section form input[type=submit] {
   background: none;
   cursor: pointer;
   color: #eee;
   text-decoration: none;
 }
-main.main-content section.cart-section input[type=submit]:hover {
+main.main-content section.cart-section form input[type=submit]:hover {
   text-decoration: underline;
   transition: 0.3s ease-in;
 }

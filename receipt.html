@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Print Receipt</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    #specificSection {
+      border: 1px solid #ccc;
+      padding: 20px;
+      width: 300px; /* Specify the width of your section */
+      height: 200px; /* Specify the height of your section */
+      overflow: auto; /* Add overflow to handle content exceeding the height */
+    }
+
+    button {
+      padding: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="specificSection">
+  <h2>Section to Print</h2>
+  <p>Item 1: Example Item 1</p>
+  <p>Item 2: Example Item 2</p>
+  <p>Item 3: Example Item 3</p>
+  <!-- Add more content as needed -->
+</div>
+ffffffffffffff
+
+<button type="button" onclick="printSection()">Print Section</button>
+
+
+<script type="text/javascript">
+  function printSection() {
+    let sectionDiv = document.getElementById('specificSection');
+    
+    // Open a new window
+    let printWindow = window.open('', '_blank');
+
+    // Write the HTML content of the specific section to the new window
+    printWindow.document.write(sectionDiv.innerHTML);
+
+    // Print the content
+    printWindow.print();
+
+    // Close the HTML window
+    printWindow.window.close();
+    // window.location("javascript://history.go(-1)");
+  }
+</script>
+
+</body>
+</html>

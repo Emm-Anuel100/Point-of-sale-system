@@ -1,3 +1,11 @@
+:root {
+  --text-color: antiquewhite;
+}
+
+.light_mode {
+  --text-color: rgb(61, 60, 60) !important;
+}
+
 h2.title {
   font-size: 20px;
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
@@ -18,23 +26,21 @@ div.product-wrapper .product {
   background: #e76022;
   padding: 1rem 12px;
   width: 10rem;
-  color: antiquewhite;
+  color: var(--text-color);
   border-radius: 0.3rem;
   align-items: center;
   text-align: left;
 }
-div.product-wrapper .product span.detail {
-  position: absolute;
-  margin: -27px -1rem;
-  background: #232627;
-  border: 1px solid #4e4e4e;
-  padding: 2px 10px;
-  align-items: center;
-  display: inline;
-  color: #c4c1c1;
-  font-size: 12px;
-  border-radius: 4px;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+div.product-wrapper .sec3 {
+  font-size: 15px;
+  font-weight: 500;
+  font-family: sans-serif;
+  background: none !important;
+  color: var(--text-color);
+  border: 1.8px solid #e76022;
+}
+div.product-wrapper .del_col {
+  border: none !important;
 }
 div.product-wrapper .delete {
   border: 1px solid #e76022;
@@ -42,5 +48,5 @@ div.product-wrapper .delete {
 }
 div.product-wrapper .delete:hover {
   color: #e76022;
-  background: #eaeaea;
+  background: none !important;
 }

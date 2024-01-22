@@ -12,7 +12,7 @@ if (!isset($_SESSION['cart'])) {
 ## Calculate the total amount
 $total = 0; 
 foreach ($_SESSION['cart'] as $product) {
-   $total += $product['price'] * $product['quantity'];
+   @$total += $product['price'] * $product['quantity'];
 } 
 ?>
 
@@ -58,10 +58,10 @@ foreach ($_SESSION['cart'] as $product) {
          <?php foreach ($_SESSION['cart'] as $product_id => $product): ?>
             <div class="cart-wrapper">
                <samp class="product product-name">
-               <?= $product['name']; ?>
+               <?= @$product['name']; ?>
                </samp>
                <samp class="product product-price">
-                  &#8358;<?= $product['price']; ?> x <?= $product['quantity']; ?> <span>+VAT</span>
+                  &#8358;<?= @$product['price']; ?> x <?= @$product['quantity']; ?> <span>+VAT</span>
                </samp>
                <a href="./index.php?remove=<?= $product_id ?>" class="product">
                   delete
@@ -72,21 +72,33 @@ foreach ($_SESSION['cart'] as $product) {
 
            <!-- total sum of cart items -->
             <samp class="title">
-              Total: &#8358;<?= $total ?>.00
+              Total: &#8358;<?= number_format($total, 2) ?>
               <?php $_SESSION['total'] = $total; ?>
             </samp>
             <br/><br/><br/>
 
             <!-- if user want to clear cart and save cart items to database -->
             <form action="./clear_cart.php" method="post">
+               <input type="number" name="change_element" placeholder="Change element(&#8358;) ..." min="0" required>
+                <br/><br/>
+                <span class="payment-label">Cash:</span> 
+                <input type="radio" name="payment_mode" value="cash">
+
+                <span class="payment-label">Transfer:</span> 
+                <input type="radio" name="payment_mode" value="transfer"> 
+                
+                <span class="payment-label">Card:</span> 
+                <input type="radio" name="payment_mode" value="card">
+
                <input type="hidden" name="clear-cart" value="clear-cart">
+               <br/><br/><br/>
                <input type="submit" value="Clear cart and achieve">
             </form><br/>
 
             <br/><br/><br/>
             <!-- page footer starts here -->
             <footer class="footer">
-             X-pression <span>&copy;2012 - <?= Date("Y"); ?>.</span>
+             X-pression <span>&copy;2012 - <?= Date("y"); ?>.</span>
             </footer>
             <!-- page footer ends here -->
             <br/><br/><br/>
@@ -106,18 +118,15 @@ $_SESSION['product_infor'] = $encode_cart;
 
 ## Remove selected product from cart base on the id
 if (isset($_GET['remove']) && isset($_SESSION['cart'])) {
-   ## unset product
+   ## unset product from the cart
    unset($_SESSION['cart'][$_GET['remove']]);
-   ?>
-   <script type="text/javascript">
-    window.location = "./";
-   </script>
-   <?php
+
+   echo '<script>window.location = "./";</script>';
   }
 
   ## if value is posted
   if (isset($_POST['bar_code']) && $_SERVER["REQUEST_METHOD"] === "POST") {
-   @$bar_code = mysqli_real_escape_string($conn,$_POST['bar_code']);
+   @$bar_code = $conn->real_escape_string($_POST['bar_code']);
 
    ## select all from products table where barcode is same as barcode posted
    $sql = "SELECT * FROM products WHERE bar_code = '$bar_code' LIMIT 1";
@@ -132,30 +141,20 @@ if (isset($_GET['remove']) && isset($_SESSION['cart'])) {
        ## Add the product to the cart
        if (isset($_SESSION['cart'][$product_id])) { 
            $_SESSION['cart'][$product_id]['quantity'] += 1;
-           ?>
-           <script type="text/javascript">
-            window.location = "./";
-           </script>
-           <?php
+         
+           echo '<script>window.location = "./";</script>';
+
              } else {
                $_SESSION['cart'][$product_id] = array(
                'name' => $product_name,
                'price' => $product_price,
                'quantity' => 1,
            );
-           ?>
-           <script type="text/javascript">
-            window.location = "./";
-           </script>
-           <?php
+           
+           echo '<script>window.location = "./";</script>';
         }
       } else {
-       ?>
-       <script type="text/javascript">
-        alert("barcode mismatch!");
-        window.location = "./";
-       </script>
-       <?php
+         echo '<script>alert("Barcode mismatch!");</script>';
    }
 }
 ?>

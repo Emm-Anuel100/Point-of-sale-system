@@ -141,17 +141,38 @@ main.main-content{
          font-size: 20px;
          color: #eee;
       }
-      input[type="submit"]{
-         background: none;
-         cursor: pointer;
-         color: #eee;
-         text-decoration: none;
+      form{
+         input[type="number"]{
+            width: 11rem;
+            border-radius: .2rem;
+            color: rgba(201, 199, 199, 0.986);
+            border: 1.1px solid rgb(63, 62, 62);
+            padding: 12px 10px;
+            background: none;
+            box-shadow: 2px 1px 2rem rgb(48, 46, 46);
 
-         &:hover{
-            text-decoration: underline;
-            transition: .3s ease-in; 
+            &::placeholder{
+               font-size: 13px;
+               font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+               color: rgba(201, 199, 199, 0.986) !important;
+            }
          }
-     }
+
+         span.payment-label{
+            color: rgba(201, 199, 199, 0.986);
+         }
+         input[type="submit"]{
+            background: none;
+            cursor: pointer;
+            color: #eee;
+            text-decoration: none;
+   
+            &:hover{
+               text-decoration: underline;
+               transition: .3s ease-in; 
+            }
+        }
+      }
    footer.footer{
    // mixin
    @mixin footer($padding-top,$display,$position,$right,$color) {
