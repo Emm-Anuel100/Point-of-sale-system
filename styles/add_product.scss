@@ -3,6 +3,7 @@
    --color-title: rgb(202, 199, 199);
    --box-shadow: 0px 0px 1.5rem rgb(20, 20, 20); 
    --placeholder-color: rgb(204, 203, 203);
+   --color-select-option: gray;
 }
 // light mode toggle
 .light_mode{
@@ -14,16 +15,62 @@
    color: var(--placeholder-color);
 }
 
-h2.title{
+h2.title,
+.expiry_date{
    color: var(--color-title) !important;
 }
+.expiry_date{
+   font-size: 13px;
+   font-family: Arial, Helvetica, sans-serif !important;
+}
+
+// Hide the increment and decrement buttons 
+   input[type="number"]::-webkit-inner-spin-button,
+   input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    visibility: hidden !important;
+    margin: 0; 
+   }
+
+
+  input[type="date"].date{
+   // mixin
+   @mixin input_date($appearance){
+      -webkit-appearance: $appearance !important;
+      -moz-appearance: $appearance !important;
+      appearance: $appearance !important;
+   }
+   // usage
+   @include input_date(none);
+
+   // style calender picker icon
+   &::-webkit-calendar-picker-indicator{
+      cursor: pointer;
+      color: #eee !important;
+   }
+}
+
+select{
+   color: var(--color-select-option);
+   background: none !important;
+   width: 15rem;
+   border: 1.1px solid #a7a2a2;
+   padding: 9px;
+   border-radius: .2rem;
+
+   option{
+      color: var(--color-select-option);
+   }
+}
+
 section.form-section{
    margin-top: 0 !important;
    box-shadow: var(--box-shadow) !important; 
    padding: 2rem 2% !important;
    left: 25% !important; 
    width: 26rem !important;
-   height: 28rem !important;
+   height: 47rem !important;
 }
 input{
    width: 23.4rem !important;

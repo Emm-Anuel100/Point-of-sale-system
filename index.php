@@ -90,6 +90,7 @@ foreach ($_SESSION['cart'] as $product) {
                 <span class="payment-label">Card:</span> 
                 <input type="radio" name="payment_mode" value="card">
 
+               <input type="hidden" name="ip_address" class="ip_address">
                <input type="hidden" name="clear-cart" value="clear-cart">
                <br/><br/><br/>
                <input type="submit" value="Clear cart and achieve">
@@ -98,7 +99,7 @@ foreach ($_SESSION['cart'] as $product) {
             <br/><br/><br/>
             <!-- page footer starts here -->
             <footer class="footer">
-             X-pression <span>&copy;2012 - <?= Date("y"); ?>.</span>
+             X-pression <span>&copy;2012 - 20<?= Date("y"); ?>.</span>
             </footer>
             <!-- page footer ends here -->
             <br/><br/><br/>
@@ -106,15 +107,33 @@ foreach ($_SESSION['cart'] as $product) {
         </section>
       </main>
    </body>
-   <!-- external script source-->
+
+   <!-- external script source -->
    <script src="./script/cart.js"></script>
+   <!-- embeded script -->
+   <script type="text/javascript">
+       // Function to fetch IP address using an external service
+       function getIPAddress() {
+       fetch('https://api.ipify.org?format=json')
+       .then(response => response.json())
+       .then(data => {
+        const ipAddress = data.ip;
+        document.querySelector(".ip_address").value = ipAddress;
+      
+        })
+       .catch(error => {
+       console.error('Error fetching IP address: ' + error);
+       alert('Error fetching IP address ' + error);
+      });
+     }
+
+    // Call the function to fetch IP address when the page loads
+     document.addEventListener('DOMContentLoaded', getIPAddress);
+   </script>
 </html>
 
 
 <?php
-## encode cart values to JSON
-$encode_cart = json_encode(($_SESSION['cart']));
-$_SESSION['product_infor'] = $encode_cart;
 
 ## Remove selected product from cart base on the id
 if (isset($_GET['remove']) && isset($_SESSION['cart'])) {
@@ -136,7 +155,7 @@ if (isset($_GET['remove']) && isset($_SESSION['cart'])) {
        $row = $result->fetch_assoc();
        $product_id = $row['id'];
        $product_name = $row['product_name'];
-       $product_price = $row['product_price'] + $row['tax'];
+       $product_price = $row['sales_price'] + $row['tax'];
 
        ## Add the product to the cart
        if (isset($_SESSION['cart'][$product_id])) { 

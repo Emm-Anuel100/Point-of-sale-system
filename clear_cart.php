@@ -1,55 +1,81 @@
 <?php
-## start session
+## Start session
 session_start();
-## require connection file
-require_once("./conn.php"); 
 
-## Check if total amount is not equal to 0,and if value is posted in input field
+## Require connection file
+require_once("./conn.php");
+
+## Check if total amount is not equal to 0, and if value is posted in input field
 if ($_SESSION['total'] != 0 && isset($_POST["clear-cart"])) {
-     ## initialize vars ...
-     $product_infor = $_SESSION['product_infor'];
-     $item_total = $_SESSION['total'];
+    ## Initialize vars ...
+    $item_total = $_SESSION['total'];
 
-     $trans_id = rand(10000000,99999999);
-     ## session set for transaction id
-     $_SESSION["trans_id"] = $trans_id;
+    $trans_id = rand(10000000,99999999);
+    ## session set for transaction id
+    $_SESSION["trans_id"] = $trans_id;
 
-     $payment_mode = $_POST["payment_mode"];
-     ## session set for payment mode
-     $_SESSION["payment_mode"] = $payment_mode;
+    $payment_mode = $_POST["payment_mode"];
+    ## session set for payment mode
+    $_SESSION["payment_mode"] = $payment_mode;
 
-     $change_element = $_POST["change_element"];
-     ## session set for change element
-     $_SESSION["change_element"] = $change_element;
+    $change_element = $_POST["change_element"];
+    ## session set for change element
+    $_SESSION["change_element"] = $change_element;
 
-     $year = DATE("y");
-     $month = DATE("m");
-     $day = DATE("d");
-  
-     ## insert cart values
-     $sql = "INSERT INTO sales (product_infor,total,trans_id,change_element,payment_mode,year,month,day) 
-     VALUES ('$product_infor','$item_total','$trans_id','$change_element','$payment_mode','$year','$month','$day')";
-   
-     ## check if values are inserted 
-     if ($conn->query($sql) === true) {
-      
-        ## if success then redirect to index
-        $redirect = "./receipt.php";
-        header("Location: $redirect");
+    ## fetch computer's ip Address posted
+    @$ip_address = $_POST["ip_address"];
 
-      //   ## unset cart session
-      //   unset($_SESSION['cart']);
-     }
-     else{
-        ## if error
-        echo("An error occured: " . $conn->error);
-     }
-    } else {
-   ?>
-   <script type="text/javascript">
-      alert("no product in cart yet!");
-      window.location = "./index.php";
-   </script>
-   <?php
+    $year = DATE("y");
+    $month = DATE("m");
+    $day = DATE("d");
+
+    ## Initialize an empty array to store product information
+    $product_info_array = array();
+
+    ## Iterate through each product in the cart
+    foreach ($_SESSION['cart'] as $product_id => $product) {
+    ## Extract product details
+    $product_name = $product['name'];
+    $product_price = $product['price'];
+    $product_quantity = $product['quantity'];
+
+    ## Append product information to the array
+    $product_info_array[] = "$product_name (Quantity: $product_quantity, Price: $product_price)";
+
+    
+    ## Update the product quantity in the database
+    $sql_update = "UPDATE products SET quantity = quantity - $product_quantity WHERE id = $product_id";
+    if ($conn->query($sql_update) !== true) {
+        ## If error updating database
+        echo("An error occurred while updating: " . $conn->error);
+        exit; // Exit the script if an error occurs
+    }
+}
+
+## Concatenate product information with commas
+$product_info = implode(', ', $product_info_array);
+
+## Insert cart values into the sales table
+$sql = "INSERT INTO sales (product_infor,total,trans_id,change_element,payment_mode,ip_address,year,month,day) 
+VALUES ('$product_info','$item_total','$trans_id','$change_element','$payment_mode','$ip_address','$year','$month','$day')";
+
+## Check if values are inserted successfully
+if ($conn->query($sql) !== true) {
+    ## If error inserting values into sales table
+    echo("An error occurred: " . $conn->error);
+    exit; ## Exit the script if an error occurs
+}
+
+    // Redirect to receipt page
+    $redirect = "./receipt.php";
+    header("Location: $redirect");
+} else {
+    // If no product in cart yet
+    ?>
+    <script type="text/javascript">
+        alert("No product in cart yet!");
+        window.location = "./index.php";
+    </script>
+    <?php
 }
 ?>

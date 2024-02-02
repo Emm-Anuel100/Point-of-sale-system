@@ -13,6 +13,3 @@ let page_header = document.querySelector('header.page-header');
 //-- header backdrop blur effect ends here --//
 
 
-
-
-   

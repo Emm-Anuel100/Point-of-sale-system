@@ -7,9 +7,13 @@
 }
 
 h2.title {
-  font-size: 20px;
+  font-size: 17px;
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
   font-weight: 400;
+}
+
+.recent {
+  font-size: 13px !important;
 }
 
 div.product-wrapper {
@@ -31,16 +35,9 @@ div.product-wrapper .product {
   align-items: center;
   text-align: left;
 }
-div.product-wrapper .sec3 {
-  font-size: 15px;
-  font-weight: 500;
-  font-family: sans-serif;
+div.product-wrapper .header {
   background: none !important;
-  color: var(--text-color);
-  border: 1.8px solid #e76022;
-}
-div.product-wrapper .del_col {
-  border: none !important;
+  font-family: cursive;
 }
 div.product-wrapper .delete {
   border: 1px solid #e76022;

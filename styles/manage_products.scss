@@ -7,9 +7,12 @@
 }
 
 h2.title{
-   font-size: 20px;
+   font-size: 17px;
    font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
    font-weight: 400;
+}
+.recent{
+   font-size: 13px !important;
 }
 div.product-wrapper{
    display: flex;
@@ -30,16 +33,10 @@ div.product-wrapper{
       align-items: center;
       text-align: left;
    }
-   .sec3{
-      font-size: 15px;
-      font-weight: 500;
-      font-family: sans-serif;
+
+   .header{
       background: none !important;
-      color: var(--text-color);
-      border: 1.8px solid rgb(231, 96, 34);;
-   }
-   .del_col{
-      border: none !important;
+      font-family: cursive;
    }
 
   .delete{

@@ -48,6 +48,7 @@ if (!isset($_SESSION["password"]) || $_SESSION["password"] !== "iamadmin") {
 
          <!-- sections -->
          <img src="../images/illustration.svg" alt="illustration" class="section1 illustration">
+         
          <!-- add product section starts here -->
          <section class="section2 page">
             <section class="form-section">
@@ -60,10 +61,29 @@ if (!isset($_SESSION["password"]) || $_SESSION["password"] !== "iamadmin") {
                      <input type="text" name="bar_code" placeholder="Product barcode ..." autocomplete="off" required="">
                   </fieldset> <br/>
                   <fieldset>
-                     <input type="number" name="product_price" placeholder="Product price(&#8358;) ..." autocomplete="off" required="" min="1">
+                     <input type="number" name="sale_percent" placeholder="Sale percent(%) ..." autocomplete="off" required="" min="1">
+                  </fieldset> <br/>
+                  <fieldset>
+                     <input type="number" name="purchace_price" placeholder="Purchace price(&#8358;) ..." autocomplete="off" required="" min="1">
                   </fieldset> <br/>
                   <fieldset>
                      <input type="number" name="product_vat" placeholder="Product VAT(&#8358;) ..." autocomplete="off" required="" min="0">
+                  </fieldset> <br/>
+                  <fieldset>
+                     <input type="number" name="quantity" placeholder="Product Quantity ..." autocomplete="off" required="" min="1">
+                  </fieldset> <br/>
+                  <fieldset>
+                     <div class="expiry_date">product expiry date</div> <br/>
+                     <input type="date" name="expiry_date" required="" class="date">
+                  </fieldset> <br/>
+                  <fieldset>
+                  <select required name="distributor" title="distributor">
+                     <option selected disabled>Select Distributor</option>
+                     <option value="ali and sons">Ali & Sons Lmt</option>
+                     <option value="chinedu holdings">Chinedu holdings Lmt</option>
+                     <option value="the emperors">The Emperors Lmt</option>
+                  </select>
+
                   </fieldset> <br/>
                   <fieldset>
                      <button type="submit">
@@ -77,61 +97,71 @@ if (!isset($_SESSION["password"]) || $_SESSION["password"] !== "iamadmin") {
 
          <!-- manage products section starts here -->
          <?php  
-         if (isset($_GET['id'])) { 
-         $ID = $_GET['id'];
-         $delete = mysqli_query($conn,"DELETE FROM `products` WHERE `id` = '$ID'");
+         // if (isset($_GET['id'])) { 
+         // $ID = $_GET['id'];
+         // $delete = mysqli_query($conn,"DELETE FROM `products` WHERE `id` = '$ID'");
          ## check if product was deleted
-         if ($delete){
-            ?>
-            <script type="text/javascript">
-               alert("product deleted sucessfully!");
-            </script>
-            <?php
-         } else {
-            echo "AN ERROR OCCURED:" .$conn->error;
-         }
-         }
+         // if ($delete){
+         //    ?>
+             <script type="text/javascript">
+         //       alert("product deleted sucessfully!");
+         //    </script>
+               <?php
+         // } else {
+         //    echo "AN ERROR OCCURED:" .$conn->error;
+         // }
+         // }
 
-         $result = mysqli_query($conn, "SELECT * FROM `products` ORDER BY `id` DESC");
-         if (mysqli_num_rows($result) < 0) {
+
+         ## fetch all products added to the system
+         $result = mysqli_query($conn, "SELECT * FROM `products` ORDER BY `id`");
+
+         ## fetch 4 recently added products
+         $result_recent = mysqli_query($conn, "SELECT * FROM `products` ORDER BY `timestamp` DESC LIMIT 4");
+         if (mysqli_num_rows($result_recent) < 0) {
             # code...
-            $row = mysqli_fetch_array($result);
+            $row = mysqli_fetch_array($result_recent);
          }
          ?>
          <section class="section3 page">
-            <h2 class="title">(<?= number_format(mysqli_num_rows($result)) ?>) Products in system.</h2> 
-            <br/><br/>
+            <h2 class="title"><?= number_format(mysqli_num_rows($result)) ?> Products currently in the system.</h2> 
+            <br/>
+            <h2 class="title recent">Recently added products.</h2>
+            <br/>
             <div class="product-wrapper">
-               <div class="product">
+               <div class="product header">
                   PRODUCT NAME
                </div>
-               <div class="product">
+               <div class="product header">
                   PRODUCT PRICE
                </div>
-               <div class="product">
+               <div class="product header">
                   BARCODE
                </div>
-               <div class="product">
+               <div class="product header">
                  PRODUCT VAT
                </div>
-               <div class="product sec3 del_col">
+               <div class="product header">
+                  QUANTITY
                </div>
              </div>
              <br/>
             <?php
             $i = 1;
-            while ($row = mysqli_fetch_array($result)){               
+            while ($row = mysqli_fetch_array($result_recent)){               
              ?> 
              <div class="product-wrapper">
                <div class="product sec3"><?= $row["product_name"] ?>
                </div>
-               <div class="product sec3">&#8358;<?= $row["product_price"] ?>
+               <div class="product sec3">&#8358;<?= $row["sales_price"] ?>
                </div>
                <div class="product sec3"><?= $row["bar_code"] ?>
                </div>
                <div class="product sec3">&#8358;<?= $row["tax"] ?> 
                </div>
-               <?= "<a href='admin_home.php?id=".$row['id']."' class='product delete' title='delete product'>delete</a>" ?>
+               <div class="product sec3"><?= $row["quantity"] ?> 
+               </div>
+               <!-- <?= "<a href='admin_home.php?id=".$row['id']."' class='product delete' title='delete product'>delete</a>" ?> -->
             </div>
             <br/>
             <?php  $i++; }  ?>
@@ -204,27 +234,43 @@ if (!isset($_SESSION["password"]) || $_SESSION["password"] !== "iamadmin") {
 <?php
 ## insert new products starts here
 if (isset($_POST["product_name"]) && $_SERVER["REQUEST_METHOD"] === "POST") {
-   ## initialize var...
+   ## initialize vars...
    $product_name = $_POST["product_name"];
    $barcode = $_POST["bar_code"];
-   $product_price = $_POST["product_price"];
+   $sale_percent = $_POST["sale_percent"];
+   $purchace_price = $_POST["purchace_price"];
+
+   ## convert sale percent to decimal
+   $convert_to_decimal = $sale_percent / 100;
+
+   ## calculate interest
+   $interest = $purchace_price * $convert_to_decimal;
+
+   ## sum interest with purchace price
+   $sum_data = $interest + $purchace_price;
+
+   $sales_price = $sum_data;
    $product_vat = $_POST["product_vat"];
+   $product_quantity = $_POST["quantity"];
+   $expiry_date = $_POST["expiry_date"];
+   @$distributor = $_POST["distributor"];
    $year = Date("y");
    $month = Date("m");
    $day = Date("d");
 
+   
    $query = "SELECT * FROM products WHERE bar_code = '$barcode' LIMIT 1";
    $result = mysqli_query($conn,$query);
    if (mysqli_num_rows($result) > 0) {
       ?>
       <script type="text/javascript">
-         alert("Product already exist in the system!");
+         alert("Product with this barcode already exist!");
       </script>
       <?php
-    } else {
-      $sql = "INSERT INTO `products` (product_name, product_price, bar_code, tax, year, month, day)
-              VALUES ('$product_name', '$product_price', '$barcode', '$product_vat', '$year', '$month', '$day')";
-
+     } else {
+      $sql = "INSERT INTO `products` (product_name, sales_price, sale_percent, purchace_price, distributor, bar_code, tax, quantity, expiry_date, year, month, day)
+              VALUES ('$product_name', '$sales_price', '$sale_percent', '$purchace_price', '$distributor', '$barcode', '$product_vat', '$product_quantity', '$expiry_date', '$year', '$month', '$day')";
+    
        if($conn->query($sql) === true){
          echo '<script>
          alert("Success!");

@@ -2,6 +2,7 @@
   --color-title: rgb(202, 199, 199);
   --box-shadow: 0px 0px 1.5rem rgb(20, 20, 20);
   --placeholder-color: rgb(204, 203, 203);
+  --color-select-option: gray;
 }
 
 .light_mode {
@@ -14,8 +15,44 @@
   color: var(--placeholder-color);
 }
 
-h2.title {
+h2.title,
+.expiry_date {
   color: var(--color-title) !important;
+}
+
+.expiry_date {
+  font-size: 13px;
+  font-family: Arial, Helvetica, sans-serif !important;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  visibility: hidden !important;
+  margin: 0;
+}
+
+input[type=date].date {
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+}
+input[type=date].date::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  color: #eee !important;
+}
+
+select {
+  color: var(--color-select-option);
+  background: none !important;
+  width: 15rem;
+  border: 1.1px solid #a7a2a2;
+  padding: 9px;
+  border-radius: 0.2rem;
+}
+select option {
+  color: var(--color-select-option);
 }
 
 section.form-section {
@@ -24,7 +61,7 @@ section.form-section {
   padding: 2rem 2% !important;
   left: 25% !important;
   width: 26rem !important;
-  height: 28rem !important;
+  height: 47rem !important;
 }
 
 input {

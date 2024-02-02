@@ -101,7 +101,7 @@ main.main-content section.form-section button[type=submit] {
   border-radius: 4px;
   align-items: center;
   position: relative;
-  left: 22.1%;
+  left: 0;
 }
 main.main-content section.form-section button[type=submit]:hover {
   -webkit-filter: contrast(80%);

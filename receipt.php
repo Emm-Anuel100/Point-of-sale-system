@@ -5,9 +5,9 @@ require_once("./conn.php");
 session_start();
 
 ## if total amount is equal to Zero go back to index
-// if ($_SESSION['total'] === 0){
-//    header("Location: ./index.php");
-// }
+if ($_SESSION['total'] === 0){
+   header("Location: ./index.php");
+}
 ?>
 
 <!DOCTYPE html>
@@ -16,14 +16,14 @@ session_start();
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Receipt</title>
+   <title>Customer's Receipt</title>
 </head>
 <body>
    
 <section class="wrapper">
    <h2>Greecs supermarket</h2>
 
-   <p class="address">plot 506 along karu jikwoyi express way <br/>
+   <p class="address">plot 506 along karu jikwoyi express way<br/>
      Tel: 08121669013. Date: <?= Date("y/m/d h:i a") ?></p> 
 
    <p class="trans-id">TRANS-ID: GR<?= @$_SESSION["trans_id"] ?></p> <br/>
@@ -43,8 +43,9 @@ session_start();
 
    <br/>
    <div class="total">
-      <p>Total:  &#8358;<?= number_format(@$_SESSION['total'], 2)?> </p>
-      <p>Change Element:  &#8358;<?= @$_SESSION["change_element"] ?></p>
+      <p>Total: &#8358;<?= number_format(@$_SESSION['total'], 2)?> </p>
+      <p>Change Element: &#8358;<?= @$_SESSION["change_element"] ?> </p>
+      <p>Payment mode: <?= $_SESSION["payment_mode"] ?> </p>
    </div>
 
    <p class="vat-inclusive">
