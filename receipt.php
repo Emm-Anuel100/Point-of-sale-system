@@ -37,14 +37,14 @@ if ($_SESSION['total'] === 0){
    <div class="header items">
       <div><?= @$product['quantity']; ?></div>
       <div><?= @$product['name']; ?></div>
-      <div>&#8358;<?= @$product['price']; ?></div>
+      <div>&#8358;<?= number_format(@$product['price']); ?></div>
    </div>
    <?php endforeach; ?>
 
    <br/>
    <div class="total">
-      <p>Total: &#8358;<?= number_format(@$_SESSION['total'], 2)?> </p>
-      <p>Change Element: &#8358;<?= @$_SESSION["change_element"] ?> </p>
+      <p>Total: &#8358;<?= number_format(@$_SESSION['total'], 2)?></p>
+      <p>Change Element: &#8358;<?= number_format(@$_SESSION["change_element"], 2) ?></p>
       <p>Payment mode: <?= $_SESSION["payment_mode"] ?> </p>
    </div>
 
@@ -61,7 +61,7 @@ if ($_SESSION['total'] === 0){
 
 
 
-<!-- styles -->
+<!-- intenal style -->
 <style type="text/css">
 body{
    width: 100%;
@@ -113,6 +113,7 @@ div.total p{
    margin-left: 2rem;
 }
 </style>
+
 
 <script type="text/javascript">
 

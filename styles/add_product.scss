@@ -8,6 +8,7 @@
 // light mode toggle
 .light_mode{
    --color-title: rgb(90, 83, 83);
+   --color-select-option: rgb(73, 71, 71);
    --placeholder-color: rgb(44, 41, 41);
    --box-shadow: 0px 0px 2rem rgb(206, 204, 204); 
  }
@@ -47,21 +48,22 @@ h2.title,
    // style calender picker icon
    &::-webkit-calendar-picker-indicator{
       cursor: pointer;
-      color: #eee !important;
    }
 }
 
 select{
-   color: var(--color-select-option);
-   background: none !important;
-   width: 15rem;
-   border: 1.1px solid #a7a2a2;
-   padding: 9px;
+   background: none;
    border-radius: .2rem;
+   color: var(--color-select-option);
 
    option{
       color: var(--color-select-option);
    }
+}
+
+select.distributor{
+   width: 9rem;
+   padding: 1px;
 }
 
 section.form-section{

@@ -35,7 +35,6 @@ body {
 
 header.page-header.active {
   height: 6.3rem !important;
-  border-bottom: 1.1px solid #535151;
   background: var(--page-background) !important;
   transition: all 0.3s ease-in-out;
 }
@@ -52,6 +51,14 @@ header.page-header.active {
 
 ::-webkit-scrollbar-thumb {
   background: #b3b0b0;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  visibility: hidden !important;
+  margin: 0;
 }
 
 main.main-content header.page-header {

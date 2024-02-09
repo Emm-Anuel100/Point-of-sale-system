@@ -38,14 +38,32 @@ div.product-wrapper{
       background: none !important;
       font-family: cursive;
    }
-
-  .delete{
-   border: 1px solid rgb(231, 96, 34);
-   text-align: center !important;
-   
-   &:hover{
-      color:rgb(231, 96, 34);
-      background: none !important;
+   .sec3{
+      font-family: cursive;
+      background: transparent !important;
+      border: 1px solid #e76022;
+      padding-right: 17px !important;
+      overflow-x: scroll;
    }
-  }
+   .sec3::-webkit-scrollbar-thumb{
+      background:  rgb(138 138 138);
+   }
+   .sec3::-webkit-scrollbar {
+       height: 4px !important;
+       cursor: pointer;
+       background: #6e6e6e;
+   }
+   .sec3::-webkit-scrollbar-button{
+      background: #6e6e6e;
+    }
+
+//   .delete{
+//    border: 1px solid rgb(231, 96, 34);
+//    text-align: center !important;
+   
+//    &:hover{
+//       color:rgb(231, 96, 34);
+//       background: none !important;
+//    }
+//   }
 }

@@ -36,11 +36,15 @@ if (!isset($_SESSION["password"]) || $_SESSION["password"] !== "iamadmin") {
             <section class="nav_bars">
             <a href="#" class="nav"><i class="fas fa-home home"></i><span class="title">Home</span></a>
             <br/>
-            <a href="#" class="nav"><i class="fas fa-store add_product"></i><span class="title">Add product</span></a>
+            <a href="#" class="nav"><i class="fas fa-store add_product"></i><span class="title">Add new product</span></a>
             <br/>
              <a href="#" class="nav"><i class="fas fa-store-slash manage_products"></i><span class="title">Manage products</span></a>
             <br/>
             <a href="#" class="nav"><i class="fas fa-wallet track_sales"></i><span class="title">Track sales</span></a>
+            <br/>
+            <a href="#" class="nav"><i class="fas fa-user manage_distributor"></i><span class="title">Manage distributors</span></a>
+            <br/>
+            <a href="#" class="nav"><i class="fas fa-bell notifications"></i><span class="title">Notifications</span></a>
             <br/>
             <div class="theme_btn nav"><i class="fas fa-adjust"></i> <span class="title">Theme</span></div>
             </section>
@@ -52,8 +56,8 @@ if (!isset($_SESSION["password"]) || $_SESSION["password"] !== "iamadmin") {
          <!-- add product section starts here -->
          <section class="section2 page">
             <section class="form-section">
-               <h2 class="title">Add product to system.</h2> <br/><br/>
-               <form action="./admin_home.php" method="post">
+               <h2 class="title">Add new product to system.</h2> <br/><br/>
+               <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                   <fieldset>
                      <input type="text" name="product_name" placeholder="Product name ..." autocomplete="off" required="">
                   </fieldset> <br/>
@@ -61,7 +65,7 @@ if (!isset($_SESSION["password"]) || $_SESSION["password"] !== "iamadmin") {
                      <input type="text" name="bar_code" placeholder="Product barcode ..." autocomplete="off" required="">
                   </fieldset> <br/>
                   <fieldset>
-                     <input type="number" name="sale_percent" placeholder="Sale percent(%) ..." autocomplete="off" required="" min="1">
+                     <input type="number" name="sale_percent" placeholder="Sale percentage(%) ..." autocomplete="off" required="" min="1">
                   </fieldset> <br/>
                   <fieldset>
                      <input type="number" name="purchace_price" placeholder="Purchace price(&#8358;) ..." autocomplete="off" required="" min="1">
@@ -74,18 +78,96 @@ if (!isset($_SESSION["password"]) || $_SESSION["password"] !== "iamadmin") {
                   </fieldset> <br/>
                   <fieldset>
                      <div class="expiry_date">product expiry date</div> <br/>
-                     <input type="date" name="expiry_date" required="" class="date">
+                   <select name="year">
+                      <option disabled selected>year</option>
+                      <option value="24">2024</option>
+                      <option value="25">2025</option>
+                      <option value="26">2026</option>
+                      <option value="27">2027</option>
+                      <option value="28">2028</option>
+                      <option value="29">2029</option>
+                      <option value="30">2030</option>
+                      <option value="31">2031</option>
+                      <option value="32">2032</option>
+                      <option value="33">2033</option>
+                      <option value="34">2034</option>
+                      <option value="35">2035</option>
+                      <option value="36">2036</option>
+                      <option value="37">2037</option>
+                      <option value="38">2038</option>
+                      <option value="39">2039</option>
+                      <option value="40">2040</option>
+                      </select>
+                      <select name="month">
+                       <option disabled selected>month</option>
+                       <option value="01">january</option>
+                       <option value="02">february</option>
+                       <option value="03">march</option>
+                       <option value="04">april</option>
+                       <option value="05">may</option>
+                       <option value="06">june</option>
+                       <option value="07">july</option>
+                       <option value="08">august</option>
+                       <option value="09">september</option>
+                       <option value="10">october</option>
+                       <option value="11">november</option>
+                       <option value="12">december</option>
+                       </select>
+                      <select name="day">
+                      <option disabled selected>day</option>
+                      <option value="01">01</option>
+                      <option value="02">02</option>
+                      <option value="03">03</option>
+                      <option value="04">04</option>
+                      <option value="05">05</option>
+                      <option value="06">06</option>
+                      <option value="07">07</option>
+                      <option value="08">08</option>
+                      <option value="09">09</option>
+                      <option value="10">10</option>
+                      <option value="11">11</option>
+                      <option value="12">12</option>
+                      <option value="13">13</option>
+                      <option value="14">14</option>
+                      <option value="15">15</option>
+                      <option value="16">16</option>
+                      <option value="17">17</option>
+                      <option value="18">18</option>
+                      <option value="19">19</option>
+                      <option value="20">20</option>
+                      <option value="21">21</option>
+                      <option value="22">22</option>
+                      <option value="23">23</option>
+                      <option value="24">24</option>
+                      <option value="25">25</option>
+                      <option value="26">26</option>
+                      <option value="27">27</option>
+                      <option value="28">28</option>
+                      <option value="29">29</option>
+                      <option value="30">30</option>
+                      <option value="31">31</option>
+                    </select>
                   </fieldset> <br/>
                   <fieldset>
-                  <select required name="distributor" title="distributor">
+                   <!-- get distributors from db -->
+                   <?php
+                    $result = mysqli_query($conn, "SELECT `distributor_name` FROM `distributors` ORDER BY `id`");
+                    if (mysqli_num_rows($result) < 0) {
+                    # code...
+                    $row = mysqli_fetch_array($result);
+                    }
+                    ?>
+                   <select required="" name="distributor" title="select distributor" class="distributor">
                      <option selected disabled>Select Distributor</option>
-                     <option value="ali and sons">Ali & Sons Lmt</option>
-                     <option value="chinedu holdings">Chinedu holdings Lmt</option>
-                     <option value="the emperors">The Emperors Lmt</option>
-                  </select>
-
-                  </fieldset> <br/>
-                  <fieldset>
+                     <?php
+                     $i = 1;
+                     while ($row = mysqli_fetch_array($result)){               
+                     ?> 
+                     <option value="<?= $row["distributor_name"] ?>"><?= $row["distributor_name"] ?></option>
+                     <?php  $i++; }  ?>
+                   </select>
+                   </fieldset> <br/>
+                   <fieldset>
                      <button type="submit">
                         Add product
                      </button>
@@ -97,20 +179,20 @@ if (!isset($_SESSION["password"]) || $_SESSION["password"] !== "iamadmin") {
 
          <!-- manage products section starts here -->
          <?php  
-         // if (isset($_GET['id'])) { 
-         // $ID = $_GET['id'];
-         // $delete = mysqli_query($conn,"DELETE FROM `products` WHERE `id` = '$ID'");
+         ## if (isset($_GET['id'])) { 
+         ## $ID = $_GET['id'];
+         ## $delete = mysqli_query($conn,"DELETE FROM `products` WHERE `id` = '$ID'");
          ## check if product was deleted
-         // if ($delete){
-         //    ?>
+         ## if ($delete){
+         ##    ?>
              <script type="text/javascript">
          //       alert("product deleted sucessfully!");
          //    </script>
                <?php
-         // } else {
-         //    echo "AN ERROR OCCURED:" .$conn->error;
-         // }
-         // }
+         ## } else {
+         ##    echo "AN ERROR OCCURED:" .$conn->error;
+         ## }
+         ## }
 
 
          ## fetch all products added to the system
@@ -176,10 +258,13 @@ if (!isset($_SESSION["password"]) || $_SESSION["password"] !== "iamadmin") {
             <section class="form-section track">
                <form action="./admin_home.php" method="post">
                   <fieldset>
-                     <input type="number" name="month" placeholder="Enter month e.g (01) ..." autocomplete="off" required="" min="1" max="12">
+                     <input type="number" name="year" placeholder="Enter year e.g (20<?= date('y') ?>) ..." autocomplete="off" required="" min="1">
                   </fieldset> <br/>
                   <fieldset>
-                     <input type="number" name="day" placeholder="Enter day e.g (01) ..." autocomplete="off" required="" min="1" max="31">
+                     <input type="number" name="month" placeholder="Enter month e.g (<?= date('m') ?>) ..." autocomplete="off" required="" min="1" max="12">
+                  </fieldset> <br/>
+                  <fieldset>
+                     <input type="number" name="day" placeholder="Enter day e.g (<?= date('d') ?>) ..." autocomplete="off" required="" min="1" max="31">
                   </fieldset> <br/>
                   <fieldset>
                      <button type="submit">
@@ -192,10 +277,11 @@ if (!isset($_SESSION["password"]) || $_SESSION["password"] !== "iamadmin") {
             <?php  
            if (isset($_POST["month"]) && $_SERVER["REQUEST_METHOD"] === "POST"){
             ## initialize vars ...
+           $year = $_POST["year"];
            $month = $_POST["month"];
            $day = $_POST["day"];
 
-           $result = mysqli_query($conn, "SELECT * FROM `sales` WHERE `month` = '$month' AND `day` = '$day'");
+           $result = mysqli_query($conn, "SELECT * FROM `sales` WHERE `year` = '$year' AND `month` = '$month' AND `day` = '$day'");
            ## Variable to store total amount
            $totalamount = 0;
 
@@ -213,7 +299,7 @@ if (!isset($_SESSION["password"]) || $_SESSION["password"] !== "iamadmin") {
             <div class="product-wrapper">
                <div class="product sales-count">
                   <div> 
-                     <?= number_format(@$num_rows) ?> <span>sales made</span>
+                     <?= number_format(@$num_rows) ?> <span>sale(s) made</span>
                   </div>
                </div>
                <div class="product sales-count">
@@ -232,10 +318,10 @@ if (!isset($_SESSION["password"]) || $_SESSION["password"] !== "iamadmin") {
 
 
 <?php
-## insert new products starts here
+## check if value is set , check request method
 if (isset($_POST["product_name"]) && $_SERVER["REQUEST_METHOD"] === "POST") {
    ## initialize vars...
-   $product_name = $_POST["product_name"];
+   $product_name = filter_var($_POST["product_name"], FILTER_VALIDATE_STRING);
    $barcode = $_POST["bar_code"];
    $sale_percent = $_POST["sale_percent"];
    $purchace_price = $_POST["purchace_price"];
@@ -252,34 +338,39 @@ if (isset($_POST["product_name"]) && $_SERVER["REQUEST_METHOD"] === "POST") {
    $sales_price = $sum_data;
    $product_vat = $_POST["product_vat"];
    $product_quantity = $_POST["quantity"];
-   $expiry_date = $_POST["expiry_date"];
    @$distributor = $_POST["distributor"];
-   $year = Date("y");
-   $month = Date("m");
-   $day = Date("d");
 
+   ## get product expiry year
+   @$expiry_year = $_POST["year"];
+
+   ## get product expiry month
+   @$expiry_month = $_POST["month"];
+   
+   ## get product expiry day
+   @$expiry_day = $_POST["day"];
    
    $query = "SELECT * FROM products WHERE bar_code = '$barcode' LIMIT 1";
    $result = mysqli_query($conn,$query);
    if (mysqli_num_rows($result) > 0) {
-      ?>
-      <script type="text/javascript">
-         alert("Product with this barcode already exist!");
-      </script>
-      <?php
-     } else {
-      $sql = "INSERT INTO `products` (product_name, sales_price, sale_percent, purchace_price, distributor, bar_code, tax, quantity, expiry_date, year, month, day)
-              VALUES ('$product_name', '$sales_price', '$sale_percent', '$purchace_price', '$distributor', '$barcode', '$product_vat', '$product_quantity', '$expiry_date', '$year', '$month', '$day')";
-    
-       if($conn->query($sql) === true){
-         echo '<script>
-         alert("Success!");
-         window.location = "./admin_home.php";
-         </script>';
+      echo '<script>
+            alert("Product with this barcode already exist!");
+            </script>';
+          } else {
+         $sql = "INSERT INTO `products` (product_name, sales_price, sale_percent, purchace_price, distributor, bar_code, tax, quantity, expiry_year, expiry_month, expiry_day)
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-      } else { 
-         echo "AN ERROR OCCURED:" .$conn->error;
-      }
+         $stmt = $conn->prepare($sql);
+         $stmt->bind_param("siiissiiiii", $product_name, $sales_price, $sale_percent, $purchace_price, $distributor, $barcode, $product_vat, $product_quantity, $expiry_year, $expiry_month, $expiry_day);
+         if ($stmt->execute() === true) {
+            ## alert success message
+            echo '<script>
+            alert("Product inserted Successfully!");
+            window.location = "./admin_home.php";
+            </script>';
+         } else {
+            ## error message
+            echo "AN ERROR OCCURED WHILE INSERTING DATA:" .$conn->error;
+         }
    }
 }
 ## insert new products ends here

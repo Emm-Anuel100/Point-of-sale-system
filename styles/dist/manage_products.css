@@ -39,11 +39,21 @@ div.product-wrapper .header {
   background: none !important;
   font-family: cursive;
 }
-div.product-wrapper .delete {
+div.product-wrapper .sec3 {
+  font-family: cursive;
+  background: transparent !important;
   border: 1px solid #e76022;
-  text-align: center !important;
+  padding-right: 17px !important;
+  overflow-x: scroll;
 }
-div.product-wrapper .delete:hover {
-  color: #e76022;
-  background: none !important;
+div.product-wrapper .sec3::-webkit-scrollbar-thumb {
+  background: #8a8a8a;
+}
+div.product-wrapper .sec3::-webkit-scrollbar {
+  height: 4px !important;
+  cursor: pointer;
+  background: #6e6e6e;
+}
+div.product-wrapper .sec3::-webkit-scrollbar-button {
+  background: #6e6e6e;
 }

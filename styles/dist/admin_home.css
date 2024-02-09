@@ -68,9 +68,8 @@ body {
 }
 .main-content nav.navigation {
   position: relative;
-  margin-top: inherit;
   background: none;
-  padding: 3rem 1.5rem;
+  padding: 0 1.5rem;
 }
 .main-content nav.navigation img.logo_image {
   height: 100px;
@@ -113,7 +112,7 @@ body {
   background: var(--gray);
   display: inline;
   height: 25px;
-  border-radius: 0.9rem;
+  border-radius: 0.3rem;
   line-height: 24px;
   width: auto;
   padding: 0 8px;
@@ -121,7 +120,7 @@ body {
 .main-content nav.navigation section.nav_bars .nav i.fas {
   padding: 15px 15px;
   color: var(--icon-color);
-  border-radius: 50%;
+  border-radius: 15%;
   background: var(--icon-background);
 }
 .main-content nav.navigation section.nav_bars .nav i.fas.active {

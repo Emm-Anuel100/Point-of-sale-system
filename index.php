@@ -79,7 +79,7 @@ foreach ($_SESSION['cart'] as $product) {
 
             <!-- if user want to clear cart and save cart items to database -->
             <form action="./clear_cart.php" method="post">
-               <input type="number" name="change_element" placeholder="Change element(&#8358;) ..." min="0" required>
+               <input type="number" name="change_element" placeholder="Change element(&#8358;) ...." min="0" required>
                 <br/><br/>
                 <span class="payment-label">Cash:</span> 
                 <input type="radio" name="payment_mode" value="cash">
@@ -93,7 +93,7 @@ foreach ($_SESSION['cart'] as $product) {
                <input type="hidden" name="ip_address" class="ip_address">
                <input type="hidden" name="clear-cart" value="clear-cart">
                <br/><br/><br/>
-               <input type="submit" value="Clear cart and achieve">
+               <input type="submit" value="Clear cart and archive">
             </form><br/>
 
             <br/><br/><br/>

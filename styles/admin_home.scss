@@ -62,9 +62,8 @@ body{
 
    nav.navigation{
       position: relative;
-      margin-top: inherit;
       background: none;
-      padding: 3rem 1.5rem;
+      padding: 0 1.5rem;
 
       // business logo 
       img.logo_image{
@@ -110,23 +109,18 @@ body{
                background: var(--gray);
                display: inline;
                height: 25px;
-               border-radius: .9rem;
+               border-radius: .3rem;
                line-height: 24px;
                width: auto;
                padding: 0 8px;
             }
             
-            // font awesome icon
+            // font awesome icons
             i.fas{
                padding: 15px 15px;
                color: var(--icon-color);
-               border-radius: 50%;
+               border-radius: 15%;
                background: var(--icon-background);
-
-               // &:hover{
-               //    transition: ease-in-out .2s;
-               //    background: var(--icon-background-active) !important;
-               // }
               }
                // active classlist for btn
                i.fas.active{
