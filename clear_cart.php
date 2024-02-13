@@ -24,6 +24,7 @@ if ($_SESSION['total'] != 0 && isset($_POST["clear-cart"])) {
 
     ## fetch computer's ip Address posted
     @$ip_address = $_POST["ip_address"];
+
     $year = Date("y");
     $month = Date("m");
     $day = Date("d");
@@ -41,9 +42,11 @@ if ($_SESSION['total'] != 0 && isset($_POST["clear-cart"])) {
     ## change product price to number format
     $product_price_format = number_format($product_price);
 
-    ## Append product information to the array
-    $product_info_array[] = "$product_name (Quantity: $product_quantity, Price: $product_price_format)";
+    ## Concatenate naira sign with the formatted product price
+    $product_price_with_sign = "₦" . $product_price_format;
 
+    ## Append product information to the array
+    $product_info_array[] = "$product_name (Quantity: $product_quantity, Price: $product_price_with_sign)";
     
     ## Update the product quantity in the database
     $sql_update = "UPDATE products SET quantity = quantity - $product_quantity WHERE id = $product_id";
@@ -57,27 +60,35 @@ if ($_SESSION['total'] != 0 && isset($_POST["clear-cart"])) {
 ## Concatenate product information with commas
 $product_info = implode(', ', $product_info_array);
 
-## Insert cart values into the sales table
-$sql = "INSERT INTO sales (product_infor,total,trans_id,change_element,payment_mode,ip_address) 
-VALUES ('$product_info','$item_total','$trans_id','$change_element','$payment_mode','$ip_address')";
+## Prepare the SQL statement with placeholders
+$sql = "INSERT INTO sales (product_infor, total, trans_id, change_element, payment_mode, ip_address, year, month, day) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-## Check if values are inserted successfully
-if ($conn->query($sql) !== true) {
-    ## If error while inserting values
-    echo("An error occurred while inserting cart values: " . $conn->error);
-    exit; ## Exit the script if an error occurs
-}
+## Prepare the statement
+$stmt = $conn->prepare($sql);
 
-    ## Redirect to receipt page
+## Bind parameters to the placeholders
+$stmt->bind_param("siisssiii", $product_info, $item_total, $trans_id, $change_element, $payment_mode, $ip_address, $year, $month, $day);
+
+## Execute the statement
+if ($stmt->execute()) {
+    ## if executed successfully Redirect to receipt page
     $redirect = "./receipt.php";
     header("Location: $redirect");
-    } else {
-    ## If no product is in cart
-    ?>
-    <script type="text/javascript">
-        alert("No product in cart yet!");
-        window.location = "./index.php";
-    </script>
-    <?php
+} else {
+    ## Error executing query
+    echo "An error occured while inserting cart info: " . $stmt->error;
+}
+
+## Close the statement
+$stmt->close();
+} else {
+## If no product is in cart
+?>
+ <script type="text/javascript">
+    alert("No product in cart yet!");
+    window.location = "./index.php";
+ </script>
+<?php
 }
 ?>

@@ -25,23 +25,30 @@ div.product-wrapper{
    width: 95%;
 
    .product{
-      background: rgb(231, 96, 34);
+      background: rgb(49 46 45 / 68%);
+      border: 1.1px solid gray;
       padding: 1rem 12px;
       width: 10rem;
       color: var(--text-color);
       border-radius: .3rem;
       align-items: center;
       text-align: left;
+
+      &:hover{
+         -webkit-filter: contrast(80%);
+         filter: contrast(80%);
+         cursor: default;
+         transition: ease-in .2s;
+      }
    }
 
    .header{
-      background: none !important;
       font-family: cursive;
    }
    .sec3{
       font-family: cursive;
+      border: none;
       background: transparent !important;
-      border: 1px solid #e76022;
       padding-right: 17px !important;
       overflow-x: scroll;
    }

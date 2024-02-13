@@ -130,11 +130,11 @@ foreach ($_SESSION['cart'] as $product) {
     // Call the function to fetch IP address when the page loads
      document.addEventListener('DOMContentLoaded', getIPAddress);
    </script>
+   <noscript>Pls. enable javascript in your browser</noscript>
 </html>
 
 
 <?php
-
 ## Remove selected product from cart base on the id
 if (isset($_GET['remove']) && isset($_SESSION['cart'])) {
    ## unset product from the cart

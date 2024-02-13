@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neumorphic Button</title>
+
+<style>
+.neumorphic-button {
+  /* Define button styles */
+  padding: 14px 25px;
+  /* background-color: #6896eb; */
+  border: none;
+  border-radius: 10px;
+  color: #474545;
+  font-size: 15px;
+  cursor: pointer;
+  outline: none;
+  border: none;
+
+  /* Define inset box shadow */
+  box-shadow: inset 2px 2px 5px rgba(77, 73, 73, 0.356),
+              inset -2px -2px 5px rgba(95, 91, 91, 0.425);
+}
+
+/* Optional hover effect */
+.neumorphic-button:hover {
+  filter: contrast(95%);
+}
+</style>
+</head>
+
+<body>
+
+<button class="neumorphic-button" type="submit">Click me</button>
+
+</body>
+</html>

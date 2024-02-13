@@ -1,5 +1,5 @@
 <?php
-## starts new session
+## start session
 session_start();
 ## require connection file
 require_once("../conn.php");   
@@ -149,7 +149,7 @@ if (!isset($_SESSION["password"]) || $_SESSION["password"] !== "iamadmin") {
                     </select>
                   </fieldset> <br/>
                   <fieldset>
-                   <!-- get distributors from db -->
+                   <!-- get distributors from our table -->
                    <?php
                     $result = mysqli_query($conn, "SELECT `distributor_name` FROM `distributors` ORDER BY `id`");
                     if (mysqli_num_rows($result) < 0) {
@@ -157,19 +157,19 @@ if (!isset($_SESSION["password"]) || $_SESSION["password"] !== "iamadmin") {
                     $row = mysqli_fetch_array($result);
                     }
                     ?>
-                   <select required="" name="distributor" title="select distributor" class="distributor">
-                     <option selected disabled>Select Distributor</option>
+                    <select required="" name="distributor" title="select distributor" class="distributor">
+                     <option selected="" disabled="">Select Distributor</option>
                      <?php
                      $i = 1;
                      while ($row = mysqli_fetch_array($result)){               
                      ?> 
                      <option value="<?= $row["distributor_name"] ?>"><?= $row["distributor_name"] ?></option>
                      <?php  $i++; }  ?>
-                   </select>
-                   </fieldset> <br/>
-                   <fieldset>
+                    </select>
+                    </fieldset> <br/>
+                    <fieldset>
                      <button type="submit">
-                        Add product
+                      Add product
                      </button>
                   </fieldset>
                </form>
@@ -246,7 +246,10 @@ if (!isset($_SESSION["password"]) || $_SESSION["password"] !== "iamadmin") {
                <!-- <?= "<a href='admin_home.php?id=".$row['id']."' class='product delete' title='delete product'>delete</a>" ?> -->
             </div>
             <br/>
-            <?php  $i++; }  ?>
+            <?php 
+             $i++; 
+            } 
+            ?>
          </section>
          <!-- manage products section ends here -->
 
@@ -256,15 +259,15 @@ if (!isset($_SESSION["password"]) || $_SESSION["password"] !== "iamadmin") {
             <h2 class="title">Track sales.</h2>
             <br/>
             <section class="form-section track">
-               <form action="./admin_home.php" method="post">
+               <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                   <fieldset>
                      <input type="number" name="year" placeholder="Enter year e.g (20<?= date('y') ?>) ..." autocomplete="off" required="" min="1">
                   </fieldset> <br/>
                   <fieldset>
-                     <input type="number" name="month" placeholder="Enter month e.g (<?= date('m') ?>) ..." autocomplete="off" required="" min="1" max="12">
+                     <input type="number" name="month" placeholder="Enter month e.g (12) ..." autocomplete="off" required="" min="1" max="12">
                   </fieldset> <br/>
                   <fieldset>
-                     <input type="number" name="day" placeholder="Enter day e.g (<?= date('d') ?>) ..." autocomplete="off" required="" min="1" max="31">
+                     <input type="number" name="day" placeholder="Enter day e.g (31) ..." autocomplete="off" required="" min="1" max="31">
                   </fieldset> <br/>
                   <fieldset>
                      <button type="submit">
@@ -274,57 +277,82 @@ if (!isset($_SESSION["password"]) || $_SESSION["password"] !== "iamadmin") {
                </form>
             </section>
             <br/><br/>
-            <?php  
-           if (isset($_POST["month"]) && $_SERVER["REQUEST_METHOD"] === "POST"){
-            ## initialize vars ...
-           $year = $_POST["year"];
-           $month = $_POST["month"];
-           $day = $_POST["day"];
+            <?php
+            if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["month"]) && !empty($_POST["month"])) {
+            ## Initialize variables
+            $year = mysqli_real_escape_string($conn, filter_var($_POST["year"], FILTER_DEFAULT));
+            $month = mysqli_real_escape_string($conn, filter_var($_POST["month"], FILTER_DEFAULT));
+            $day = mysqli_real_escape_string($conn, filter_var($_POST["day"], FILTER_DEFAULT));
 
-           $result = mysqli_query($conn, "SELECT * FROM `sales` WHERE `year` = '$year' AND `month` = '$month' AND `day` = '$day'");
-           ## Variable to store total amount
-           $totalamount = 0;
+            ## Query to fetch sales data
+            $result_infor = mysqli_query($conn, "SELECT * FROM `sales` WHERE `year` = '$year' AND `month` = '$month' AND `day` = '$day'");
 
-           $num_rows = mysqli_num_rows($result);
+            ## Variables to store total amount and number of rows
+            $totalamount = 0;
+            $num_rows = mysqli_num_rows($result_infor);
 
-           if ($num_rows > 0) {
-            while ($row = mysqli_fetch_array($result)) {
-               ## fetch the prices of rows that matches query
-               $totalamount += $row["total"];
-           }
-           }
-           }
-           ?>
+            ## Process sales data
+            if ($num_rows > 0) {
+           while ($row = mysqli_fetch_array($result_infor)) {
+            ## Calculate total amount
+            $totalamount += $row["total"];
+            }
+           } else {
+           ## No sales found for the selected date
+           echo '<script>alert("No sale matches the date inputed!")</script>';
+          }
+        }
+       ?>
 
-            <div class="product-wrapper">
-               <div class="product sales-count">
-                  <div> 
-                     <?= number_format(@$num_rows) ?> <span>sale(s) made</span>
-                  </div>
-               </div>
-               <div class="product sales-count">
-                  <div>
-                     &#8358;<?= number_format(@$totalamount, 2) ?> <span>total income</span>
-                  </div>
-               </div>
-            </div>
-            <br/>
-         </section>
-         <!-- track sales section ends here -->
-      </main>
-   </body>
-   <script src="../script/admin_home.js"></script>
+      <div class="product-wrapper">
+      <div class="product sales-count">
+        <div> <?= number_format(@$num_rows) ?> <span>sale(s) made</span> </div>
+      </div>
+      <div class="product sales-count">
+        <div> &#8358;<?= number_format(@$totalamount, 2) ?> <span>total income</span> </div>
+      </div>
+     </div>
+     <br/><br/>
+
+     <?php
+     if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["month"]) && !empty($_POST["month"])) {
+     if ($num_rows > 0) {
+        ## Reset the pointer back to the beginning
+        mysqli_data_seek($result_infor, 0);
+        ?>
+        <ul class="product_sold">
+            <?php
+            $i = 1;
+            while ($row = mysqli_fetch_array($result_infor)) {
+             ?>
+               <li><?= @$i ?>.  &nbsp;<?= @$row["product_infor"] ?></li>
+               <?php
+                $i++;
+             }
+            ?>
+        </ul>
+       <?php
+      }
+     }
+     ?>
+   </section>
+   <!-- track sales section ends here -->
+
+</main>
+</body>
+<script src="../script/admin_home.js"></script>
+<noscript>Pls. enable javascript in your browser</noscript>
 </html>
 
 
 <?php
-## check if value is set , check request method
+## check if value is set, check request method
 if (isset($_POST["product_name"]) && $_SERVER["REQUEST_METHOD"] === "POST") {
    ## initialize vars...
-   $product_name = filter_var($_POST["product_name"], FILTER_VALIDATE_STRING);
-   $barcode = $_POST["bar_code"];
-   $sale_percent = $_POST["sale_percent"];
-   $purchace_price = $_POST["purchace_price"];
+   $product_name = mysqli_real_escape_string($conn,filter_var($_POST["product_name"], FILTER_DEFAULT));
+   $barcode = mysqli_real_escape_string($conn, filter_var($_POST["bar_code"], FILTER_DEFAULT));
+   $sale_percent = mysqli_real_escape_string($conn, filter_var($_POST["sale_percent"], FILTER_DEFAULT));
+   $purchace_price = mysqli_real_escape_string($conn, filter_var( $_POST["purchace_price"], FILTER_DEFAULT));
 
    ## convert sale percent to decimal
    $convert_to_decimal = $sale_percent / 100;
@@ -335,19 +363,19 @@ if (isset($_POST["product_name"]) && $_SERVER["REQUEST_METHOD"] === "POST") {
    ## sum interest with purchace price
    $sum_data = $interest + $purchace_price;
 
-   $sales_price = $sum_data;
-   $product_vat = $_POST["product_vat"];
-   $product_quantity = $_POST["quantity"];
-   @$distributor = $_POST["distributor"];
+   $sales_price = mysqli_real_escape_string($conn, filter_var($sum_data, FILTER_DEFAULT));
+   $product_vat = mysqli_real_escape_string($conn, filter_var($_POST["product_vat"], FILTER_DEFAULT));
+   $product_quantity = mysqli_real_escape_string($conn, filter_var($_POST["quantity"], FILTER_DEFAULT));
+   @$distributor = mysqli_real_escape_string($conn, filter_var($_POST["distributor"], FILTER_DEFAULT));
 
    ## get product expiry year
-   @$expiry_year = $_POST["year"];
+   @$expiry_year = mysqli_real_escape_string($conn, filter_var($_POST["year"], FILTER_DEFAULT));
 
    ## get product expiry month
-   @$expiry_month = $_POST["month"];
+   @$expiry_month = mysqli_real_escape_string($conn, filter_var($_POST["month"], FILTER_DEFAULT));
    
    ## get product expiry day
-   @$expiry_day = $_POST["day"];
+   @$expiry_day = mysqli_real_escape_string($conn, filter_var($_POST["day"], FILTER_DEFAULT));
    
    $query = "SELECT * FROM products WHERE bar_code = '$barcode' LIMIT 1";
    $result = mysqli_query($conn,$query);
@@ -364,12 +392,12 @@ if (isset($_POST["product_name"]) && $_SERVER["REQUEST_METHOD"] === "POST") {
          if ($stmt->execute() === true) {
             ## alert success message
             echo '<script>
-            alert("Product inserted Successfully!");
+            alert("Product added Successfully!");
             window.location = "./admin_home.php";
             </script>';
          } else {
             ## error message
-            echo "AN ERROR OCCURED WHILE INSERTING DATA:" .$conn->error;
+            echo "AN ERROR OCCURED WHILE ADDING PRODUCT:" .$conn->error;
          }
    }
 }

@@ -27,7 +27,8 @@ div.product-wrapper {
   width: 95%;
 }
 div.product-wrapper .product {
-  background: #e76022;
+  background: rgba(49, 46, 45, 0.68);
+  border: 1.1px solid gray;
   padding: 1rem 12px;
   width: 10rem;
   color: var(--text-color);
@@ -35,14 +36,19 @@ div.product-wrapper .product {
   align-items: center;
   text-align: left;
 }
+div.product-wrapper .product:hover {
+  -webkit-filter: contrast(80%);
+  filter: contrast(80%);
+  cursor: default;
+  transition: ease-in 0.2s;
+}
 div.product-wrapper .header {
-  background: none !important;
   font-family: cursive;
 }
 div.product-wrapper .sec3 {
   font-family: cursive;
+  border: none;
   background: transparent !important;
-  border: 1px solid #e76022;
   padding-right: 17px !important;
   overflow-x: scroll;
 }
