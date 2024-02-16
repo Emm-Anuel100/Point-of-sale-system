@@ -56,7 +56,7 @@ if ($num_rows > 0) {
             if ($num_rows > 0) {
                 ## If product already exists in system as an expired product
                 continue; ## Skip to the next iteration
-            } else {
+                } else {
                 ## Insert product expiry info into the expiry_notification table
                 $sql = "INSERT INTO `notifications` (product_name, notification_on, message) VALUES (?, ?, ?)";
                 $stmt = $conn->prepare($sql);

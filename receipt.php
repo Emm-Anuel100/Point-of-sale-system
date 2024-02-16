@@ -45,7 +45,7 @@ if ($_SESSION['total'] === 0){
    <div class="total">
       <p>Total: &#8358;<?= number_format(@$_SESSION['total'], 2)?></p>
       <p>Change Element: &#8358;<?= number_format(@$_SESSION["change_element"], 2) ?></p>
-      <p>Payment mode: <?= $_SESSION["payment_mode"] ?> </p>
+      <p>Payment mode: <?= @$_SESSION["payment_mode"] ?> </p>
    </div>
 
    <p class="vat-inclusive">

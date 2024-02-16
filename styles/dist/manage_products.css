@@ -12,8 +12,14 @@ h2.title {
   font-weight: 400;
 }
 
-.recent {
-  font-size: 13px !important;
+h2.title-2 {
+  font-size: 25px;
+  font-weight: bolder;
+}
+
+.sm-text {
+  font-size: 12.5px !important;
+  font-weight: normal;
 }
 
 div.product-wrapper {

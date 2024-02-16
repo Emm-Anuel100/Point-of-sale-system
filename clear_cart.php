@@ -14,7 +14,7 @@ if ($_SESSION['total'] != 0 && isset($_POST["clear-cart"])) {
     ## session set for transaction id
     $_SESSION["trans_id"] = $trans_id;
 
-    $payment_mode = $_POST["payment_mode"];
+    @$payment_mode = $_POST["payment_mode"];
     ## session set for payment mode
     $_SESSION["payment_mode"] = $payment_mode;
 
@@ -23,7 +23,7 @@ if ($_SESSION['total'] != 0 && isset($_POST["clear-cart"])) {
     $_SESSION["change_element"] = $change_element;
 
     ## fetch computer's ip Address posted
-    @$ip_address = $_POST["ip_address"];
+    @$ip_address = mysqli_real_escape_string($conn, filter_var($_POST["ip_address"], FILTER_DEFAULT));
 
     $year = Date("y");
     $month = Date("m");
@@ -61,27 +61,26 @@ if ($_SESSION['total'] != 0 && isset($_POST["clear-cart"])) {
 $product_info = implode(', ', $product_info_array);
 
 ## Prepare the SQL statement with placeholders
-$sql = "INSERT INTO sales (product_infor, total, trans_id, change_element, payment_mode, ip_address, year, month, day) 
+$sql = "INSERT INTO `sales` (product_infor, total_naira, trans_id, change_element, payment_mode, ip_address, year, month, day) 
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
+  
 ## Prepare the statement
 $stmt = $conn->prepare($sql);
-
 ## Bind parameters to the placeholders
-$stmt->bind_param("siisssiii", $product_info, $item_total, $trans_id, $change_element, $payment_mode, $ip_address, $year, $month, $day);
+$stmt->bind_param("siiissiii", $product_info, $item_total, $trans_id, $change_element, $payment_mode, $ip_address, $year, $month, $day);
 
 ## Execute the statement
-if ($stmt->execute()) {
+if ($stmt->execute() === true) {
     ## if executed successfully Redirect to receipt page
     $redirect = "./receipt.php";
     header("Location: $redirect");
 } else {
     ## Error executing query
-    echo "An error occured while inserting cart info: " . $stmt->error;
+    echo "An error occured while inserting cart info: " . $stmt->error . '<br/> <a href="./index.php">go back</a>';
 }
 
 ## Close the statement
-$stmt->close();
+ $stmt->close();
 } else {
 ## If no product is in cart
 ?>

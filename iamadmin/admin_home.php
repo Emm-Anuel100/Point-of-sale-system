@@ -29,6 +29,10 @@ if (!isset($_SESSION["password"]) || $_SESSION["password"] !== "iamadmin") {
      <title>I am admin</title>
    </head>
    <body>
+      <?php
+       $notification_result = mysqli_query($conn, "SELECT * FROM `notifications` ORDER BY `id`");
+
+      ?>
 
       <main class="main-content">
          <nav class="navigation">
@@ -42,9 +46,11 @@ if (!isset($_SESSION["password"]) || $_SESSION["password"] !== "iamadmin") {
             <br/>
             <a href="#" class="nav"><i class="fas fa-wallet track_sales"></i><span class="title">Track sales</span></a>
             <br/>
-            <a href="#" class="nav"><i class="fas fa-user manage_distributor"></i><span class="title">Manage distributors</span></a>
+            <a href="#" class="nav"><i class="fas fa-user-plus manage_distributor"></i><span class="title">Manage distributors</span></a>
             <br/>
-            <a href="#" class="nav"><i class="fas fa-bell notifications"></i><span class="title">Notifications</span></a>
+            <a href="#" class="nav"><i class="fas fa-bell notifications"></i><span class="counter"><?= number_format(mysqli_num_rows($notification_result)) ?></span><span class="title">Notifications</span></a>
+            <br/>
+            <a href="#" class="nav"><i class="fas fa-gear settings"></i><span class="title">Configs</span></a>
             <br/>
             <div class="theme_btn nav"><i class="fas fa-adjust"></i> <span class="title">Theme</span></div>
             </section>
@@ -97,6 +103,16 @@ if (!isset($_SESSION["password"]) || $_SESSION["password"] !== "iamadmin") {
                       <option value="38">2038</option>
                       <option value="39">2039</option>
                       <option value="40">2040</option>
+                      <option value="41">2041</option>
+                      <option value="42">2042</option>
+                      <option value="43">2043</option>
+                      <option value="44">2044</option>
+                      <option value="45">2045</option>
+                      <option value="46">2046</option>
+                      <option value="47">2047</option>
+                      <option value="48">2048</option>
+                      <option value="49">2049</option>
+                      <option value="50">2050</option>
                       </select>
                       <select name="month">
                        <option disabled selected>month</option>
@@ -149,7 +165,7 @@ if (!isset($_SESSION["password"]) || $_SESSION["password"] !== "iamadmin") {
                     </select>
                   </fieldset> <br/>
                   <fieldset>
-                   <!-- get distributors from our table -->
+                   <!-- get distributors from distributors table -->
                    <?php
                     $result = mysqli_query($conn, "SELECT `distributor_name` FROM `distributors` ORDER BY `id`");
                     if (mysqli_num_rows($result) < 0) {
@@ -166,7 +182,7 @@ if (!isset($_SESSION["password"]) || $_SESSION["password"] !== "iamadmin") {
                      <option value="<?= $row["distributor_name"] ?>"><?= $row["distributor_name"] ?></option>
                      <?php  $i++; }  ?>
                     </select>
-                    </fieldset> <br/>
+                    </fieldset> <br/><br/>
                     <fieldset>
                      <button type="submit">
                       Add product
@@ -206,9 +222,9 @@ if (!isset($_SESSION["password"]) || $_SESSION["password"] !== "iamadmin") {
          }
          ?>
          <section class="section3 page">
-            <h2 class="title"><?= number_format(mysqli_num_rows($result)) ?> Products currently in the system.</h2> 
+            <h2 class="title title-2"><?= number_format(mysqli_num_rows($result)) ?> <span class="sm-text">Products added.</span></h2> 
             <br/>
-            <h2 class="title recent">Recently added products.</h2>
+            <h2 class="title sm-text">Recently added.</h2>
             <br/>
             <div class="product-wrapper">
                <div class="product header">
@@ -264,10 +280,10 @@ if (!isset($_SESSION["password"]) || $_SESSION["password"] !== "iamadmin") {
                      <input type="number" name="year" placeholder="Enter year e.g (20<?= date('y') ?>) ..." autocomplete="off" required="" min="1">
                   </fieldset> <br/>
                   <fieldset>
-                     <input type="number" name="month" placeholder="Enter month e.g (12) ..." autocomplete="off" required="" min="1" max="12">
+                     <input type="number" name="month" placeholder="Enter month e.g (<?= number_format(date('m')) ?>) ..." autocomplete="off" required="" min="1" max="12">
                   </fieldset> <br/>
                   <fieldset>
-                     <input type="number" name="day" placeholder="Enter day e.g (31) ..." autocomplete="off" required="" min="1" max="31">
+                     <input type="number" name="day" placeholder="Enter day e.g (<?= number_format(date('d')) ?>) ..." autocomplete="off" required="" min="1" max="31">
                   </fieldset> <br/>
                   <fieldset>
                      <button type="submit">
@@ -295,10 +311,10 @@ if (!isset($_SESSION["password"]) || $_SESSION["password"] !== "iamadmin") {
             if ($num_rows > 0) {
            while ($row = mysqli_fetch_array($result_infor)) {
             ## Calculate total amount
-            $totalamount += $row["total"];
+            $totalamount += $row["total_naira"];
             }
            } else {
-           ## No sales found for the selected date
+           ## if no sale was found for the selected date
            echo '<script>alert("No sale matches the date inputed!")</script>';
           }
         }
@@ -325,7 +341,9 @@ if (!isset($_SESSION["password"]) || $_SESSION["password"] !== "iamadmin") {
             $i = 1;
             while ($row = mysqli_fetch_array($result_infor)) {
              ?>
-               <li><?= @$i ?>.  &nbsp;<?= @$row["product_infor"] ?></li>
+               <li>
+                  <?= @$i ?>. &nbsp;<?= @$row["product_infor"] ?>&nbsp;&nbsp; TRANS-ID: <?= "GR" . @$row["trans_id"] ?>
+               </li>
                <?php
                 $i++;
              }
