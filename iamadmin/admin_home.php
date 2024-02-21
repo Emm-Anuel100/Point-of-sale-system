@@ -31,7 +31,6 @@ if (!isset($_SESSION["password"]) || $_SESSION["password"] !== "iamadmin") {
    <body>
       <?php
        $notification_result = mysqli_query($conn, "SELECT * FROM `notifications` ORDER BY `id`");
-
       ?>
 
       <main class="main-content">
@@ -50,7 +49,9 @@ if (!isset($_SESSION["password"]) || $_SESSION["password"] !== "iamadmin") {
             <br/>
             <a href="#" class="nav"><i class="fas fa-bell notifications"></i><span class="counter"><?= number_format(mysqli_num_rows($notification_result)) ?></span><span class="title">Notifications</span></a>
             <br/>
-            <a href="#" class="nav"><i class="fas fa-gear settings"></i><span class="title">Configs</span></a>
+            <a href="./chart.php" class="nav"><i class="fas fa-chart-line"></i><span class="title">Sales chart</span></a>
+            <br/>
+            <a href="#" class="nav"><i class="fas fa-users-cog"></i><span class="title">Configs</span></a>
             <br/>
             <div class="theme_btn nav"><i class="fas fa-adjust"></i> <span class="title">Theme</span></div>
             </section>
@@ -194,7 +195,7 @@ if (!isset($_SESSION["password"]) || $_SESSION["password"] !== "iamadmin") {
          <!-- add product section ends here -->
 
          <!-- manage products section starts here -->
-         <?php  
+         <?php 
          ## if (isset($_GET['id'])) { 
          ## $ID = $_GET['id'];
          ## $delete = mysqli_query($conn,"DELETE FROM `products` WHERE `id` = '$ID'");
@@ -341,11 +342,11 @@ if (!isset($_SESSION["password"]) || $_SESSION["password"] !== "iamadmin") {
             $i = 1;
             while ($row = mysqli_fetch_array($result_infor)) {
              ?>
-               <li>
-                  <?= @$i ?>. &nbsp;<?= @$row["product_infor"] ?>&nbsp;&nbsp; TRANS-ID: <?= "GR" . @$row["trans_id"] ?>
+               <li style="display: flex; line-height: 25px">
+                  <span><?= @$i ?>.</span> <span>&nbsp;<?= @$row["product_infor"] ?>&nbsp;&nbsp; TRANS-ID: <?= "GR" . @$row["trans_id"] ?></span>
                </li>
                <?php
-                $i++;
+               $i++;
              }
             ?>
         </ul>
