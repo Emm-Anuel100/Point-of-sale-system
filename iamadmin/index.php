@@ -1,8 +1,10 @@
 <?php
-## starts new session
+## starts session
 session_start();
 ## require connection file
-require_once("../conn.php");   
+require_once ("../conn.php");  
+## require function file
+require_once ("./function.php"); 
 
 ?>
 
@@ -34,7 +36,7 @@ require_once("../conn.php");
 
          <section class="form-section" data-tilt>
             <h2>Welcome Back!</h2> <br/><br/>
-            <form action="./" method="post">
+            <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                <fieldset>
                   <input type="text" name="username" placeholder="Username ..." autocomplete="off" required="">
                </fieldset> <br/>
@@ -52,7 +54,7 @@ require_once("../conn.php");
 
          <br/><br/><br/>
          <footer class="footer">
-           X-pression <span>&copy;2012 - 2023.</span>
+           Blue Ocean Stores <span>&copy;2012 - <?= Date('Y') ?></span>
          </footer>
       </main>
 
@@ -63,24 +65,62 @@ require_once("../conn.php");
 
 <?php  
    ## set session for password
-   @$_SESSION["password"] = $_POST["password"];
+   ##@$_SESSION["password"] = $_POST["password"];
 
-   ## if value is posted
-   if (isset($_POST["password"]) && $_SERVER["REQUEST_METHOD"] === "POST") {
-
-   $username = mysqli_real_escape_string($conn,$_POST["username"]);
-   $password =  mysqli_real_escape_string($conn,$_POST["password"]);
-
-   if ($username === "iamadmin" && $password === "iamadmin") {
-       ## redirect to admin home page
-       header("Location: ./admin_home.php");
-   } else {
-      ## alert message
-      ?>
-      <script type="text/javascript">
-         alert("Informations are not correct!");
-      </script>
-      <?php
-   }
+  if(isset($_POST["username"]) && $_SERVER["REQUEST_METHOD"] === "POST"){
+    ## Sign-in process
+    $username = mysqli_real_escape_string($conn, filter_var($_POST["username"], FILTER_DEFAULT));
+    $password = mysqli_real_escape_string($conn, filter_var($_POST["password"], FILTER_DEFAULT));
+ 
+    ## Prepare and bind parameters to avoid SQL injection
+    $stmt = $conn->prepare("SELECT admin_name, admin_password FROM admin_config WHERE admin_name = ?");
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $stmt->store_result();
+ 
+    if ($stmt->num_rows == 1) {
+        $stmt->bind_result($db_username, $db_password);
+        $stmt->fetch();
+ 
+        ## Verify password
+        if (verifyPassword($password, $db_password)) {
+            ## Set session variables
+            $_SESSION["loggedin"] = true;
+            $_SESSION["username"] = $db_username;
+            $_SESSION["ip_address"] = $_SERVER["REMOTE_ADDR"];
+            $_SESSION["user_agent"] = $_SERVER["HTTP_USER_AGENT"];
+ 
+            ## Set session expiration time (1 month)
+            $_SESSION["expire_time"] = time() + (30 * 24 * 60 * 60);
+ 
+            ## Redirect to main page
+            header("Location: ./admin_home.php");
+            exit;
+        } else {
+          echo '<script>alert"Incorrect username or password!"</script>';
+        }
+    } else {
+        echo '<script>alert"Incorrect username or password!"</script>';
+    }
+ 
+    $stmt->close();
+ 
+ ## Check session expiration
+ if (isset($_SESSION["expire_time"]) && $_SESSION["expire_time"] < time()) {
+    session_unset();
+    session_destroy();
+ }
+ 
+ ## Check if user is signed in
+ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
+    ## Check session IP address and user agent to prevent session hijacking
+    if ($_SESSION["ip_address"] !== $_SERVER["REMOTE_ADDR"] || $_SESSION["user_agent"] !== $_SERVER["HTTP_USER_AGENT"]) {
+        redirectToErrorPage();
+    }
+ 
+    ## Redirect to main page if signed in
+    header("Location: ./admin_home.php");
+    exit;
+ }
 }
 ?>

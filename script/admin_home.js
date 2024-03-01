@@ -17,12 +17,20 @@ document.addEventListener('DOMContentLoaded', () => {
    const addProductBtn = document.querySelector('.add_product');
    const manageProductsBtn = document.querySelector('.manage_products');
    const trackSalesBtn = document.querySelector('.track_sales');
- 
+   const manageDistributorBtn = document.querySelector('.manage_distributor');
+   const notificationsBtn = document.querySelector('.notifications');
+   const configBtn = document.querySelector('.config');
+
+
    // Page sections vars...
    const homeSection = document.querySelector('.section1');
    const addProduct = document.querySelector('.section2');
    const manageProducts = document.querySelector('.section3');
    const trackSales = document.querySelector('.section4');
+   const manageDistributor = document.querySelector('.section5');
+   const notifications = document.querySelector('.section6');
+   const config = document.querySelector('.section7');
+   
  
    // Default background of home icon is set to orange
    homeSectionBtn.style.background = "rgb(231, 96, 34)";
@@ -40,13 +48,13 @@ document.addEventListener('DOMContentLoaded', () => {
        previousBtn = clickedBtn;
      }
  
-     [addProductBtn, manageProductsBtn, trackSalesBtn].forEach(btn => {
+     [addProductBtn, manageProductsBtn, trackSalesBtn, manageDistributorBtn, notificationsBtn, configBtn].forEach(btn => {
        if (btn !== clickedBtn) {
          btn.classList.remove('active');
        }
      });
  
-     [addProduct, manageProducts, trackSales].forEach(section => {
+     [addProduct, manageProducts, trackSales, manageDistributor, notifications, config].forEach(section => {
        section.classList.remove('active');
      });
  
@@ -75,5 +83,20 @@ document.addEventListener('DOMContentLoaded', () => {
      e.preventDefault();
      handleButtonClick(trackSalesBtn, trackSales);
    });
+
+   manageDistributorBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    handleButtonClick(manageDistributorBtn, manageDistributor);
+  });
+
+   notificationsBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    handleButtonClick(notificationsBtn, notifications);
+  });
+
+   configBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    handleButtonClick(configBtn, config);
+  });
  });
  

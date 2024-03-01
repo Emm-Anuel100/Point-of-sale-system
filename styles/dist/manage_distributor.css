@@ -1,0 +1,67 @@
+h1.title {
+  font-size: 17px;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  font-weight: 400;
+}
+
+span.sub-title {
+  font-size: 11.5px;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-family: 100;
+}
+span.sub-title i.fas {
+  font-size: 11.5px;
+  position: relative;
+  top: 2.5px;
+}
+
+img.gif {
+  position: absolute;
+  height: 110px;
+  bottom: -1.7px;
+  right: -1rem;
+  width: 130px;
+  visibility: hidden;
+}
+
+.manage_distributor_wrapper > div, .notifications_wrapper > div {
+  margin-top: 1rem;
+  width: 600px;
+  padding: 1.3rem 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  background: #3d3d55;
+  border-radius: 0.3rem;
+  align-items: center;
+  justify-content: space-between;
+}
+.manage_distributor_wrapper > div samp, .notifications_wrapper > div samp {
+  font-size: 13.5px;
+  font-family: sans-serif;
+}
+.manage_distributor_wrapper > div samp + a, .notifications_wrapper > div samp + a {
+  font-size: 13.5px;
+  cursor: pointer;
+  font-family: sans-serif;
+}
+.manage_distributor_wrapper > div samp + a:hover, .notifications_wrapper > div samp + a:hover {
+  text-decoration: underline;
+}
+
+.notifications_wrapper > div {
+  width: 11rem !important;
+  height: 6.3rem;
+  line-height: 15px;
+  background: linear-gradient(50deg, #8f8fe7 20%, #b5b5dd 80%) !important;
+  border-radius: 0.2rem !important;
+  align-items: baseline;
+  padding: 1rem 10px !important;
+  clip-path: polygon(0% 0%, 100% 0%, 100% 75%, 75% 75%, 75% 100%, 50% 75%, 0% 75%);
+}
+.notifications_wrapper > div samp {
+  font-size: 11.5px;
+}
+.notifications_wrapper > div:hover {
+  transform: scale(1.03);
+  cursor: pointer;
+}

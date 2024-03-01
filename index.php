@@ -26,7 +26,7 @@ foreach ($_SESSION['cart'] as $product) {
       <title>shopping cart</title>
       <!-- fav icon -->
       <link rel="shortcut icon" href="./images/shop_logo.png" type="image/x-icon">
-      <!-- styling -->
+      <!-- style link -->
       <link rel="stylesheet" href="./styles/dist/cart.css">
    </head>
    <body>
@@ -43,7 +43,7 @@ foreach ($_SESSION['cart'] as $product) {
          <!-- page header section ends here -->
        
         <section class="cart-section">
-          <form action="./" method="post">
+          <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <fieldset>
                <input type="text" name="bar_code" class="bar_code" required="" autocomplete="off" placeholder="bar code here ...">
             </fieldset>
@@ -99,7 +99,7 @@ foreach ($_SESSION['cart'] as $product) {
             <br/><br/><br/>
             <!-- page footer starts here -->
             <footer class="footer">
-             X-pression <span>&copy;2012 - 20<?= Date("y"); ?>.</span>
+             Blue Ocean Stores <span>&copy;2012 - <?= Date('Y'); ?>.</span>
             </footer>
             <!-- page footer ends here -->
             <br/><br/><br/>
@@ -143,7 +143,8 @@ if (isset($_GET['remove']) && isset($_SESSION['cart'])) {
    echo '<script>window.location = "./";</script>';
   }
 
-  ## if value is posted
+  ## code to get product from the database base on the barcode inputed
+  ## if value is posted, also check the request mthod
   if (isset($_POST['bar_code']) && $_SERVER["REQUEST_METHOD"] === "POST") {
    @$bar_code = $conn->real_escape_string($_POST['bar_code']);
 

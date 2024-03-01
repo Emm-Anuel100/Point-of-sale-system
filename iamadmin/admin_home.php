@@ -2,13 +2,15 @@
 ## start session
 session_start();
 ## require connection file
-require_once("../conn.php");   
+require_once('../conn.php');  
+## require function.php file
+require('./function.php'); 
 
 ## check if session is set
-if (!isset($_SESSION["password"]) || $_SESSION["password"] !== "iamadmin") {
+//if (!isset($_SESSION["password"]) /* || $_SESSION["password"] !== "iamadmin"*/) {
    ## if password session is not set or password input not equal to iamadmin then redirect to error page
-   header("Location: ../error.htm");
-}
+  // header("Location: ../error.htm");
+//}
 ?>
 
 <!DOCTYPE html>
@@ -22,16 +24,20 @@ if (!isset($_SESSION["password"]) || $_SESSION["password"] !== "iamadmin") {
       <link href="../styles/dist/add_product.css" rel="stylesheet">
       <link href="../styles/dist/manage_products.css" rel="stylesheet">
       <link href="../styles/dist/track_sales.css" rel="stylesheet">
+      <link  href="../styles/dist/manage_distributor.css" rel="stylesheet">
       <!-- fav-icon -->
       <link rel="shortcut icon" href="../images/shop_logo.png" type="image/x-icon">
       <!-- font awesome cdn link  -->
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-     <title>I am admin</title>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+      <!-- Include jQuery library -->
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <title>I am admin</title>
    </head>
    <body>
-      <?php
-       $notification_result = mysqli_query($conn, "SELECT * FROM `notifications` ORDER BY `id`");
-      ?>
+
+    <?php
+    $notification_result = mysqli_query($conn, "SELECT * FROM `notifications` ORDER BY `id`");
+    ?>
 
       <main class="main-content">
          <nav class="navigation">
@@ -39,7 +45,7 @@ if (!isset($_SESSION["password"]) || $_SESSION["password"] !== "iamadmin") {
             <section class="nav_bars">
             <a href="#" class="nav"><i class="fas fa-home home"></i><span class="title">Home</span></a>
             <br/>
-            <a href="#" class="nav"><i class="fas fa-store add_product"></i><span class="title">Add new product</span></a>
+            <a href="#" class="nav"><i class="fas fa-store add_product"></i><span class="title"> Add new product</span></a>
             <br/>
              <a href="#" class="nav"><i class="fas fa-store-slash manage_products"></i><span class="title">Manage products</span></a>
             <br/>
@@ -47,26 +53,28 @@ if (!isset($_SESSION["password"]) || $_SESSION["password"] !== "iamadmin") {
             <br/>
             <a href="#" class="nav"><i class="fas fa-user-plus manage_distributor"></i><span class="title">Manage distributors</span></a>
             <br/>
-            <a href="#" class="nav"><i class="fas fa-bell notifications"></i><span class="counter"><?= number_format(mysqli_num_rows($notification_result)) ?></span><span class="title">Notifications</span></a>
+            <a href="#" class="nav"><i class="fas fa-bell notifications"></i><span id="notification-counter" class="counter"><?= number_format(mysqli_num_rows($notification_result)) ?></span><span class="title">Notifications</span></a>
             <br/>
             <a href="./chart.php" class="nav"><i class="fas fa-chart-line"></i><span class="title">Sales chart</span></a>
             <br/>
-            <a href="#" class="nav"><i class="fas fa-users-cog"></i><span class="title">Configs</span></a>
+            <a href="#" class="nav"><i class="fas fa-users-cog config"></i><span class="title">Configs</span></a>
+            <br/>
+            <a href="./logout.php" class="nav"><i class="fas fa-sign-out-alt"></i><span class="title">Log out</span></a>
             <br/>
             <div class="theme_btn nav"><i class="fas fa-adjust"></i> <span class="title">Theme</span></div>
             </section>
          </nav>
 
          <!-- sections -->
-         <img src="../images/illustration.svg" alt="illustration" class="section1 illustration">
+         <img src="../images/illustration.png" alt="illustration" class="section1 illustration">
          
          <!-- add product section starts here -->
          <section class="section2 page">
             <section class="form-section">
                <h2 class="title">Add new product to system.</h2> <br/><br/>
-               <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+               <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" onsubmit="return validateProduct()">
                   <fieldset>
-                     <input type="text" name="product_name" placeholder="Product name ..." autocomplete="off" required="">
+                     <input type="text" name="product_name" id="product_name" placeholder="Product name ..." autocomplete="off" required="">
                   </fieldset> <br/>
                   <fieldset>
                      <input type="text" name="bar_code" placeholder="Product barcode ..." autocomplete="off" required="">
@@ -185,9 +193,10 @@ if (!isset($_SESSION["password"]) || $_SESSION["password"] !== "iamadmin") {
                     </select>
                     </fieldset> <br/><br/>
                     <fieldset>
-                     <button type="submit">
+                     <button type="submit" name="add_product_btn">
                       Add product
                      </button>
+                     <img src="../images/Loading-gif-unscreen.gif" alt="gif" class="gif gif3">
                   </fieldset>
                </form>
             </section>
@@ -276,9 +285,9 @@ if (!isset($_SESSION["password"]) || $_SESSION["password"] !== "iamadmin") {
             <h2 class="title">Track sales.</h2>
             <br/>
             <section class="form-section track">
-               <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+               <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" onsubmit="return validateSales()">
                   <fieldset>
-                     <input type="number" name="year" placeholder="Enter year e.g (20<?= date('y') ?>) ..." autocomplete="off" required="" min="1">
+                     <input type="number" name="year" id="year" placeholder="Enter year e.g (<?= date('Y') ?>) ..." autocomplete="off" required="" min="1">
                   </fieldset> <br/>
                   <fieldset>
                      <input type="number" name="month" placeholder="Enter month e.g (<?= number_format(date('m')) ?>) ..." autocomplete="off" required="" min="1" max="12">
@@ -290,9 +299,11 @@ if (!isset($_SESSION["password"]) || $_SESSION["password"] !== "iamadmin") {
                      <button type="submit">
                         Proceed
                      </button>
+                     <img src="../images/Loading-gif-unscreen.gif" alt="gif" class="gif gif2">
                   </fieldset>
                </form>
             </section>
+
             <br/><br/>
             <?php
             if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["month"]) && !empty($_POST["month"])) {
@@ -310,7 +321,7 @@ if (!isset($_SESSION["password"]) || $_SESSION["password"] !== "iamadmin") {
 
             ## Process sales data
             if ($num_rows > 0) {
-           while ($row = mysqli_fetch_array($result_infor)) {
+            while ($row = mysqli_fetch_array($result_infor)) {
             ## Calculate total amount
             $totalamount += $row["total_naira"];
             }
@@ -323,10 +334,10 @@ if (!isset($_SESSION["password"]) || $_SESSION["password"] !== "iamadmin") {
 
       <div class="product-wrapper">
       <div class="product sales-count">
-        <div> <?= number_format(@$num_rows) ?> <span>sale(s) made</span> </div>
+        <div> <?= number_format(@$num_rows) ?> <span>sale(s) made</span></div>
       </div>
       <div class="product sales-count">
-        <div> &#8358;<?= number_format(@$totalamount, 2) ?> <span>total income</span> </div>
+        <div> &#8358;<?= number_format(@$totalamount, 2) ?> <span>total income</span></div>
       </div>
      </div>
      <br/><br/>
@@ -357,68 +368,318 @@ if (!isset($_SESSION["password"]) || $_SESSION["password"] !== "iamadmin") {
    </section>
    <!-- track sales section ends here -->
 
+
+   <!-- manage distributor section starts here -->
+   <section class="section5 page">
+      <h1 class="title">Manage distributors</h1> <br/>
+      <span class="sub-title">Manage distributors &nbsp; <i class="fas fa-angle-right"></i> &nbsp; add distributor</span><br/><br/>
+
+         <section class="form-section track">
+               <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" onsubmit="return validateAddress()">
+                  <fieldset>
+                     <input type="text" name="distributor_name" id="distributor_name" placeholder="Distributor's name ..." autocomplete="off" required="">
+                  </fieldset> <br/>
+                  <fieldset>
+                     <input type="text" name="distributor_address" placeholder="Distributor's address ..." autocomplete="off" required="">
+                  </fieldset> <br/>
+                  <fieldset>
+                     <input type="text" name="distributor_reg_no" placeholder="Distributor's reg. no ..." autocomplete="off" required="">
+                  </fieldset> <br/>
+                  <fieldset>
+                     <button type="submit">
+                        Proceed
+                     </button>
+                     <img src="../images/Loading-gif-unscreen.gif" alt="gif" class="gif gif1">
+                  </fieldset>
+               </form>
+            </section> <br/><br/><br/><br/>
+
+            <span class="sub-title">Manage distributors &nbsp; <i class="fas fa-angle-right"></i> &nbsp; remove distributor</span><br/><br/>
+
+            <?php
+            ## Check if delete request is received
+            if (isset($_GET['id'])) { 
+               $ID = $_GET['id'];
+               ## Display confirmation dialog
+               echo "
+               <script>
+                  if (confirm('Are you sure you want to delete this distributor?')) {
+                     window.location.href = './delete_distributor.php?id=$ID';
+                  } else {
+                     window.location.href = './admin_home.php';
+                  }
+               </script>
+               ";
+            }
+
+            ## Fetch all distributors from the database
+            $result_distributor = mysqli_query($conn, "SELECT * FROM `distributors` ORDER BY `id` DESC");
+
+            ## Check if there are any distributors
+            if (mysqli_num_rows($result_distributor) > 0) {
+               echo "<div class='manage_distributor_wrapper'>";
+               $i = 1;
+               ## Display distributor details with delete link
+               while ($row = mysqli_fetch_array($result_distributor)) {
+                  echo "<div> $i <samp>{$row['distributor_name']}</samp> <samp>{$row['address']}</samp> <a href='?id={$row['id']}'>delete</a></div><br/>";
+                  $i++;
+               } 
+               echo "</div>";
+              } else {
+               echo "No distributors found.";
+            }
+            ?>             
+       </section>
+    <!-- manage distributor section ends here -->
+
+
+    <!-- notifications section starts here -->
+    <section class="section6 page">
+      <h1 class="title">Notifications ..</h1> <br/>
+
+      <!-- notifications wrapper -->
+      <div class="notifications_wrapper"></div>
+      
+         <!-- <?php
+         // Fetch all notifications from the database that have a message of expiry
+         $result_notifications_expiry = mysqli_query($conn, "SELECT * FROM `notifications` ORDER BY `id` DESC");
+
+         // Check if there are any notifications
+         if (mysqli_num_rows($result_notifications_expiry) > 0) {
+            echo "<div class='notifications_wrapper'>";
+            $i = 1;
+            // Display notification details about expiry
+            while ($row = mysqli_fetch_array($result_notifications_expiry)) {
+                  echo "<div><samp>{$row['product_name']} is <samp>{$row['message']} you are advised to restock!</samp></div><br/>";
+                  $i++;
+            } 
+            echo "</div>";
+         } else {
+            echo "You have no notifications yet.";
+         }
+         ?>   -->
+      </section>
+     <!-- notifications section ends here -->
+
+
+    <!-- manage distributor section starts here -->
+    <section class="section7 page">
+      <h1 class="title">Configurations</h1>
+    </section>
+   <!-- manage distributor section ends here -->
 </main>
 </body>
+
 <script src="../script/admin_home.js"></script>
+<script type="text/javascript">
+   $(document).ready(function() {
+    // Function to update notification counter
+    function updateNotificationCount() {
+        try {
+            $.ajax({
+               // URL of the PHP script to update notification counter
+                url: './get_notification_count.php', 
+                type: 'POST',
+                 // Parse response as JSON
+                dataType: 'json',
+                success: function(data) {
+                    // Update the notification count
+                    $('#notification-counter').text(data); 
+                }
+            });
+          } catch (error) {
+            // Handle any errors gracefully
+            console.error('An error occurred:', error);
+        }
+    }
+
+    // Call the updateNotificationCount function initially
+    updateNotificationCount();
+
+    // Set an interval to update notification count every 3 seconds 
+    setInterval(updateNotificationCount, 3000);  // 3000 milliseconds = 3 seconds
+});
+
+
+  // Function to update expiry notification infor
+  function reloadFunction() {
+            $.ajax({
+                url: './get_expiry_notification.php', // File containing expiry notificaion function
+                success: function(data) {
+                  // $('#notification_wrapper').text(data);
+                   console.log(data);
+                }
+            });
+        }
+
+   // Call the reloadFunction every 5 seconds
+   setInterval(reloadFunction, 5000); // 5000 milliseconds = 5 seconds
+
+   
+
+   $(document).ready(function() {
+    // Function to update notification UI
+    function fetchNotifications() {
+        $.ajax({
+            url: './notificationUI.php',
+            type: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                // Update UI with new notifications
+                updateNotificationsUI(data);
+            },
+            error: function(xhr, status, error) {
+                console.error('An error occurred while fetching notifications:', error);
+            }
+        });
+    }
+
+    // Function to update UI with new notifications
+    function updateNotificationsUI(data) {
+        $('.notifications_wrapper').empty(); // Clear existing notifications
+        if (data.length > 0) {
+            // Append notifications to the wrapper
+            data.forEach(function(notification) {
+                $('.notifications_wrapper').append(`<div><samp>${notification.product_name} is <samp>${notification.message} you are advised to restock!</samp></div><br/>`);
+            });
+        } else {
+            $('.notifications_wrapper').text("You have no notifications yet.");
+        }
+    }
+
+    // Call fetchNotifications initially
+    fetchNotifications();
+
+    // Set interval to fetch new notifications every 4 seconds
+    setInterval(fetchNotifications, 4000); // 4000 milliseconds = 4 seconds
+  });
+
+
+
+   // function to pop up preloader on the add distributor section when submiting form
+   function validateAddress() {
+    let input = document.getElementById('distributor_name');
+
+    // Get the value of the input field
+    let query = input.value.trim();
+
+    if (query !== '') {
+      document.querySelector('img.gif1').style.visibility = "visible";
+      return true;
+    } else {
+      return false;
+    }
+    }
+
+
+    // function to pop up preloader on the track sales section when submiting form
+    function validateSales(){
+      let input = document.getElementById('year');
+
+    // Get the value of the input field
+    let query = input.value.trim();
+
+   if (query !== '') {
+   document.querySelector('img.gif2').style.visibility = "visible";
+   return true;
+   } else {
+   return false;
+   }
+   }
+
+
+   // function to pop up preloader on the add product section when submiting form
+   function validateProduct(){
+      let input = document.getElementById('product_name');
+
+    // Get the value of the input field
+    let query = input.value.trim();
+
+   if (query !== '') {
+   document.querySelector('img.gif3').style.visibility = "visible";
+   return true;
+   } else {
+   return false;
+   }
+   }
+</script>
 <noscript>Pls. enable javascript in your browser</noscript>
 </html>
 
 
 <?php
-## check if value is set, check request method
-if (isset($_POST["product_name"]) && $_SERVER["REQUEST_METHOD"] === "POST") {
-   ## initialize vars...
-   $product_name = mysqli_real_escape_string($conn,filter_var($_POST["product_name"], FILTER_DEFAULT));
-   $barcode = mysqli_real_escape_string($conn, filter_var($_POST["bar_code"], FILTER_DEFAULT));
-   $sale_percent = mysqli_real_escape_string($conn, filter_var($_POST["sale_percent"], FILTER_DEFAULT));
-   $purchace_price = mysqli_real_escape_string($conn, filter_var( $_POST["purchace_price"], FILTER_DEFAULT));
+## Check if the form for adding new products is submitted
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["product_name"]) && isset($_POST["year"]) && isset($_POST["month"]) && isset($_POST["day"]) && isset($_POST["distributor"])) {
+    ## Initialize variables and sanitize input
+    $product_name = mysqli_real_escape_string($conn, filter_var($_POST["product_name"], FILTER_DEFAULT));
+    $barcode = mysqli_real_escape_string($conn, filter_var($_POST["bar_code"], FILTER_DEFAULT));
+    $sale_percent = mysqli_real_escape_string($conn, filter_var($_POST["sale_percent"], FILTER_DEFAULT));
+    $purchace_price = mysqli_real_escape_string($conn, filter_var($_POST["purchace_price"], FILTER_DEFAULT));
 
-   ## convert sale percent to decimal
-   $convert_to_decimal = $sale_percent / 100;
+    ## Convert sale percent to decimal
+    $convert_to_decimal = $sale_percent / 100;
 
-   ## calculate interest
-   $interest = $purchace_price * $convert_to_decimal;
+    ## Calculate interest
+    $interest = $purchace_price * $convert_to_decimal;
 
-   ## sum interest with purchace price
-   $sum_data = $interest + $purchace_price;
+    ## Sum interest with purchase price
+    $sales_price = $interest + $purchace_price;
+    $product_vat = mysqli_real_escape_string($conn, filter_var($_POST["product_vat"], FILTER_DEFAULT));
+    $product_quantity = mysqli_real_escape_string($conn, filter_var($_POST["quantity"], FILTER_DEFAULT));
+    $distributor = mysqli_real_escape_string($conn, filter_var($_POST["distributor"], FILTER_DEFAULT));
 
-   $sales_price = mysqli_real_escape_string($conn, filter_var($sum_data, FILTER_DEFAULT));
-   $product_vat = mysqli_real_escape_string($conn, filter_var($_POST["product_vat"], FILTER_DEFAULT));
-   $product_quantity = mysqli_real_escape_string($conn, filter_var($_POST["quantity"], FILTER_DEFAULT));
-   @$distributor = mysqli_real_escape_string($conn, filter_var($_POST["distributor"], FILTER_DEFAULT));
+    ## Get product expiry date
+    $expiry_year = mysqli_real_escape_string($conn, filter_var($_POST["year"], FILTER_DEFAULT));
+    $expiry_month = mysqli_real_escape_string($conn, filter_var($_POST["month"], FILTER_DEFAULT));
+    $expiry_day = mysqli_real_escape_string($conn, filter_var($_POST["day"], FILTER_DEFAULT));
 
-   ## get product expiry year
-   @$expiry_year = mysqli_real_escape_string($conn, filter_var($_POST["year"], FILTER_DEFAULT));
+    ## Check if product with the same barcode already exists
+    $query = "SELECT * FROM products WHERE bar_code = '$barcode' LIMIT 1";
+    $result = mysqli_query($conn, $query);
+    if (mysqli_num_rows($result) > 0) {
+        echo '<script>alert("Product with this barcode already exists!");</script>';
+    } else {
+        ## Insert new product into the database
+        $sql = "INSERT INTO `products` (product_name, sales_price, sale_percent, purchace_price, distributor, bar_code, tax, quantity, expiry_year, expiry_month, expiry_day)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("siiissiiiii", $product_name, $sales_price, $sale_percent, $purchace_price, $distributor, $barcode, $product_vat, $product_quantity, $expiry_year, $expiry_month, $expiry_day);
+        if ($stmt->execute() === true) {
+            ## Alert success message and redirect
+            echo '<script>alert("Product added successfully!"); window.location = "./admin_home.php";</script>';
+        } else {
+            ## Display error message
+            echo "An error occurred while adding the product: " . $conn->error;
+        }
+    }
+} elseif (isset($_POST["add_product_btn"])) {
+    ## Display error message if any input field is empty
+    echo '<span style="font-size: 13.5px; color: orange; top: 3px; left: 25px; position: relative; font-family: sans-serif">⚠ &nbsp; All input fields must be filled.</span>';
+}
 
-   ## get product expiry month
-   @$expiry_month = mysqli_real_escape_string($conn, filter_var($_POST["month"], FILTER_DEFAULT));
-   
-   ## get product expiry day
-   @$expiry_day = mysqli_real_escape_string($conn, filter_var($_POST["day"], FILTER_DEFAULT));
-   
-   $query = "SELECT * FROM products WHERE bar_code = '$barcode' LIMIT 1";
-   $result = mysqli_query($conn,$query);
-   if (mysqli_num_rows($result) > 0) {
-      echo '<script>
-            alert("Product with this barcode already exist!");
-            </script>';
-          } else {
-         $sql = "INSERT INTO `products` (product_name, sales_price, sale_percent, purchace_price, distributor, bar_code, tax, quantity, expiry_year, expiry_month, expiry_day)
-                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-         $stmt = $conn->prepare($sql);
-         $stmt->bind_param("siiissiiiii", $product_name, $sales_price, $sale_percent, $purchace_price, $distributor, $barcode, $product_vat, $product_quantity, $expiry_year, $expiry_month, $expiry_day);
-         if ($stmt->execute() === true) {
-            ## alert success message
-            echo '<script>
-            alert("Product added Successfully!");
-            window.location = "./admin_home.php";
-            </script>';
-         } else {
-            ## error message
-            echo "AN ERROR OCCURED WHILE ADDING PRODUCT:" .$conn->error;
-         }
+
+## adding of distributor starts here
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["distributor_name"]) && isset($_POST["distributor_address"]) && isset($_POST["distributor_reg_no"])) {
+   ## initialise vars...
+   $distributor_name = mysqli_real_escape_string($conn, filter_var($_POST["distributor_name"], FILTER_DEFAULT));
+   $distributor_address = mysqli_real_escape_string($conn, filter_var($_POST["distributor_address"], FILTER_DEFAULT));
+   $distributor_reg_no = mysqli_real_escape_string($conn, filter_var($_POST["distributor_reg_no"], FILTER_DEFAULT));
+
+   ## Insert distributor infor.. into the database
+   $sql = "INSERT INTO `distributors` (distributor_name, address, reg_no )
+   VALUES (?, ?, ?)";
+   $stmt = $conn->prepare($sql);
+   $stmt->bind_param("sss", $distributor_name, $distributor_address, $distributor_reg_no);
+   if ($stmt->execute() === true) {
+   ## Alert success message and redirect
+   echo '<script>alert("distributor added successfully!"); 
+   window.location = "./admin_home.php";</script>';
+   } else {
+   ## Display error message
+   echo "An error occurred while adding distributor: " . $conn->error;
    }
 }
-## insert new products ends here
+## adding distributor ends here
 ?>
+

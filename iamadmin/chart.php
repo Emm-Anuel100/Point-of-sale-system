@@ -11,10 +11,10 @@
 </head>
 <body>
 
-    <a href="./admin_home.php" class="navigator">back to dashboard</a>
+    <a href="./admin_home.php" class="navigator"><span>back to dashboard</span></a>
     <!-- Canvas element for the bar chart -->
     <canvas id="productSalesChart"></canvas>
-
+    
 
     <!-- JavaScript code to render the bar chart -->
     <script type="text/javascript">
@@ -31,7 +31,7 @@
                         myChart.data.labels = response.labels;
                         myChart.data.datasets[0].data = response.data;
                         myChart.update();
-                    } else {
+                     } else {
                         console.error('Error fetching data from the server');
                     }
                 }
@@ -49,7 +49,7 @@
                 backgroundColor: 'rgb(255, 99, 132)',
                 borderColor: 'rgb(255, 99, 132)',
                 data: [],
-                fill: false,  // set background to false
+                fill: false,  // set background color to false
                 tension: 0.4, // tension value for curved lines
                 pointRadius: 6 // point radius for thicker dots
             }]
@@ -89,7 +89,7 @@
    <style type="text/css">
     /*## page scroll bar styles ##*/
     ::-webkit-scrollbar{
-     width: 0;
+      width: 0;
       background: gray;
     }
     ::-webkit-scrollbar-button{
@@ -100,19 +100,32 @@
     }
      a.navigator{
       text-decoration: none;
-      color: rgb(255, 99, 132); 
-      font-size: 16px; 
-      padding: 7px;
-      border: 1px solid #eee;
+      background: linear-gradient(70deg, rgb(255, 99, 132) 40%, rgba(245, 63, 106, 0.966) 90%);
+      color: #eee;
+      font-family: sans-serif; 
+      font-size: 13.2px;
+      padding: 15px 30px;
       align-items: center;
-      border-radius: .3rem;
+      border-radius: 3rem;
       position: relative;
       left: 50px;
-      top: 7px;
+      top: 9px;
      }
-     a.navigator:hover{
-      transition: ease-in .4s;
-      border: 1px solid rgb(255, 99, 132);
+     a.navigator::before{
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        transform: translateX(-100%);
+        transition: 0.5s ease-out;
+        z-index: 1;
+     }
+     a.navigator:hover::before{
+        width: 100%;
+        height: 100%;
+        border-radius: 3rem;
+        background: #ffffff6e;
+        transform: translateX(-20%);
      }
    </style>
   </body>

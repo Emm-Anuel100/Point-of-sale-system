@@ -1,5 +1,10 @@
 <?php
-require '../conn.php';
+## this file is used to fetch frequently bought products
+## also invoked in (chart.php ln:39) 
+## inplemented ajax for real time update on chart
+
+## require connection file
+require_once '../conn.php';
 
 $sql = "SELECT product_infor FROM sales";
 $result = $conn->query($sql);

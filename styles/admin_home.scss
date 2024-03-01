@@ -2,7 +2,7 @@
    --page_padding: 0;
    --page-margin: 0;
    --box-sizing: border-box;
-   --page-background: #2d3031;
+   --page-background: #272a2b;
    --border-style: solid 1.2px rgb(63, 68, 78);
    --box-shadow: 0px 0px 1rem rgba(29, 27, 27, 0.04);
    --icon-color: rgb(213, 214, 216);
@@ -10,7 +10,7 @@
    --gray: gray;
    --menu-title-color: rgb(199, 196, 196);
    --title-color: rgb(197, 195, 195);
-   --icon-background-active: rgb(231, 96, 34);
+   --icon-background-active: #e76022;
 }
 .light_mode{
    --page-background: #ffffff;
@@ -121,7 +121,7 @@ body{
             }
 
             span.title {
-               opacity: 0;
+               opacity: 1;
                position: relative;
                left: .1rem;
                top: 15px;
@@ -135,7 +135,7 @@ body{
                line-height: 24px;
                // width: auto;
                padding: 0 8px;
-           }
+             }
            
             
             // font awesome icons
@@ -169,16 +169,16 @@ body{
       }
    }
 
-   // ilustration in page
+   // ilustration in admin home page
    img.illustration{
-      width: 600px;
-      height: 520px;
+      width: 750px;
+      height: 600px;
       position: relative;
       margin-top: 4rem;
       // left: 60%;
       filter: brightness(70%);
    }
-}
+ }
 
  // sections on page
  section.page{
