@@ -1,0 +1,27 @@
+
+input[type="number"].config_input,
+input[type="text"].config_input{
+   height: 3rem;
+   padding: 1.7rem 2rem;
+   background: rgb(54, 54, 54);
+   letter-spacing: 1px;
+   border-radius: .2rem;
+   border: 1px solid rgb(112, 108, 108);
+
+   &:focus{
+      border: 1px solid #ee7d49;
+      background: transparent;
+   }
+}
+button[type="submit"].config_btn{
+   padding: 1rem 2rem;
+   border-radius: .2rem;
+   color: #eaeaea;
+   cursor: pointer;
+   background: linear-gradient(50deg, #e76022, #e74022);
+
+   &:hover{
+      background: linear-gradient(50deg, #e75c1b, #e76022);
+   }
+}
+

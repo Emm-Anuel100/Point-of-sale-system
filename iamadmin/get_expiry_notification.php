@@ -15,6 +15,11 @@ get_product_expiry_date();
 function get_product_expiry_date() {
     global $conn;
 
+    ## Retrieve expiry range from the expiry_config table
+    $config_query = mysqli_query($conn, "SELECT expiry_range FROM expiry_config WHERE id = 1");
+    $config_row = mysqli_fetch_assoc($config_query);
+    $expiry_range = $config_row['expiry_range'];
+
     ## Select products with quantity greater than 0
     $result = mysqli_query($conn, "SELECT * FROM products WHERE quantity > 0");
 
@@ -45,8 +50,8 @@ function get_product_expiry_date() {
             $currentDate = mktime(0, 0, 0, $currentMonth, $currentDay, $currentYear);
             $remainingDays = round(($expiryDate - $currentDate) / (60 * 60 * 24));
 
-            ## Check if remaining days is less than or equal to 15
-            if ($remainingDays <= 15) {
+            ## Check if remaining days is less than or equal to the expiry range
+            if ($remainingDays <= $expiry_range) {
                 ## Get product name
                 $product_name = $row["product_name"];
                 ## Set notification type

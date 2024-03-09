@@ -3,11 +3,13 @@
 
 
 h1.title{
+   // mixin
    @mixin title($font-size,$font-family,$font-weight){
       font-size: $font-size;
       font-family: $font-family;
       font-weight: $font-weight;
    }
+   // usage
    @include title(15 + 2px, ("Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif), 400);
 }
 span.sub-title{
@@ -21,6 +23,7 @@ span.sub-title{
       top: 2.5px;
    }
 }
+
 img.gif{
    position: absolute;
    height: 110px;
@@ -57,7 +60,7 @@ img.gif{
 }
 
 .notifications_wrapper > div{
-   width: 11rem !important;
+   width: 12rem !important;
    height: 6.3rem;
    line-height: 15px;
    background: linear-gradient(50deg, rgb(143, 143, 231) 20% , rgb(181, 181, 221) 80%) !important;
@@ -74,5 +77,20 @@ img.gif{
    transform: scale(1.03);
    cursor: pointer;
 }
+}
+
+$font-size: 12px;
+section.section6{
+span{
+   color: rgb(218, 213, 213);
+   font-size: $font-size;
+   font-family: sans-serif;
+
+   i{
+      font-size: $font-size - 1;
+      top: 0;
+      position: relative;
+   }
+ }
 }
 

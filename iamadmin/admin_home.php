@@ -22,12 +22,15 @@ require('./function.php');
       <link href="../styles/dist/admin_home.css" rel="stylesheet">
       <link href="../styles/dist/admin_index.css" rel="stylesheet">
       <link href="../styles/dist/add_product.css" rel="stylesheet">
-      <link href="../styles/dist/manage_products.css" rel="stylesheet">
+      <link href="../styles/dist/manage_product_price.css" rel="stylesheet">
       <link href="../styles/dist/track_sales.css" rel="stylesheet">
       <link  href="../styles/dist/manage_distributor.css" rel="stylesheet">
+      <link  href="../styles/dist/configuration.css" rel="stylesheet">
       <!-- fav-icon -->
       <link rel="shortcut icon" href="../images/shop_logo.png" type="image/x-icon">
       <!-- font awesome cdn link  -->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/brands.min.css" integrity="sha512-8RxmFOVaKQe/xtg6lbscU9DU0IRhURWEuiI0tXevv+lXbAHfkpamD4VKFQRto9WgfOJDwOZ74c/s9Yesv3VvIQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
       <!-- Include jQuery library -->
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -47,9 +50,9 @@ require('./function.php');
             <br/>
             <a href="#" class="nav"><i class="fas fa-store add_product"></i><span class="title"> Add new product</span></a>
             <br/>
-             <a href="#" class="nav"><i class="fas fa-store-slash manage_products"></i><span class="title">Manage products</span></a>
+             <a href="#" class="nav"><i class="fas fa-sack-dollar manage_products"></i><span class="title">Manage price</span></a>
             <br/>
-            <a href="#" class="nav"><i class="fas fa-wallet track_sales"></i><span class="title">Track sales</span></a>
+            <a href="#" class="nav"><i class="fas fa-cart-shopping track_sales"></i><span class="title">Track sales</span></a>
             <br/>
             <a href="#" class="nav"><i class="fas fa-user-plus manage_distributor"></i><span class="title">Manage distributors</span></a>
             <br/>
@@ -57,7 +60,7 @@ require('./function.php');
             <br/>
             <a href="./chart.php" class="nav"><i class="fas fa-chart-line"></i><span class="title">Sales chart</span></a>
             <br/>
-            <a href="#" class="nav"><i class="fas fa-users-cog config"></i><span class="title">Configs</span></a>
+            <a href="#" class="nav"><i class="fas fa-users-cog config"></i><span class="title">Configurations</span></a>
             <br/>
             <a href="./logout.php" class="nav"><i class="fas fa-sign-out-alt"></i><span class="title">Log out</span></a>
             <br/>
@@ -71,7 +74,7 @@ require('./function.php');
          <!-- add product section starts here -->
          <section class="section2 page">
             <section class="form-section">
-               <h2 class="title">Add new product to system.</h2> <br/><br/>
+               <h2 class="title">Add new product to system</h2> <br/><br/>
                <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" onsubmit="return validateProduct()">
                   <fieldset>
                      <input type="text" name="product_name" id="product_name" placeholder="Product name ..." autocomplete="off" required="">
@@ -203,45 +206,28 @@ require('./function.php');
          </section>
          <!-- add product section ends here -->
 
-         <!-- manage products section starts here -->
+
+         <!-- manage price section starts here -->
          <?php 
-         ## if (isset($_GET['id'])) { 
-         ## $ID = $_GET['id'];
-         ## $delete = mysqli_query($conn,"DELETE FROM `products` WHERE `id` = '$ID'");
-         ## check if product was deleted
-         ## if ($delete){
-         ##    ?>
-             <script type="text/javascript">
-         //       alert("product deleted sucessfully!");
-         //    </script>
-               <?php
-         ## } else {
-         ##    echo "AN ERROR OCCURED:" .$conn->error;
-         ## }
-         ## }
-
-
          ## fetch all products added to the system
          $result = mysqli_query($conn, "SELECT * FROM `products` ORDER BY `id`");
 
-         ## fetch 4 recently added products
-         $result_recent = mysqli_query($conn, "SELECT * FROM `products` ORDER BY `timestamp` DESC LIMIT 4");
+         ## fetch 3 recently added products
+         $result_recent = mysqli_query($conn, "SELECT * FROM `products` ORDER BY `timestamp` DESC LIMIT 3");
          if (mysqli_num_rows($result_recent) < 0) {
             # code...
             $row = mysqli_fetch_array($result_recent);
          }
          ?>
          <section class="section3 page">
-            <h2 class="title title-2"><?= number_format(mysqli_num_rows($result)) ?> <span class="sm-text">Products added.</span></h2> 
-            <br/>
-            <h2 class="title sm-text">Recently added.</h2>
-            <br/>
+            <h2 class="title title-2"><?= number_format(mysqli_num_rows($result)) ?> <span class="sm-text">Products added..</span></h2> 
+            <br/> 
             <div class="product-wrapper">
                <div class="product header">
                   PRODUCT NAME
                </div>
                <div class="product header">
-                  PRODUCT PRICE
+                  SALES PRICE
                </div>
                <div class="product header">
                   BARCODE
@@ -254,6 +240,8 @@ require('./function.php');
                </div>
              </div>
              <br/>
+             <h2 class="title sm-text">Recently added..</h2>
+            <br/>
             <?php
             $i = 1;
             while ($row = mysqli_fetch_array($result_recent)){               
@@ -269,20 +257,72 @@ require('./function.php');
                </div>
                <div class="product sec3"><?= $row["quantity"] ?> 
                </div>
-               <!-- <?= "<a href='admin_home.php?id=".$row['id']."' class='product delete' title='delete product'>delete</a>" ?> -->
             </div>
             <br/>
             <?php 
              $i++; 
             } 
             ?>
-         </section>
-         <!-- manage products section ends here -->
+            <br/><br/>
+
+             <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+             <input type="text" name="product_search" required autocomplete="off" class="product-search input-box" placeholder="Search product to update price/vat..."> <br/><br/>
+             <button type="submit" class="submit"><i class="fas fa-search"></i></button> <br/><br/>
+             </form>
+             <div class="result-box"></div> <br/>
+
+             <div class="product-wrapper">
+               <div class="product header">
+                  PRODUCT NAME
+               </div>
+               <div class="product header">
+                  SALES PRICE
+               </div>
+               <div class="product header">
+                  BARCODE
+               </div>
+               <div class="product header">
+                 PRODUCT VAT
+               </div>
+               <div class="product header">
+                  QUANTITY
+               </div>
+             </div> <br/>
+
+           <?php 
+            if (isset($_POST["product_search"]) && $_SERVER["REQUEST_METHOD"] === "POST") {
+            ## value posted 
+            $product_name = mysqli_real_escape_string($conn, filter_var($_POST["product_search"], FILTER_DEFAULT));
+
+            $result_sort = mysqli_query($conn, "SELECT * FROM `products` WHERE `product_name` = '$product_name' LIMIT 1");
+
+            $i = 1;
+            while ($row = mysqli_fetch_array($result_sort)){               
+            ?>
+           <div class="product-wrapper">
+            <div class="product sec3"><?= $row["product_name"] ?></div>
+            <div class="product sec3">
+                <input type="text" class="update sales_price" value="<?= $row["sales_price"] ?>" required autocomplete="off">
+            </div>
+            <div class="product sec3"><?= $row["bar_code"] ?></div>
+            <div class="product sec3">
+                <input type="text" class="update tax" value="<?= $row["tax"] ?>" required autocomplete="off">
+            </div>
+            <div class="product sec3"><?= $row["quantity"] ?></div>
+        </div>
+        <br/>
+       <?php 
+        $i++; 
+        } 
+      }
+      ?>
+      </section>
+      <!-- manage price section ends here -->
 
 
          <!-- track sales section starts here -->
          <section class="section4 page">
-            <h2 class="title">Track sales.</h2>
+            <h2 class="title">Track sales ..</h2>
             <br/>
             <section class="form-section track">
                <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" onsubmit="return validateSales()">
@@ -342,36 +382,71 @@ require('./function.php');
      </div>
      <br/><br/>
 
+     <div class="product-wrapper">
+      <div class="track-sales">
+          S/N
+      </div>
+      <div class="track-sales">
+          PRODUCTS INFOR
+      </div>
+      <div class="track-sales">
+         SUB-TOTAL
+      </div>
+      <div class="track-sales">
+         TRANSACTION-ID
+      </div>
+      <div class="track-sales">
+         PAYMENT MODE
+      </div>
+      </div> <br/><br/>
+     
      <?php
      if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["month"]) && !empty($_POST["month"])) {
      if ($num_rows > 0) {
         ## Reset the pointer back to the beginning
         mysqli_data_seek($result_infor, 0);
         ?>
-        <ul class="product_sold">
+         <span class="sales-label">all sales made on <?= $_POST["day"]. "/" .$_POST["month"]. "/" .$_POST["year"] ?></span> <br/><br/>
+
             <?php
             $i = 1;
             while ($row = mysqli_fetch_array($result_infor)) {
              ?>
-               <li style="display: flex; line-height: 25px">
-                  <span><?= @$i ?>.</span> <span>&nbsp;<?= @$row["product_infor"] ?>&nbsp;&nbsp; TRANS-ID: <?= "GR" . @$row["trans_id"] ?></span>
-               </li>
+             <div class="product-wrapper">
+               <div class="track-sales detail">
+                  <?= @$i ?>
+               </div>
+               <div class="track-sales detail infor">
+                    <?= @$row["product_infor"] ?>
+               </div>
+               <div class="track-sales detail">
+                  <?= '₦'.number_format((@$row["total_naira"]),2) ?>
+               </div>
+               <div class="track-sales detail">
+                   <?= "GR" . @$row["trans_id"] ?>
+               </div>
+               <div class="track-sales detail">
+                   <?= @$row["payment_mode"] ?>
+               </div>
+              </div> <br/>
                <?php
                $i++;
              }
             ?>
-        </ul>
        <?php
       }
      }
-     ?>
+     ?> <br/><br/>
+
+     <a href='./export_pdf.php?year=<?= @$year ?>&month=<?= @$month ?>&day=<?= @$day ?>' class="btn-download">Export to PDF</a> <br/><br/><br/>
+     <a href='./export_csv.php?year=<?= @$year ?>&month=<?= @$month ?>&day=<?= @$day ?>' class="btn-download">Export to CSV</a>
    </section>
    <!-- track sales section ends here -->
 
 
    <!-- manage distributor section starts here -->
    <section class="section5 page">
-      <h1 class="title">Manage distributors</h1> <br/>
+      <h1 class="title">Manage distributors ..</h1> <br/>
       <span class="sub-title">Manage distributors &nbsp; <i class="fas fa-angle-right"></i> &nbsp; add distributor</span><br/><br/>
 
          <section class="form-section track">
@@ -436,37 +511,82 @@ require('./function.php');
     <!-- notifications section starts here -->
     <section class="section6 page">
       <h1 class="title">Notifications ..</h1> <br/>
+      <span><i class="fas fa-bell"></i> Notifications in the last four days ..</span>  <br/><br/>
 
       <!-- notifications wrapper -->
       <div class="notifications_wrapper"></div>
-      
-         <!-- <?php
-         // Fetch all notifications from the database that have a message of expiry
-         $result_notifications_expiry = mysqli_query($conn, "SELECT * FROM `notifications` ORDER BY `id` DESC");
-
-         // Check if there are any notifications
-         if (mysqli_num_rows($result_notifications_expiry) > 0) {
-            echo "<div class='notifications_wrapper'>";
-            $i = 1;
-            // Display notification details about expiry
-            while ($row = mysqli_fetch_array($result_notifications_expiry)) {
-                  echo "<div><samp>{$row['product_name']} is <samp>{$row['message']} you are advised to restock!</samp></div><br/>";
-                  $i++;
-            } 
-            echo "</div>";
-         } else {
-            echo "You have no notifications yet.";
-         }
-         ?>   -->
-      </section>
-     <!-- notifications section ends here -->
-
-
-    <!-- manage distributor section starts here -->
-    <section class="section7 page">
-      <h1 class="title">Configurations</h1>
     </section>
-   <!-- manage distributor section ends here -->
+    <!-- notifications section ends here -->
+
+
+    <!-- configurations section starts here -->
+    <section class="section7 page">
+      <h1 class="title">Configurations ..</h1> <br/><br/>
+      <!--- updating expiry range starts here --->
+      <span class="sub-title">Configuration &nbsp; <i class="fas fa-angle-right"></i> &nbsp; product expiry &nbsp; <i class="fas fa-angle-right"></i> &nbsp; set expiry countdown [days]</span><br/><br/>
+
+      <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" onsubmit="return validateExpiryRange()">
+         <fieldset>
+            <input type="number" name="expiry_range" class="expiry_range config_input" placeholder="Set expiry countdown.. [days]" autocomplete="off" required="" min="1">
+         </fieldset> <br/>
+         <fieldset>
+         <button type="submit" class="config_btn">
+            Proceed
+         </button>
+            <img src="../images/Loading-gif-unscreen.gif" alt="gif" class="gif gif4">
+         </fieldset>
+         </form> <br/><br/>
+         <!--- updating expiry range ends here --->
+
+         <!--- updating stock threshold starts here --->
+         <span class="sub-title">Configuration &nbsp; <i class="fas fa-angle-right"></i> &nbsp; stock threshold</span><br/><br/>
+
+        <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" onsubmit="return validateStockRange()">
+         <fieldset>
+            <input type="number" name="stock_threshold" class="stock_range config_input" placeholder="Set stock threshold.." autocomplete="off" required="" min="1">
+         </fieldset> <br/>
+         <fieldset>
+         <button type="submit" class="config_btn">
+            Proceed
+         </button>
+            <img src="../images/Loading-gif-unscreen.gif" alt="gif" class="gif gif5">
+         </fieldset>
+         </form> <br/><br/>
+         <!--- updating stock threshold ends here --->
+
+         <!--- updating admin username starts here --->
+         <span class="sub-title">Configuration &nbsp; <i class="fas fa-angle-right"></i> &nbsp; update admin username</span><br/><br/>
+
+         <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" onsubmit="return updateAdminUsername()">
+         <fieldset>
+            <input type="text" name="admin_username" class="admin_username config_input" placeholder="Update admin username.." autocomplete="off" required="">
+         </fieldset> <br/>
+         <fieldset>
+         <button type="submit" class="config_btn">
+            Proceed
+         </button>
+            <img src="../images/Loading-gif-unscreen.gif" alt="gif" class="gif gif6">
+         </fieldset>
+         </form> <br/><br/>
+         <!--- updating admin username ends here --->
+
+         <!--- updating admin password start here --->
+         <span class="sub-title">Configuration &nbsp; <i class="fas fa-angle-right"></i> &nbsp; update admin password</span><br/><br/>
+
+         <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" onsubmit="return updateAdminPassword()">
+         <fieldset>
+            <input type="text" name="admin_password" class="admin_password config_input" placeholder="Update admin password.." autocomplete="off" required="">
+         </fieldset> <br/>
+         <fieldset>
+         <button type="submit" class="config_btn">
+            Proceed
+         </button>
+            <img src="../images/Loading-gif-unscreen.gif" alt="gif" class="gif gif7">
+         </fieldset>
+         </form> <br/><br/>
+         <!--- updating admin password ends here --->
+    </section>
+    <!-- configurations section ends here -->
 </main>
 </body>
 
@@ -491,14 +611,14 @@ require('./function.php');
             // Handle any errors gracefully
             console.error('An error occurred:', error);
         }
-    }
+     }
 
     // Call the updateNotificationCount function initially
     updateNotificationCount();
 
     // Set an interval to update notification count every 3 seconds 
     setInterval(updateNotificationCount, 3000);  // 3000 milliseconds = 3 seconds
-});
+  });
 
 
   // Function to update expiry notification infor
@@ -515,7 +635,22 @@ require('./function.php');
    // Call the reloadFunction every 5 seconds
    setInterval(reloadFunction, 5000); // 5000 milliseconds = 5 seconds
 
-   
+
+   // Function to get the current stock of all product
+   // and push to notification section if any is out of stock
+   function StockNotification() {
+            $.ajax({
+                url: './get_stock_notification.php', // File containing product stock details
+                success: function(data) {
+                  // $('#notification_wrapper').text(data);
+                   console.log(data);
+                }
+            });
+        }
+
+   // Call the StockNotification every 5 seconds
+   setInterval(StockNotification, 5000); // 5000 milliseconds = 5 seconds
+
 
    $(document).ready(function() {
     // Function to update notification UI
@@ -555,6 +690,19 @@ require('./function.php');
   });
 
 
+   // Function to remove product with quantity equal to zero
+   function deleteProduct() {
+            $.ajax({
+                url: './delete_product.php', 
+                success: function(data) {
+                   console.log(data);
+                }
+            });
+        }
+
+   // Call the deleteProduct function every 5 seconds
+   setInterval(deleteProduct, 5000); // 5000 milliseconds = 5 seconds
+
 
    // function to pop up preloader on the add distributor section when submiting form
    function validateAddress() {
@@ -580,28 +728,157 @@ require('./function.php');
     let query = input.value.trim();
 
    if (query !== '') {
-   document.querySelector('img.gif2').style.visibility = "visible";
-   return true;
+      document.querySelector('img.gif2').style.visibility = "visible";
+      return true;
    } else {
-   return false;
+      return false;
    }
    }
 
 
    // function to pop up preloader on the add product section when submiting form
    function validateProduct(){
-      let input = document.getElementById('product_name');
+   let input = document.getElementById('product_name');
 
     // Get the value of the input field
     let query = input.value.trim();
 
    if (query !== '') {
    document.querySelector('img.gif3').style.visibility = "visible";
-   return true;
+      return true;
+     } else {
+      return false;
+      }
+   }
+   
+
+   // function to pop up preloader on the set expiry range section
+   function validateExpiryRange(){
+   let input = document.querySelector('.expiry_range');
+
+    // Get the value of the input field
+    let query = input.value.trim();
+
+   if (query !== '') {
+   document.querySelector('img.gif4').style.visibility = "visible";
+      return true;
    } else {
-   return false;
+      return false;
+      }
    }
+
+   // function to pop up preloader on the set expiry range section
+   function validateStockRange(){
+   let input = document.querySelector('.stock_range');
+
+    // Get the value of the input field
+    let query = input.value.trim();
+
+   if (query !== '') {
+   document.querySelector('img.gif5').style.visibility = "visible";
+      return true;
+     } else {
+      return false;
+      }
    }
+
+    // function to pop up preloader on the set expiry range section
+    function updateAdminUsername(){
+    let input = document.querySelector('.admin_username');
+
+    // Get the value of the input field
+    let query = input.value.trim();
+
+   if (query !== '') {
+   document.querySelector('img.gif6').style.visibility = "visible";
+      return true;
+     } else {
+      return false;
+      }
+   }
+
+    // function to pop up preloader on the set expiry range section
+    function updateAdminPassword(){
+    let input = document.querySelector('.admin_password');
+
+    // Get the value of the input field
+    let query = input.value.trim();
+
+   if (query !== '') {
+     document.querySelector('img.gif7').style.visibility = "visible";
+      return true;
+     } else {
+      return false;
+      }
+   }
+
+
+// autocomplete search starts here
+const results_box = document.querySelector('.result-box');
+const input_box = document.querySelector('.input-box');
+
+// Fetch product names from PHP script
+fetch('./fetch_all_products.php')
+  .then(response => response.json())
+  .then(productNames => {
+    const available_words = productNames;
+
+    input_box.oninput = ()=> {
+      let result = [];
+      let input = input_box.value;
+      if (input.length) {
+         result = available_words.filter((keyword)=>{
+          return keyword.toLowerCase().includes(input.toLowerCase());
+         });
+      }
+      display_outputs(result);
+
+      if (!result.length) {
+         results_box.innerHTML = "";
+      }
+    }
+ });
+
+  function display_outputs(result) {
+  const content = result.map((list)=>{
+     return "<li onclick=selectinput(this)>" + list + "</li>";
+  });
+
+  results_box.innerHTML = "<ul>" + content.join('') + "</ul>";
+}
+
+function selectinput(list) {
+  input_box.value = list.innerHTML;
+  results_box.innerHTML = ""; // hide all elements when clicked on one
+}
+// autocomplete search ends here
+
+
+// JavaScript to handle AJAX request for updating sales_price and tax starts here
+$(document).ready(function(){
+        $(".sales_price, .tax").change(function(){
+            var productName = $(this).closest('.product-wrapper').find('.product').first().text().trim();
+            var salesPrice = $(this).closest('.product-wrapper').find('.sales_price').val();
+            var tax = $(this).closest('.product-wrapper').find('.tax').val();
+
+            $.ajax({
+                url: "./update_product.php",
+                method: "POST",
+                data: { productName: productName, salesPrice: salesPrice, tax: tax },
+                success: function(response){
+                    // Handle success
+                    console.log(response);
+                    alert("Record updated successfully");
+                },
+                error: function(xhr, status, error){
+                    // Handle error
+                    console.error(xhr.responseText);
+                    alert("An error occured:" + error);
+                }
+            });
+        });
+    });
+    // JavaScript to handle AJAX request for updating sales_price and tax ends here
 </script>
 <noscript>Pls. enable javascript in your browser</noscript>
 </html>
@@ -652,11 +929,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["product_name"]) && is
             echo "An error occurred while adding the product: " . $conn->error;
         }
     }
-} elseif (isset($_POST["add_product_btn"])) {
+  } elseif (isset($_POST["add_product_btn"])) {
     ## Display error message if any input field is empty
     echo '<span style="font-size: 13.5px; color: orange; top: 3px; left: 25px; position: relative; font-family: sans-serif">⚠ &nbsp; All input fields must be filled.</span>';
 }
-
 
 
 ## adding of distributor starts here
@@ -680,6 +956,90 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["distributor_name"]) &
    echo "An error occurred while adding distributor: " . $conn->error;
    }
 }
-## adding distributor ends here
-?>
+## adding of distributor ends here
 
+
+## updating admin username starts here
+if (isset($_POST["admin_username"]) && !empty([@$_POST["admin_username"]]) && $_SERVER["REQUEST_METHOD"] === "POST"){
+   ## initialize var..
+   @$admin_username = mysqli_real_escape_string($conn, filter_var($_POST["admin_username"], FILTER_DEFAULT));
+
+   ## query to update admin username
+   $username_update_query = "UPDATE `admin_config` SET `admin_name` = '$admin_username' WHERE `id` = 1";
+
+   ## check if error
+   if($conn->query($username_update_query) === true){
+      echo('
+      <script> alert("Admin username updated successfully!");
+      </script>
+      ');
+   } else {
+      echo('AN ERROR OCCURED WHILE UPDATING ADMIN USERNAME:' .$conn->error);
+   }
+}
+## updating admin password ends here
+
+
+## updating of admin password starts here
+if (isset($_POST["admin_password"]) && !empty([@$_POST["admin_password"]]) && $_SERVER["REQUEST_METHOD"] === "POST"){
+   ## initialize var..
+   @$admin_password = mysqli_real_escape_string($conn, filter_var($_POST["admin_password"], FILTER_DEFAULT));
+   @$password_hash = password_hash($admin_password,PASSWORD_DEFAULT);
+
+   ## query to update admin password
+   $password_update_query = "UPDATE `admin_config` SET `admin_password` = '$password_hash' WHERE `id` = 1";
+
+   ## check if error
+   if($conn->query($password_update_query) === true){
+      echo('
+      <script> alert("Admin password updated successfully!");
+      </script>
+      ');
+   } else {
+      echo('AN ERROR OCCURED WHILE UPDATING ADMIN PASSWORD:' .$conn->error);
+   }
+}
+## updating of admin password ends here
+
+
+## updating out of stock threshold starts here
+if (isset($_POST["stock_threshold"]) && !empty([@$_POST["stock_threshold"]]) && $_SERVER["REQUEST_METHOD"] === "POST"){
+   ## initialize var..
+   @$stockthreshold = mysqli_real_escape_string($conn, filter_var($_POST["stock_threshold"], FILTER_DEFAULT));
+
+   ## query to update stock threshold
+   $stock_threshold = "UPDATE `quantity_config` SET `quantity` = '$stockthreshold', `timestamp` = CURRENT_TIMESTAMP WHERE `id` = 1";
+
+   ## check if error
+   if($conn->query($stock_threshold) === true){
+      echo('
+      <script> alert("Stock threshold updated successfully!");
+      </script>
+      ');
+    } else {
+      echo('AN ERROR OCCURED WHILE UPDATING STOCK THRESHOLD:' .$conn->error);
+   }
+}
+## updating out of stock threshold ends here
+
+
+## updating expiry countdown starts here
+if (isset($_POST["expiry_range"]) && !empty([@$_POST["expiry_range"]]) && $_SERVER["REQUEST_METHOD"] === "POST"){
+   ## initialize var..
+   @$expiry_range = mysqli_real_escape_string($conn, filter_var($_POST["expiry_range"], FILTER_DEFAULT));
+
+   ## query to update expiry_range
+   $expiry_range_query = "UPDATE `expiry_config` SET `expiry_range` = '$expiry_range', `timestamp` = CURRENT_TIMESTAMP WHERE `id` = 1";
+
+   ## check if error
+   if($conn->query($expiry_range_query) === true){
+      echo('
+      <script> alert("Expiry countdown updated successfully!");
+      </script>
+      ');
+   } else {
+      echo('AN ERROR OCCURED WHILE UPDATING EXPIRY COUNTDOWN:' .$conn->error);
+   }
+}
+## updating expiry countdown ends here
+?>

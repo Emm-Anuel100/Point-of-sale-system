@@ -49,7 +49,7 @@ img.gif {
 }
 
 .notifications_wrapper > div {
-  width: 11rem !important;
+  width: 12rem !important;
   height: 6.3rem;
   line-height: 15px;
   background: linear-gradient(50deg, #8f8fe7 20%, #b5b5dd 80%) !important;
@@ -64,4 +64,15 @@ img.gif {
 .notifications_wrapper > div:hover {
   transform: scale(1.03);
   cursor: pointer;
+}
+
+section.section6 span {
+  color: #dad5d5;
+  font-size: 12px;
+  font-family: sans-serif;
+}
+section.section6 span i {
+  font-size: 11px;
+  top: 0;
+  position: relative;
 }

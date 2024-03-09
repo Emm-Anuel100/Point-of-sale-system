@@ -48,7 +48,7 @@ main.main-content{
       @mixin item_size($height){
       height: $height;
       }
-      div.img-wrapper > a >  img{
+      div.img-wrapper > a > img{
          // usage
          @include item_size(85px - 5);
       }
@@ -76,7 +76,7 @@ main.main-content{
 
       h2.title,h2{
          // usage
-         @include form_title(19px,rgb(211, 207, 207),center);
+         @include form_title(16px,rgb(211, 207, 207),center);
          font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
          letter-spacing: 1px;
          font-weight: 200;

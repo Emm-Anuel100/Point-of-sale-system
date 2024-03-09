@@ -2,7 +2,7 @@
 ## start session
 session_start();
 ## require connection file
-require_once("./conn.php"); 
+require_once "./conn.php"; 
 
 ## Check if the cart exists in the session, create it if not
 if (!isset($_SESSION['cart'])) {
@@ -31,7 +31,7 @@ foreach ($_SESSION['cart'] as $product) {
    </head>
    <body>
    
-      <main class="main-content">
+      <section class="main-content">
          <!-- page header section starts here -->
          <header class="page-header">
             <div class="img-wrapper">
@@ -61,25 +61,26 @@ foreach ($_SESSION['cart'] as $product) {
                <?= @$product['name']; ?>
                </samp>
                <samp class="product product-price">
-                  &#8358;<?= @$product['price']; ?> x <?= @$product['quantity']; ?> <span>+VAT</span>
+                  &#8358;<?= @$product['price']; ?> <span>+ VAT</span>
                </samp>
-               <a href="./index.php?remove=<?= $product_id ?>" class="product">
-                  delete
-               </a>
+               <samp class="product">
+                 x <?= @$product['quantity']; ?>
+               </samp>
              </div>
-             <br/><br/>
+             <br/>
            <?php endforeach; ?>
+           <br/>
 
-           <!-- total sum of cart items -->
+           <!-- total sum of cart items -->  
             <samp class="title">
-              Total: &#8358;<?= number_format($total, 2) ?>
-              <?php $_SESSION['total'] = $total; ?>
+              Total: &#8358;<?= number_format($total, 2) ?> 
+              <?php @$_SESSION['total'] = $total ?>
             </samp>
             <br/><br/><br/>
 
             <!-- if user want to clear cart and save cart items to database -->
             <form action="./clear_cart.php" method="post">
-               <input type="number" name="change_element" placeholder="Change element(&#8358;) ...." min="0" required>
+               <input type="number" name="change_element" placeholder="Change element(&#8358;) ...." min="0" required autocomplete="off">
                 <br/><br/>
                 <span class="payment-label">Cash:</span> 
                 <input type="radio" name="payment_mode" value="cash">
@@ -105,7 +106,8 @@ foreach ($_SESSION['cart'] as $product) {
             <br/><br/><br/>
          </section>
         </section>
-      </main>
+      </section>
+      <img src="./images/claymorphic.png" alt="img" class="claymorphic" style="position: fixed; top: 36vh; left: 75%; height: 25rem; opacity: 20%">
    </body>
 
    <!-- external script source -->
@@ -123,7 +125,7 @@ foreach ($_SESSION['cart'] as $product) {
         })
        .catch(error => {
        console.error('Error fetching IP address: ' + error);
-       alert('Error fetching IP address ' + error);
+      //  alert('Error fetching IP address ' + error);
       });
      }
 
@@ -135,14 +137,6 @@ foreach ($_SESSION['cart'] as $product) {
 
 
 <?php
-## Remove selected product from cart base on the id
-if (isset($_GET['remove']) && isset($_SESSION['cart'])) {
-   ## unset product from the cart
-   unset($_SESSION['cart'][$_GET['remove']]);
-
-   echo '<script>window.location = "./";</script>';
-  }
-
   ## code to get product from the database base on the barcode inputed
   ## if value is posted, also check the request mthod
   if (isset($_POST['bar_code']) && $_SERVER["REQUEST_METHOD"] === "POST") {

@@ -1,0 +1,25 @@
+input[type=number].config_input,
+input[type=text].config_input {
+  height: 3rem;
+  padding: 1.7rem 2rem;
+  background: #363636;
+  letter-spacing: 1px;
+  border-radius: 0.2rem;
+  border: 1px solid #706c6c;
+}
+input[type=number].config_input:focus,
+input[type=text].config_input:focus {
+  border: 1px solid #ee7d49;
+  background: transparent;
+}
+
+button[type=submit].config_btn {
+  padding: 1rem 2rem;
+  border-radius: 0.2rem;
+  color: #eaeaea;
+  cursor: pointer;
+  background: linear-gradient(50deg, #e76022, #e74022);
+}
+button[type=submit].config_btn:hover {
+  background: linear-gradient(50deg, #e75c1b, #e76022);
+}

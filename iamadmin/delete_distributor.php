@@ -1,4 +1,7 @@
 <?php
+## what this file does is to get the id of any selected distributor
+## and delete the distributor accordingly
+
 ## require connection file
 require_once '../conn.php';
 
@@ -15,7 +18,7 @@ if (isset($_GET['id'])) {
         ## Handle deletion error
         echo "An error occurred while deleting the distributor." . $conn->error;
     }
-} else {
+   } else {
     ## Redirect back to admin home page if ID is not provided
     header("Location: ./admin_home.php");
     exit;

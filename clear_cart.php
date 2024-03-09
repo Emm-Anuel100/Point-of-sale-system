@@ -74,9 +74,9 @@ if ($stmt->execute() === true) {
     ## if executed successfully Redirect to receipt page
     $redirect = "./receipt.php";
     header("Location: $redirect");
-} else {
+   } else {
     ## Error executing query
-    echo "An error occured while inserting cart info: " . $stmt->error . '<br/> <a href="./index.php">go back</a>';
+    echo "All fields must be filled and checked: " . $stmt->error . '<br/><br/> <a href="./index.php">go back</a>';
 }
 
 ## Close the statement

@@ -15,9 +15,69 @@ div.sales-count span {
   font-weight: 200;
 }
 
-ul.product_sold li {
-  margin: 10px 0;
+div.product-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 10px;
+  border-radius: 0.5rem;
+  border: 1.5px solid #4d4a4a;
+  justify-content: space-between;
+  width: 95%;
+}
+div.product-wrapper .track-sales {
+  background: rgba(49, 46, 45, 0.68);
+  border: 1.1px solid #494343;
+  padding: 1rem 12px;
+  width: auto;
+  color: var(--text-color);
+  border-radius: 0.3rem;
+  font-family: cursive;
+  align-items: center;
+  text-align: left;
+}
+div.product-wrapper .track-sales:hover {
+  -webkit-filter: contrast(80%);
+  filter: contrast(80%);
+  cursor: default;
+  transition: ease-in 0.2s;
+}
+div.product-wrapper .sales-label {
+  font-family: cursive;
+  font-size: 15px;
+}
+div.product-wrapper .detail {
+  font-size: 12.7px !important;
+  line-height: 23px;
+}
+
+a.btn-download {
+  text-decoration: none;
+  background: linear-gradient(50deg, #e76022, #e74022);
+  color: #eee;
   font-family: sans-serif;
-  font-size: 12.5px;
-  color: #cfcece;
+  font-size: 13.2px;
+  padding: 15px 30px;
+  align-items: center;
+  border-radius: 0.3rem;
+  position: relative;
+  top: 9px;
+}
+
+a.btn-download::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translateX(-5%);
+  transition: 0.5s ease-out;
+  z-index: 1;
+}
+
+a.btn-download:hover::before {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  background: #ffffff6e;
+  transform: translateX(0%);
 }

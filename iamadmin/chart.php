@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Sales Chart</title>
+    <title>Sales Chart</title>
     <!-- Chart.js library -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
      <!-- fav-icon -->
@@ -20,18 +20,16 @@
     <script type="text/javascript">
         // Function to fetch data from the server and update the chart
         function updateChart() {
-            // AJAX request to fetch data from the server
+            // AJAX request to fetch aggregated data from the server
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === XMLHttpRequest.DONE) {
                     if (xhr.status === 200) {
                         // Parse the JSON response
                         var response = JSON.parse(xhr.responseText);
-                        // Update the chart with the new data
-                        myChart.data.labels = response.labels;
-                        myChart.data.datasets[0].data = response.data;
-                        myChart.update();
-                     } else {
+                        // Update the chart with the new aggregated data
+                        updateChartData(response);
+                    } else {
                         console.error('Error fetching data from the server');
                     }
                 }
@@ -39,6 +37,23 @@
             xhr.open('GET', './fetch_sales_data.php', true);
             xhr.send();
         }
+
+        // Function to update chart data with aggregated data
+        function updateChartData(data) {
+            // Clear existing labels and data
+            myChart.data.labels = [];
+            myChart.data.datasets[0].data = [];
+            
+            // Iterate over the aggregated data and add to chart data
+            data.forEach(function(item) {
+                myChart.data.labels.push(item.product_name);
+                myChart.data.datasets[0].data.push(item.total_quantity);
+            });
+            
+            // Update the chart
+            myChart.update();
+        }
+
 
         // Chart data and options
         var ctx = document.getElementById('productSalesChart').getContext('2d');
@@ -78,6 +93,9 @@
             data: data,
             options: options
         });
+
+        // Update the chart initially
+        updateChart();
 
         // Update the chart every 5 seconds
         setInterval(updateChart, 5000);

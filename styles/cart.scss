@@ -3,8 +3,9 @@
    --page-margin: 0;
    --box-sizing: border-box;
    --page-background: #232627;
-   --color-orange: rgb(231, 96, 34);
-   --font-family: 'Courier New', Courier, monospace;
+   --color-orange: rgb(66, 65, 64);
+   --font-family: sans-serif;
+   --text-color: rgb(204, 203, 203);
 }
 *{ 
    padding: var(--page_padding);
@@ -17,23 +18,14 @@
    scroll-behavior: smooth;
    list-style: none;
    overflow-x: hidden;
+   font-family: var(--font-family);
 }
 body{
    width: 100%;
    height: 100vh;
    overflow-x: hidden;
    background: var(--page-background);
-}
-::placeholder{
-   color: rgb(204, 203, 203);
-   font-size: 16.5px;
-   font-family: var(--font-family);
-}  
-header.page-header.active{
-   height: 6.3rem !important;
-   background: var(--page-background)!important;
-   transition: all .3s ease-in-out;
-}
+} 
 
 /*## scroll bar styles ##*/
 ::-webkit-scrollbar{
@@ -56,13 +48,17 @@ input[type="number"]::-webkit-outer-spin-button {
  margin: 0; 
 }
 
-main.main-content{
+section.main-content{
    header.page-header{
       width: 100%;
       padding: 4px 5%;
       height: 6rem;
-      overflow-y: hidden;
+      overflow-y: visible;
+      // display: flex;
+      // justify-content: space-between;
       z-index: 99999;
+      -webkit-backdrop-filter: blur(15px);
+      backdrop-filter: blur(15px);
       position: fixed;
       top: 0;
       left: 0;
@@ -73,23 +69,23 @@ main.main-content{
       @mixin item_size($height){
       height: $height;
       }
-      div.img-wrapper > a >  img{
+      div.img-wrapper > a > img{
          // usage
          @include item_size(85px - 5);
       }
    }
 
    section.cart-section{
-      position: absolute;
+      position: relative;
       z-index: 999;
       overflow: hidden;
-      top: 35%;
+      margin-top: 30vh;
       width: 100%;
-      -webkit-transform: translate(22.8%,0);
-      transform: translate(22.8%,0);
+      -webkit-transform: translate(10.5%,0);
+      transform: translate(10.5%,0);
 
       // text input
-      input[type="text"]{
+      input[type="text"].bar_code{
          // mixin
          @mixin text-input($height,$width,$padding,$border-radius,$letter-spacing,$background,$color,$font-size){
             height: $height;
@@ -102,9 +98,14 @@ main.main-content{
             font-size: $font-size;  
          }
          // usage
-         @include text-input(3rem, 52%, 1.5rem 2%, 5px, 1px, none, #eaeaea, 16.5px);
+         @include text-input(3rem, 35%, 1.5rem 2%, 5px, 1px, none, #eaeaea, 12.2px);
          border: 2px solid var(--color-orange);
          font-family: var(--font-family);
+
+         &::placeholder{
+            color: var(--text-color);
+            font-size: 12.2px;
+         } 
       }
     
       div.cart-wrapper{
@@ -112,13 +113,13 @@ main.main-content{
         gap: 2rem;
         flex-wrap: wrap;
         justify-content: space-between;
-        width: 52%;
+        width: 40%;
         padding-top: 18px;
         border-top: 1.1px solid rgb(78, 75, 72);
 
         .product{
          color: #eee;
-         font-size: 20px;
+         font-size: 13px;
          height: auto;
          border-radius: .5rem;
          text-align: center;
@@ -132,47 +133,46 @@ main.main-content{
          background: var(--color-orange);
 
          &:hover{
-            -webkit-filter: contrast(80%);
-            filter: contrast(80%);
-            -webkit-filter: brightness(80%);
-            filter: brightness(80%);
+            transform: scale(0.9);
             transition: ease-in .2s;
          }
          span{
-            font-size: 15px;
+            font-size:  11px !important;
          }
         }
       }
       samp.title{
          position: relative;
          margin-top: 4rem;
-         font-size: 20px;
-         color: #eee;
+         font-size: 14px;
+         color: var(--text-color);
       }
       form{
          input[type="number"]{
             width: 11rem;
             border-radius: .2rem;
-            color: rgba(201, 199, 199, 0.986);
+            color: var(--text-color);
             border: 1.1px solid rgb(63, 62, 62);
             padding: 12px 10px;
+            font-size: 12.1px;
             background: none;
             box-shadow: 2px 1px 2rem rgb(48, 46, 46);
 
             &::placeholder{
-               font-size: 13px;
-               font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-               color: rgba(201, 199, 199, 0.986) !important;
+               font-size: inherit;
+               color: var(--text-color);
             }
          }
 
          span.payment-label{
-            color: rgba(201, 199, 199, 0.986);
-         }
+            color: var(--text-color);
+            font-size: 12.2px;
+          }
          input[type="submit"]{
             background: none;
             cursor: pointer;
-            color: #eee;
+            font-size: 12.1px;
+            color: var(--text-color);
             text-decoration: none;
    
             &:hover{
@@ -181,23 +181,25 @@ main.main-content{
             }
         }
       }
+
    footer.footer{
    // mixin
-   @mixin footer($padding-top,$display,$position,$right,$color) {
+   @mixin footer($padding-top,$display,$position,$right,$color,$font-size) {
       padding-top: $padding-top;
       display: $display;
       position: $position;
       margin-right: $right;
       color: $color;
+      font-size: $font-size;
    }
 
    // usage
-   @include footer(4px + 3, inline, relative, 2rem, rgb(231, 96, 34));
+   @include footer(4px + 3, inline, relative, 2rem, rgb(231, 96, 34), 12.1px);
    border-top: 1px dashed rgb(216, 215, 215);
 
    span{
       color: rgb(216, 215, 215);
-      font-size: 13px;
+      font-size: inherit;
    }
  }
 }
