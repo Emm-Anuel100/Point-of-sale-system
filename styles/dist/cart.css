@@ -29,6 +29,11 @@ body {
   background: var(--page-background);
 }
 
+i.fas {
+  color: white;
+  font-size: 14px;
+}
+
 /*## scroll bar styles ##*/
 ::-webkit-scrollbar {
   width: 3px;
@@ -55,7 +60,9 @@ section.main-content header.page-header {
   width: 100%;
   padding: 4px 5%;
   height: 6rem;
-  overflow-y: visible;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
   z-index: 99999;
   -webkit-backdrop-filter: blur(15px);
   backdrop-filter: blur(15px);
@@ -67,6 +74,33 @@ section.main-content header.page-header {
 }
 section.main-content header.page-header div.img-wrapper > a > img {
   height: 80px;
+}
+section.main-content header.page-header div.cashier_name {
+  color: #eaeaea;
+  font-size: 12.5px;
+  cursor: pointer;
+  text-transform: capitalize;
+}
+section.main-content header.page-header div.cashier_name i.fas {
+  position: relative;
+  top: 3px;
+}
+section.main-content header.page-header div.cashier_name a.cashier_logout {
+  position: absolute;
+  bottom: 1rem;
+  visibility: hidden;
+  transform: translate(0, 13px);
+  right: 51px;
+  background: #7575df;
+  padding: 4px 8px;
+  font-size: 10.5px;
+  box-shadow: 1px 1px 5px rgba(51, 50, 50, 0.925);
+  border-radius: 0.1rem;
+}
+section.main-content header.page-header div.cashier_name a.cashier_logout.active {
+  visibility: visible;
+  transform: translate(0, 9px);
+  transition: ease-in 0.2s;
 }
 section.main-content section.cart-section {
   position: relative;
@@ -98,7 +132,7 @@ section.main-content section.cart-section div.cart-wrapper {
   gap: 2rem;
   flex-wrap: wrap;
   justify-content: space-between;
-  width: 40%;
+  width: 35%;
   padding-top: 18px;
   border-top: 1.1px solid #4e4b48;
 }
@@ -148,16 +182,16 @@ section.main-content section.cart-section form span.payment-label {
   color: var(--text-color);
   font-size: 12.2px;
 }
-section.main-content section.cart-section form input[type=submit] {
-  background: none;
+section.main-content section.cart-section form button[type=submit].clear-cart {
+  background: #7474e2;
   cursor: pointer;
   font-size: 12.1px;
-  color: var(--text-color);
-  text-decoration: none;
-}
-section.main-content section.cart-section form input[type=submit]:hover {
-  text-decoration: underline;
-  transition: 0.3s ease-in;
+  color: #eee;
+  padding: 1rem 3rem;
+  width: 9.5rem;
+  border-radius: 0.2rem;
+  display: flex;
+  justify-content: space-between;
 }
 section.main-content section.cart-section footer.footer {
   padding-top: 7px;

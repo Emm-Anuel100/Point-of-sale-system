@@ -1,16 +1,38 @@
 <?php
 ## start session
 session_start();
-## require connection file
-require_once('../conn.php');  
-## require function.php file
-require('./function.php'); 
 
-## check if session is set
-//if (!isset($_SESSION["password"]) /* || $_SESSION["password"] !== "iamadmin"*/) {
-   ## if password session is not set or password input not equal to iamadmin then redirect to error page
-  // header("Location: ../error.htm");
-//}
+## require connection file
+require_once '../conn.php';  
+
+## Require Year sales file
+require_once '../dashboard_sales_infor/present_year_sales.php';
+
+## Require Month sales file
+require_once '../dashboard_sales_infor/present_month_sales.php';
+
+## Require Week sales file
+require_once '../dashboard_sales_infor/present_week_sales.php';
+
+## Require Day sales file
+require_once '../dashboard_sales_infor/present_day_sales.php';
+
+## Require product expiry file
+require_once '../dashboard_sales_infor/product_expiry.php';
+
+## Require product stock file
+require_once '../dashboard_sales_infor/product_stock.php';
+
+## Require payment mode file
+require_once '../dashboard_sales_infor/payment_method.php';
+
+
+## Check if admin session variables are not set
+if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) { 
+   ## Redirect to admin error page
+   header("Location: ../error_pages/admin_error.htm");
+   exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -26,6 +48,9 @@ require('./function.php');
       <link href="../styles/dist/track_sales.css" rel="stylesheet">
       <link  href="../styles/dist/manage_distributor.css" rel="stylesheet">
       <link  href="../styles/dist/configuration.css" rel="stylesheet">
+      <link  href="../styles/dist/joter.css" rel="stylesheet">
+      <link  href="../styles/dist/joter.css" rel="stylesheet">
+      <link  href="../styles/dist/dashboard.css" rel="stylesheet">
       <!-- fav-icon -->
       <link rel="shortcut icon" href="../images/shop_logo.png" type="image/x-icon">
       <!-- font awesome cdn link  -->
@@ -34,7 +59,11 @@ require('./function.php');
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
       <!-- Include jQuery library -->
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-      <title>I am admin</title>
+      <!-- page title -->
+      <title>Admin - Dadral Stores</title>
+      <!-- Include typed.js library -->
+      <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/typed.js"></script>
    </head>
    <body>
 
@@ -46,31 +75,76 @@ require('./function.php');
          <nav class="navigation">
             <img src="../images/shop_logo.png" alt="logo" class="logo_image">
             <section class="nav_bars">
-            <a href="#" class="nav"><i class="fas fa-home home"></i><span class="title">Home</span></a>
+            <a href="#" class="nav"><i class="fas fa-dashboard home"></i><span class="title">Dashboard</span></a>
             <br/>
-            <a href="#" class="nav"><i class="fas fa-store add_product"></i><span class="title"> Add new product</span></a>
+            <a href="#" class="nav"><i class="fas fa-store add_product"></i><span class="title">Add new product</span></a>
             <br/>
-             <a href="#" class="nav"><i class="fas fa-sack-dollar manage_products"></i><span class="title">Manage price</span></a>
+             <a href="#" class="nav"><i class="fas fa-sack-dollar manage_products"></i><span class="title">Manage price list</span></a>
             <br/>
-            <a href="#" class="nav"><i class="fas fa-cart-shopping track_sales"></i><span class="title">Track sales</span></a>
+            <a href="#" class="nav"><i class="fas fa-cart-shopping track_sales"></i><span class="title">Sales Snapshot</span></a>
             <br/>
-            <a href="#" class="nav"><i class="fas fa-user-plus manage_distributor"></i><span class="title">Manage distributors</span></a>
+            <a href="#" class="nav"><i class="fas fa-warehouse manage_distributor"></i><span class="title">Manage distributors</span></a>
             <br/>
             <a href="#" class="nav"><i class="fas fa-bell notifications"></i><span id="notification-counter" class="counter"><?= number_format(mysqli_num_rows($notification_result)) ?></span><span class="title">Notifications</span></a>
             <br/>
-            <a href="./chart.php" class="nav"><i class="fas fa-chart-line"></i><span class="title">Sales chart</span></a>
+            <a href="../chart_views/general_chart.php" class="nav"><i class="fas fa-chart-line"></i><span class="title">View sales chart</span></a>
+            <br/>
+            <a href="#" class="nav"><i class="fas fa-cash-register manage_cashier"></i><span class="title">Manage cashier</span></a>
+            <br/>
+            <a href="#" class="nav"><i class="fas fa-list-ul manage_udo"></i><span class="title">UDO list</span></a>
+            <br/>
+            <a href="#" class="nav"><i class="fas fa-money-check account"></i><span class="title">Sales account</span></a>
+            <br/>
+            <a href="#" class="nav"><i class="fas fa-list-check joter"></i><span class="title">Joter</span></a>
             <br/>
             <a href="#" class="nav"><i class="fas fa-users-cog config"></i><span class="title">Configurations</span></a>
             <br/>
-            <a href="./logout.php" class="nav"><i class="fas fa-sign-out-alt"></i><span class="title">Log out</span></a>
+            <a href="#" class="nav"><i class="fas fa-person-circle-question help"></i><span class="title">Help</span></a>
+            <br/>
+            <a href="../admin_logout/logout.php" class="nav"><i class="fas fa-sign-out-alt"></i><span class="title">Log out</span></a>
             <br/>
             <div class="theme_btn nav"><i class="fas fa-adjust"></i> <span class="title">Theme</span></div>
             </section>
          </nav>
 
-         <!-- sections -->
-         <img src="../images/illustration.png" alt="illustration" class="section1 illustration">
+         <!-- dashboard section starts here -->
+         <section class="section1 illustration">
+            <div class="dashboard-title">
+              <i class="fas fa-wallet"></i> Finances ...
+            </div> <br/>
+            <div class="wrapper-con">
+               <div class="sales-con sec1">
+                  <?php Present_year_sales(); ?>
+               </div>
+               <div class="sales-con sec2">
+                  <?php Present_month_sales(); ?>
+               </div>
+               <div class="sales-con sec3">
+                  <?php Present_week_sales(); ?>
+               </div>
+               <div class="sales-con sec4">
+                  <?php present_day_sales(); ?>
+               </div>
+             </div> <br/><br/><br/>
+
+             <div class="dashboard-title">
+               ....
+             </div> <br/>
+             <div class="wrapper-con con2">
+               <div class="stock-detail">
+                  <h2>Poduct close to expiry: <span><?php product_expiry(); ?></span></h2><br/>
+               </div>
+               <div class="expiry-detail">
+                  <h2>Product out of stock: <span><?php product_stock(); ?></span></h2><br/>
+               </div>
+               <div class="payment-detail">
+                  <h2>Most used payment method: <span><?php payment_mode(); ?></span></h2><br/>
+               </div>
+             </div>
+           </section>
+           <!-- dashboard section ends here -->
          
+
          <!-- add product section starts here -->
          <section class="section2 page">
             <section class="form-section">
@@ -320,9 +394,9 @@ require('./function.php');
       <!-- manage price section ends here -->
 
 
-         <!-- track sales section starts here -->
+         <!-- sales snapshot section starts here -->
          <section class="section4 page">
-            <h2 class="title">Track sales ..</h2>
+            <h2 class="title">Sales snapshot ..</h2>
             <br/>
             <section class="form-section track">
                <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" onsubmit="return validateSales()">
@@ -398,6 +472,9 @@ require('./function.php');
       <div class="track-sales">
          PAYMENT MODE
       </div>
+      <div class="track-sales">
+         CASHIER
+      </div>
       </div> <br/><br/>
      
      <?php
@@ -406,7 +483,7 @@ require('./function.php');
         ## Reset the pointer back to the beginning
         mysqli_data_seek($result_infor, 0);
         ?>
-         <span class="sales-label">all sales made on <?= $_POST["day"]. "/" .$_POST["month"]. "/" .$_POST["year"] ?></span> <br/><br/>
+         <span class="sales-label">all sales made on <?= $_POST["day"]. "-" .$_POST["month"]. "-" .$_POST["year"] ?></span> <br/><br/>
 
             <?php
             $i = 1;
@@ -428,6 +505,9 @@ require('./function.php');
                <div class="track-sales detail">
                    <?= @$row["payment_mode"] ?>
                </div>
+               <div class="track-sales detail">
+                   <?= @$row["cashier"] ?>
+               </div>
               </div> <br/>
                <?php
                $i++;
@@ -438,10 +518,12 @@ require('./function.php');
      }
      ?> <br/><br/>
 
-     <a href='./export_pdf.php?year=<?= @$year ?>&month=<?= @$month ?>&day=<?= @$day ?>' class="btn-download">Export to PDF</a> <br/><br/><br/>
-     <a href='./export_csv.php?year=<?= @$year ?>&month=<?= @$month ?>&day=<?= @$day ?>' class="btn-download">Export to CSV</a>
+    <span style="display: flex; gap: 10px;">
+     <a href='../sales_report_export/export_pdf.php?year=<?= @$year ?>&month=<?= @$month ?>&day=<?= @$day ?>' class="btn-download">Export to PDF</a> <br/><br/><br/>
+     <a href='../sales_report_export/export_csv.php?year=<?= @$year ?>&month=<?= @$month ?>&day=<?= @$day ?>' class="btn-download">Export to CSV</a>
+    </span>
    </section>
-   <!-- track sales section ends here -->
+   <!-- sales snapshot section ends here -->
 
 
    <!-- manage distributor section starts here -->
@@ -473,13 +555,13 @@ require('./function.php');
 
             <?php
             ## Check if delete request is received
-            if (isset($_GET['id'])) { 
+            if (isset($_GET['id']) && !empty($_GET['id'])) { 
                $ID = $_GET['id'];
                ## Display confirmation dialog
                echo "
                <script>
                   if (confirm('Are you sure you want to delete this distributor?')) {
-                     window.location.href = './delete_distributor.php?id=$ID';
+                     window.location.href = '../manage_personels/delete_distributor.php?id=$ID';
                   } else {
                      window.location.href = './admin_home.php';
                   }
@@ -522,7 +604,7 @@ require('./function.php');
     <!-- configurations section starts here -->
     <section class="section7 page">
       <h1 class="title">Configurations ..</h1> <br/><br/>
-      <!--- updating expiry range starts here --->
+      <!--- updating expiry countdown starts here --->
       <span class="sub-title">Configuration &nbsp; <i class="fas fa-angle-right"></i> &nbsp; product expiry &nbsp; <i class="fas fa-angle-right"></i> &nbsp; set expiry countdown [days]</span><br/><br/>
 
       <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" onsubmit="return validateExpiryRange()">
@@ -536,7 +618,7 @@ require('./function.php');
             <img src="../images/Loading-gif-unscreen.gif" alt="gif" class="gif gif4">
          </fieldset>
          </form> <br/><br/>
-         <!--- updating expiry range ends here --->
+         <!--- updating expiry countdown ends here --->
 
          <!--- updating stock threshold starts here --->
          <span class="sub-title">Configuration &nbsp; <i class="fas fa-angle-right"></i> &nbsp; stock threshold</span><br/><br/>
@@ -587,6 +669,109 @@ require('./function.php');
          <!--- updating admin password ends here --->
     </section>
     <!-- configurations section ends here -->
+
+
+     <!-- manage cashier starts here -->
+      <section class="section8 page">
+      <h1 class="title">Manage cashier ..</h1> <br/><br/>
+
+      <span class="sub-title">Manage cashier &nbsp; <i class="fas fa-angle-right"></i> &nbsp; add cashier</span><br/><br/>
+
+      <section class="form-section track">
+               <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" onsubmit="return validateCashier()">
+                  <fieldset>
+                     <input type="text" name="cashier_name" id="cashier_name" placeholder="Cashier's name ..." autocomplete="off" required="">
+                  </fieldset> <br/>
+                  <fieldset>
+                     <input type="text" name="cashier_gender" id="cashier_gender" placeholder="Gender (m/f) ..." autocomplete="off" required="">
+                  </fieldset> <br/>
+                  <fieldset>
+                     <input type="text" name="cashier_id" placeholder="Cashier's ID ..." autocomplete="off" required="">
+                  </fieldset> <br/>
+                  <fieldset>
+                     <button type="submit">
+                        Proceed
+                     </button>
+                     <img src="../images/Loading-gif-unscreen.gif" alt="gif" class="gif gif8">
+                  </fieldset>
+               </form>
+            </section> <br/><br/><br/><br/>
+
+            <span class="sub-title">Manage cashier &nbsp; <i class="fas fa-angle-right"></i> &nbsp; remove cashier</span><br/><br/>
+
+            <?php
+            ## Check if delete request is received
+            if (isset($_GET['cashierid']) && !empty($_GET['cashierid'])) { 
+               $CashierID = $_GET['cashierid'];
+               ## Display confirmation dialog
+               echo "
+               <script>
+                  if (confirm('Are you sure you want to delete this cashier?')) {
+                     window.location.href = '../manage_personels/delete_cashier.php?cashierid=$CashierID ';
+                  } else {
+                     window.location.href = './admin_home.php';
+                  }
+               </script>
+               ";
+            }
+
+            ## Fetch all cashier from the database
+            $result_cashier = mysqli_query($conn, "SELECT * FROM `cashier_infor` ORDER BY `id` DESC");
+
+            ## Check if there are any cashier
+            if (mysqli_num_rows($result_cashier) > 0) {
+               echo "<div class='manage_distributor_wrapper'>";
+               $i = 1;
+               ## Display cashier details with delete link
+               while ($row = mysqli_fetch_array($result_cashier)) {
+                  echo "<div> $i <samp>{$row['name']}</samp> <samp>{$row['cashier_id']}</samp> <a href='?cashierid={$row['id']}'>delete</a></div><br/>";
+                  $i++;
+               } 
+               echo "</div>";
+              } else {
+               echo "No cashier found.";
+            }
+            ?>             
+      </section>
+     <!-- manage cashier ends here -->
+
+
+      <!-- manage UDO list starts here -->
+       <section class="section9 page">
+       <h1 class="title">Manage UDO list ..</h1> <br/><br/>
+          
+       </section>
+      <!-- manage UDO list ends here -->
+
+
+      <!-- Account section starts here -->
+       <section class="section10 page">
+       <h1 class="title">Account ..</h1> <br/><br/>
+         
+       </section>
+      <!-- Account section ends here -->
+
+
+       <!-- Joter section starts here -->
+        <section class="section11 page">
+        <h1 class="title">Admin joter ..</h1> <br/><br/>
+
+         <textarea id="noteInput" placeholder="Write your note here..."></textarea> <br/>
+         <button id="saveButton" type="submit">Save Note</button> <br/><br/>
+
+         <div id="savedNotes"></div>
+        </section>
+       <!-- Joter section ends here -->
+
+
+       <!-- Help section starts here -->
+         <section class="section12 page">
+         <h1 class="title">Help ..</h1> <br/><br/>
+
+         <div id="text-container"></div>
+         
+         </section>
+       <!-- Help section ends here -->
 </main>
 </body>
 
@@ -767,7 +952,7 @@ require('./function.php');
       }
    }
 
-   // function to pop up preloader on the set expiry range section
+   // function to pop up preloader on the stock threshold section
    function validateStockRange(){
    let input = document.querySelector('.stock_range');
 
@@ -782,22 +967,22 @@ require('./function.php');
       }
    }
 
-    // function to pop up preloader on the set expiry range section
+    // function to pop up preloader on the update admin username section
     function updateAdminUsername(){
     let input = document.querySelector('.admin_username');
 
     // Get the value of the input field
     let query = input.value.trim();
 
-   if (query !== '') {
-   document.querySelector('img.gif6').style.visibility = "visible";
+    if (query !== '') {
+    document.querySelector('img.gif6').style.visibility = "visible";
       return true;
      } else {
       return false;
       }
-   }
+    }
 
-    // function to pop up preloader on the set expiry range section
+    // function to pop up preloader on the update admin password section
     function updateAdminPassword(){
     let input = document.querySelector('.admin_password');
 
@@ -806,6 +991,22 @@ require('./function.php');
 
    if (query !== '') {
      document.querySelector('img.gif7').style.visibility = "visible";
+      return true;
+     } else {
+      return false;
+      }
+   }
+
+
+    // function to pop up preloader on the cashier section
+    function validateCashier(){
+    let input = document.querySelector('#cashier_name');
+
+    // Get the value of the input field
+    let query = input.value.trim();
+
+    if (query !== '') {
+     document.querySelector('img.gif8').style.visibility = "visible";
       return true;
      } else {
       return false;
@@ -854,8 +1055,8 @@ function selectinput(list) {
 // autocomplete search ends here
 
 
-// JavaScript to handle AJAX request for updating sales_price and tax starts here
-$(document).ready(function(){
+ // JavaScript to handle AJAX request for updating sales_price and tax starts here
+ $(document).ready(function(){
         $(".sales_price, .tax").change(function(){
             var productName = $(this).closest('.product-wrapper').find('.product').first().text().trim();
             var salesPrice = $(this).closest('.product-wrapper').find('.sales_price').val();
@@ -959,6 +1160,30 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["distributor_name"]) &
 ## adding of distributor ends here
 
 
+## adding of cashier starts here
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["cashier_name"]) && isset($_POST["cashier_gender"]) && !empty($_POST["cashier_id"])) {
+   ## initialise vars...
+   $cashier_name = mysqli_real_escape_string($conn, filter_var($_POST["cashier_name"], FILTER_DEFAULT));
+   $cashier_gender = mysqli_real_escape_string($conn, filter_var($_POST["cashier_gender"], FILTER_DEFAULT));
+   $cashier_id = mysqli_real_escape_string($conn, filter_var($_POST["cashier_id"], FILTER_DEFAULT));
+
+   ## Insert cashier infor.. into the database
+   $sql = "INSERT INTO `cashier_infor` (name, gender, cashier_id)
+   VALUES (?, ?, ?)";
+   $stmt = $conn->prepare($sql);
+   $stmt->bind_param("sss", $cashier_name, $cashier_gender, $cashier_id);
+   if ($stmt->execute() === true) {
+   ## Alert success message and redirect
+   echo '<script>alert("cashier added successfully!"); 
+   window.location = "./admin_home.php";</script>';
+   } else {
+   ## Display error message
+   echo "An error occurred while adding cashier: " . $conn->error;
+   }
+}
+## adding of cashier ends here
+
+
 ## updating admin username starts here
 if (isset($_POST["admin_username"]) && !empty([@$_POST["admin_username"]]) && $_SERVER["REQUEST_METHOD"] === "POST"){
    ## initialize var..
@@ -980,7 +1205,7 @@ if (isset($_POST["admin_username"]) && !empty([@$_POST["admin_username"]]) && $_
 ## updating admin password ends here
 
 
-## updating of admin password starts here
+## updating admin password starts here
 if (isset($_POST["admin_password"]) && !empty([@$_POST["admin_password"]]) && $_SERVER["REQUEST_METHOD"] === "POST"){
    ## initialize var..
    @$admin_password = mysqli_real_escape_string($conn, filter_var($_POST["admin_password"], FILTER_DEFAULT));

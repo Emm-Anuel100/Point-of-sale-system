@@ -1,7 +1,7 @@
 <?php
 ## what this file does is to get the values of each input fields
 ## and update the product price and tax values in the database
-## also invoked in (admin_home.php ln:706) 
+## also invoked in (admin_home.php ln:1010) 
 
 ## Require connection file
 require_once '../conn.php';

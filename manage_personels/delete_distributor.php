@@ -12,7 +12,7 @@ if (isset($_GET['id'])) {
     $delete = mysqli_query($conn, "DELETE FROM `distributors` WHERE `id` = '$ID'");
     if ($delete) {
         ## Redirect back to admin home page after successful deletion
-        header("Location: ./admin_home.php");
+        header("Location: ../iamadmin/admin_home.php");
         exit;
     } else {
         ## Handle deletion error
@@ -20,7 +20,7 @@ if (isset($_GET['id'])) {
     }
    } else {
     ## Redirect back to admin home page if ID is not provided
-    header("Location: ./admin_home.php");
+    header("Location: ../iamadmin/admin_home.php");
     exit;
 }
 ?>

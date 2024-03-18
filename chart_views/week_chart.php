@@ -3,18 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sales Chart</title>
+    <title>This week sales Chart</title>
     <!-- Chart.js library -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
      <!-- fav-icon -->
      <link rel="shortcut icon" href="../images/shop_logo.png" type="image/x-icon">
+      <!-- External Styles -->
+      <link rel="stylesheet" href="../styles/dist/chartPage.css">
 </head>
 <body>
 
-    <a href="./admin_home.php" class="navigator"><span>back to dashboard</span></a>
+    <span class="graphs">
+      <a href="./today's_chart.php" class="navigator"><span>today's chart</span></a>
+      <a href="./week_chart.php" class="navigator"><span>this week's chart</span></a>
+      <a href="./month_chart.php" class="navigator"><span>this month's chart</span></a>
+      <a href="./year_chart.php" class="navigator"><span>this year's chart</span></a>
+    </span>
+
     <!-- Canvas element for the bar chart -->
     <canvas id="productSalesChart"></canvas>
-    
+
+
+    <a href="../iamadmin/admin_home.php" class="navigator"><span>back to dashboard</span></a>
+    <a href="./custom_chart.php" class="navigator"><span>custom chart</span></a>
+    <a href="./general_chart.php" class="navigator"><span>general chart</span></a><br/><br/><br/>
+
 
     <!-- JavaScript code to render the bar chart -->
     <script type="text/javascript">
@@ -34,7 +47,7 @@
                     }
                 }
             };
-            xhr.open('GET', './fetch_sales_data.php', true);
+            xhr.open('GET', '../chart_data/fetch_week_sales.php', true);
             xhr.send();
         }
 
@@ -100,51 +113,5 @@
         // Update the chart every 5 seconds
         setInterval(updateChart, 5000);
     </script>
-
-
-
-    <!-- internal styles -->
-   <style type="text/css">
-    /*## page scroll bar styles ##*/
-    ::-webkit-scrollbar{
-      width: 0;
-      background: gray;
-    }
-    ::-webkit-scrollbar-button{
-     background: rgb(109, 108, 108);
-    }
-     ::-webkit-scrollbar-thumb{
-      background:  rgb(27, 27, 27);
-    }
-     a.navigator{
-      text-decoration: none;
-      background: linear-gradient(70deg, rgb(255, 99, 132) 40%, rgba(245, 63, 106, 0.966) 90%);
-      color: #eee;
-      font-family: sans-serif; 
-      font-size: 13.2px;
-      padding: 15px 30px;
-      align-items: center;
-      border-radius: 3rem;
-      position: relative;
-      left: 50px;
-      top: 9px;
-     }
-     a.navigator::before{
-        content: '';
-        position: absolute;
-        top: 0;
-        right: 0;
-        transform: translateX(-100%);
-        transition: 0.5s ease-out;
-        z-index: 1;
-     }
-     a.navigator:hover::before{
-        width: 100%;
-        height: 100%;
-        border-radius: 3rem;
-        background: #ffffff6e;
-        transform: translateX(-20%);
-     }
-   </style>
   </body>
 </html>

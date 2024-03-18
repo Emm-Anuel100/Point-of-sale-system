@@ -32,6 +32,7 @@ div.product-wrapper .track-sales {
   width: auto;
   color: var(--text-color);
   border-radius: 0.3rem;
+  font-size: 13px;
   font-family: cursive;
   align-items: center;
   text-align: left;
@@ -57,11 +58,10 @@ a.btn-download {
   color: #eee;
   font-family: sans-serif;
   font-size: 13.2px;
-  padding: 15px 30px;
+  padding: 18px 30px;
   align-items: center;
   border-radius: 0.3rem;
   position: relative;
-  top: 9px;
 }
 
 a.btn-download::before {

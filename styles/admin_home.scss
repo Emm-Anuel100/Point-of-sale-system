@@ -4,9 +4,15 @@
    --box-sizing: border-box;
    --page-background: linear-gradient(50deg, #25292a 20%, #181a1a 50%);
    --border-style: solid 1.2px rgb(63, 68, 78);
-   --box-shadow: 0px 0px 1rem rgba(29, 27, 27, 0.04);
    --icon-color: rgb(213, 214, 216);
    --icon-background: rgb(84, 92, 104);
+   --position-absolute: absolute;
+   --z-index-999: 999;
+   --margin-left-19-rem: 19rem;
+   --width-72vw: 72vw;
+   --overflow-y-scroll: scroll;
+   --height-30-rem: 30rem;
+   --padding-1-5: 1.5rem;
    --gray: gray;
    --menu-title-color: rgb(199, 196, 196);
    --title-color: rgb(197, 195, 195);
@@ -15,7 +21,6 @@
 .light_mode{
    --page-background: #ffffff;
    --border-style: solid 1.2px rgb(198, 199, 199);
-   --box-shadow: 0px 0px 1rem rgba(243, 242, 242, 0.856);
    --icon-color: rgb(197, 199, 202);
    --gray: rgb(80, 78, 78);
    --menu-title-color: rgb(29, 28, 28);
@@ -168,48 +173,47 @@ body{
       }
    }
 
-   // ilustration in admin home page
-   img.illustration{
-      width: 750px;
-      height: 600px;
-      position: relative;
-      margin-top: 4rem;
-      // left: 60%;
-      filter: brightness(70%);
+   // dashboard section
+   section.section1{
+      position: var(--position-absolute);
+      top: 10rem;
+      z-index: var(--z-index-999);
+      margin-left: var(--margin-left-19-rem);
+      width: var(--width-72vw);
+      height: var(--height-30-rem);
+      overflow-y: var(--overflow-y-scroll);
+      padding: var(--padding-1-5);
    }
  }
 
  // sections on page
  section.page{
-      position: absolute;
+      position: var(--position-absolute);
       top: 4rem;
-      opacity: 0;
-      visibility: hidden;
-      z-index: 999;
-      margin-left: 19rem;
-      width: 72vw;
-      height: 30rem;
-      border-radius: .3rem;
-      // border: var( --border-style);
-      // box-shadow: var(--box-shadow);
-      overflow-y: scroll;
-      padding: 1.5rem;
+      // visibility: hidden;
+      display: none;
+      z-index: var(--z-index-999);
+      margin-left: var(--margin-left-19-rem);
+      width: var(--width-72vw);
+      height: var(--height-30-rem);
+      overflow-y: var(--overflow-y-scroll);
+      padding: var(--padding-1-5);
   }
    // active classlist for page sections
   .page.active{
-   visibility: visible;
-   opacity: 1;
+   // visibility: visible;
+   display: block;
    top: 10rem;
-   transition: ease-in-out .5s;
+   transition: none;
   }
 
 
 // media queries for smaller screens
-@media screen and (max-width: 600px) {
-     // ilustration in page
-   .main-content{
-      img.illustration{
-         width: 350px !important;
-      }
-   }
-}
+// @media screen and (max-width: 600px) {
+//      // ilustration in page
+//    .main-content{
+//       img.illustration{
+//          width: 350px !important;
+//       }
+//    }
+// }

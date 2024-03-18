@@ -1,0 +1,42 @@
+textarea#noteInput {
+  width: 50%;
+  height: 8rem;
+  background: transparent;
+  border: 1px solid #4d4b4b;
+  border-radius: 0.2rem;
+  padding: 20px;
+  margin-bottom: 10px;
+}
+
+.noteContainer {
+  margin-bottom: 10px;
+}
+
+.note {
+  display: inline-block;
+  font-size: 14px;
+  color: #eaeaea;
+  margin-right: 9px;
+  font-family: sans-serif;
+}
+
+#saveButton {
+  padding: 10px;
+  background-color: #4CAF50;
+  color: white;
+  border-radius: 0.2rem;
+  border: none;
+  cursor: pointer;
+}
+#saveButton:hover {
+  filter: contrast(60%);
+}
+
+.deleteButton {
+  padding: 5px 10px;
+  background-color: #f44336;
+  border-radius: 0.2rem;
+  color: white;
+  border: none;
+  cursor: pointer;
+}

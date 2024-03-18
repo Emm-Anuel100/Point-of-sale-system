@@ -1,0 +1,59 @@
+* {
+  outline: none;
+  text-decoration: none;
+  border: 0;
+}
+
+/*## page scroll bar styles ##*/
+::-webkit-scrollbar {
+  width: 0;
+  background: gray;
+}
+
+::-webkit-scrollbar-button {
+  background: #6d6c6c;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1b1b1b;
+}
+
+.navigator {
+  text-decoration: none;
+  background: linear-gradient(70deg, #ff6384 40%, rgba(245, 63, 106, 0.966) 90%);
+  color: #eee;
+  font-family: sans-serif;
+  font-size: 13.2px;
+  padding: 15px 30px;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 3rem;
+  position: relative;
+  left: 8px;
+  top: 9px;
+}
+
+.navigator::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translateX(-100%);
+  transition: 0.4s ease-out;
+  z-index: 1;
+}
+
+.navigator:hover::before {
+  width: 100%;
+  height: 100%;
+  border-radius: 3rem;
+  background: #ffffff6e;
+  transform: translateX(-20%);
+}
+
+form.chart_form input[type=number] {
+  margin-left: 1rem;
+  width: 15rem;
+  padding: 4px 5px;
+  border-bottom: 1px solid gray;
+}

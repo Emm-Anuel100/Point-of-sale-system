@@ -50,24 +50,18 @@ div.product-wrapper .product:hover {
 }
 div.product-wrapper .header {
   font-family: cursive;
+  font-size: 13px;
 }
 div.product-wrapper .sec3 {
   font-family: cursive;
+  background: #39393a !important;
   border: none;
-  background: transparent !important;
   padding-right: 17px !important;
   overflow-x: scroll;
-}
-div.product-wrapper .sec3::-webkit-scrollbar-thumb {
-  background: #8a8a8a;
+  font-size: 12.8px;
 }
 div.product-wrapper .sec3::-webkit-scrollbar {
-  height: 4px !important;
-  cursor: pointer;
-  background: #6e6e6e;
-}
-div.product-wrapper .sec3::-webkit-scrollbar-button {
-  background: #6e6e6e;
+  height: 0 !important;
 }
 
 input[type=text].product-search {
@@ -143,7 +137,7 @@ button[type=submit].submit {
   padding: 1rem;
   width: 3.5rem !important;
   cursor: pointer;
-  border-radius: 50%;
+  border-radius: 10%;
   background: linear-gradient(50deg, #e76022, #e74022);
 }
 button[type=submit].submit:hover {

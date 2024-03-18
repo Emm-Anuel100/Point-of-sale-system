@@ -2,7 +2,6 @@
 ## Require connection file
 require_once('../conn.php');
 
-
 ## Retrieve year, month, and day from query parameters
 $year = $_GET['year'];
 $month = $_GET['month'];
@@ -21,7 +20,7 @@ if ($num_rows > 0) {
     $output = fopen('php://output', 'w');
 
     ## Write CSV header
-    fputcsv($output, array('S/N', 'Product Info', 'Sub-total', 'Transaction ID', 'Payment Mode'));
+    fputcsv($output, array('S/N', 'Product Info', 'Sub-total', 'Transaction ID', 'Payment Mode', 'Cashier'));
 
     ## Initialize counter
     $serial_number = 1;
@@ -32,16 +31,16 @@ if ($num_rows > 0) {
         fputcsv($output, array(
             $serial_number++,
             $row['product_infor'],
-            '₦'.number_format($row['total_naira'], 2),
+            'N'.number_format($row['total_naira'], 2),
             'GR' . $row['trans_id'],
-            $row['payment_mode']
+            $row['payment_mode'],
+            $row["cashier"] 
         ));
     }
 
     ## Close file handle
     fclose($output);
 } else {
-   echo "No data found in the table for the specified date." . '<br/><br/> <a href="./admin_home.php">go back</a>';
+   echo "No data found in the table for the specified date." . '<br/><br/> <a href="../iamadmin/admin_home.php">go back</a>';
 }
-
 ?>

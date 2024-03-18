@@ -1,13 +1,19 @@
 <?php
-## this file is used to fetch frequently bought products
-## also invoked in (chart.php ln:22) 
+## this file is used to fetch all sold products for the day
+## and output the frequently bought ones in order
+## also invoked in (chart_views/today's_chart.php ln:49) 
 ## inplemented ajax for real time update on chart
 
 ## require connection file
 require_once '../conn.php';
 
-## Fetch data from your database
-$sql = "SELECT product_infor FROM sales";
+## get current year and month and day
+$year = DATE('Y');
+$month = DATE('n'); ## Retrieve month without leading zeros
+$day = DATE('d');
+
+## Fetch data from the database
+$sql = "SELECT product_infor FROM `sales` WHERE `year` = '$year' AND `month` = '$month' AND `day` = '$day'";
 $result = $conn->query($sql);
 
 ## Initialize an array to store product quantities
@@ -35,6 +41,8 @@ if ($result->num_rows > 0) {
             }
         }
     }
+}  else {
+    echo "No data found for the day.<br>"; ## Debugging output: Indicate no data found
 }
 
 ## Prepare the data in the format required for the chart

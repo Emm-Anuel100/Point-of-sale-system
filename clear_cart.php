@@ -25,6 +25,9 @@ if ($_SESSION['total'] != 0 && isset($_POST["clear-cart"])) {
     ## fetch computer's ip Address posted
     @$ip_address = mysqli_real_escape_string($conn, filter_var($_POST["ip_address"], FILTER_DEFAULT));
 
+    ## fetch cashier's name
+    $cashiers_name = $_SESSION['cashier_name'];
+
     $year = Date("y");
     $month = Date("m");
     $day = Date("d");
@@ -37,16 +40,19 @@ if ($_SESSION['total'] != 0 && isset($_POST["clear-cart"])) {
     ## Extract product details
     $product_name = $product['name'];
     $product_price = $product['price'];
+    $total_price = $product['price'] * $product['quantity'];
     $product_quantity = $product['quantity'];
 
-    ## change product price to number format
+    ## change product price and total price to number format
     $product_price_format = number_format($product_price);
+    $total_price_format = number_format($total_price);
 
-    ## Concatenate naira sign with the formatted product price
+    ## Concatenate naira sign with the formatted product/total price
     $product_price_with_sign = "₦" . $product_price_format;
+    $total_price_with_sign = "₦" .  $total_price_format;
 
     ## Append product information to the array
-    $product_info_array[] = "$product_name (Quantity: $product_quantity, Price: $product_price_with_sign)";
+    $product_info_array[] = "$product_name (Quantity: $product_quantity, Price: $product_price_with_sign, Total: $total_price_with_sign)";
     
     ## Update the product quantity in the database
     $sql_update = "UPDATE products SET quantity = quantity - $product_quantity WHERE id = $product_id";
@@ -61,13 +67,13 @@ if ($_SESSION['total'] != 0 && isset($_POST["clear-cart"])) {
 $product_info = implode(', ', $product_info_array);
 
 ## Prepare the SQL statement with placeholders
-$sql = "INSERT INTO `sales` (product_infor, total_naira, trans_id, change_element, payment_mode, ip_address, year, month, day) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+$sql = "INSERT INTO `sales` (product_infor, total_naira, trans_id, change_element, payment_mode, ip_address, cashier, year, month, day) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
   
 ## Prepare the statement
 $stmt = $conn->prepare($sql);
 ## Bind parameters to the placeholders
-$stmt->bind_param("siiissiii", $product_info, $item_total, $trans_id, $change_element, $payment_mode, $ip_address, $year, $month, $day);
+$stmt->bind_param("siiisssiii", $product_info, $item_total, $trans_id, $change_element, $payment_mode, $ip_address, $cashiers_name, $year, $month, $day);
 
 ## Execute the statement
 if ($stmt->execute() === true) {
@@ -76,7 +82,7 @@ if ($stmt->execute() === true) {
     header("Location: $redirect");
    } else {
     ## Error executing query
-    echo "All fields must be filled and checked: " . $stmt->error . '<br/><br/> <a href="./index.php">go back</a>';
+    echo "All fields must be filled and checked: " . $stmt->error . '<br/><br/> <a href="./cart.php">go back</a>';
 }
 
 ## Close the statement
@@ -86,7 +92,7 @@ if ($stmt->execute() === true) {
 ?>
  <script type="text/javascript">
     alert("No product in cart yet!");
-    window.location = "./index.php";
+    window.location = "./cart.php";
  </script>
 <?php
 }

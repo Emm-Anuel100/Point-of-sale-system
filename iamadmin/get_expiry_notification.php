@@ -1,9 +1,9 @@
 <?php
 ## what this file does is to go through the products table 
-## and then get product that are close to expiry
+## and then get products that are close to expiry base on the expiry countdown set by the admin
 ## if it finds any it will be stored in the notifications table
 ## also invoked in (admin_home.php ln:500) 
-## inplemented ajax for real time update
+## inplemented ajax for real time actions
 
 ## require the connection file
 require '../conn.php';
@@ -50,7 +50,7 @@ function get_product_expiry_date() {
             $currentDate = mktime(0, 0, 0, $currentMonth, $currentDay, $currentYear);
             $remainingDays = round(($expiryDate - $currentDate) / (60 * 60 * 24));
 
-            ## Check if remaining days is less than or equal to the expiry range
+            ## Check if remaining days is less than or equal to the product expiry count down
             if ($remainingDays <= $expiry_range) {
                 ## Get product name
                 $product_name = $row["product_name"];
