@@ -3,6 +3,7 @@ input[type=text].config_input {
   height: 3rem;
   padding: 1.7rem 2rem;
   background: #363636;
+  width: 19rem;
   letter-spacing: 1px;
   border-radius: 0.2rem;
   border: 1px solid #706c6c;

@@ -1,72 +1,57 @@
 <?php
-## Require FPDF library
+## Require fpdf library
 require_once('../fpdf/fpdf.php');
 ## Require connection file
 require_once('../conn.php');
 
-## Retrieve year, month, and day from query parameters
-$year = $_GET['year'];
-$month = $_GET['month'];
-$day = $_GET['day'];
+$start_year = $_GET['start_year'];
+$start_month = $_GET['start_month'];
+$start_day = $_GET['start_day'];
+$end_year = $_GET['end_year'];
+$end_month = $_GET['end_month'];
+$end_day = $_GET['end_day'];
 
-## Fetch data from the database based on the provided date
-$result_infor = mysqli_query($conn, "SELECT * FROM `sales` WHERE `year` = '$year' AND `month` = '$month' AND `day` = '$day'");
-$num_rows = mysqli_num_rows($result_infor);
+$result_sales = mysqli_query($conn, "SELECT * FROM sales WHERE 
+    (YEAR > '$start_year' OR (YEAR = '$start_year' AND MONTH > '$start_month') OR (YEAR = '$start_year' AND MONTH = '$start_month' AND DAY >= '$start_day')) AND 
+    (YEAR < '$end_year' OR (YEAR = '$end_year' AND MONTH < '$end_month') OR (YEAR = '$end_year' AND MONTH = '$end_month' AND DAY <= '$end_day'))");
 
-    if ($num_rows > 0) {
-    ## Create new PDF instance
-    $pdf = new FPDF('P', 'mm', array(350, 330)); 
+if (mysqli_num_rows($result_sales) > 0) {
+    $pdf = new FPDF('P', 'mm', array(380, 340));
     $pdf->AddPage();
-
-    ## Set font
-    $pdf->SetFont('Arial', 'B', 16);
-
-    ## Add title
+    $pdf->SetFont('Arial', '', 12); ## Set font size to 12px without bold
     $pdf->Cell(0, 10, 'Sales Report', 0, 1, 'C');
     $pdf->Ln(10);
-
-    ## Add date
-    $pdf->Cell(0, 10, 'Date: ' . $day . '/' . $month . '/' . $year, 0, 1, 'C');
-    $pdf->Ln(10);
-
-    ## Add table header
-    $pdf->SetFont('Arial', 'B', 12);
+    $pdf->SetFont('Arial', '', 12); ## Set font size to 12px without bold
     $pdf->Cell(40, 10, 'S/N', 1);
-    $pdf->Cell(80, 10, 'Product Info', 1); // Increase width for product_infor
-    $pdf->Cell(40, 10, 'Sub-total', 1);
-    $pdf->Cell(40, 10, 'Transaction ID', 1);
+    $pdf->Cell(80, 10, 'Product Info', 1);
     $pdf->Cell(40, 10, 'Payment Mode', 1);
+    $pdf->Cell(40, 10, 'Transaction ID', 1);
+    $pdf->Cell(40, 10, 'Amount', 1);
     $pdf->Cell(40, 10, 'Cashier', 1);
+    $pdf->Cell(40, 10, 'Date', 1);
     $pdf->Ln();
 
-    ## Initialize counter
-    $serial_number = 1;
+    $i = 1;
+    while ($row = mysqli_fetch_assoc($result_sales)) {
+        $pdf->Cell(40, 10, $i++, 1);
 
-    ## Add table rows
-    $pdf->SetFont('Arial', '', 12, true);
-    while ($row = mysqli_fetch_assoc($result_infor)) {
-    ## Output serial number
-    $pdf->Cell(40, 10, $serial_number++, 1);
-    ## Output product_infor using MultiCell to allow line breaks
-    $pdf->MultiCell(80, 10, $row['product_infor'], 1);
-    ## Position the subsequent cells correctly
-    $pdf->SetX($pdf->GetX() - 160); ## Set position to align with product_infor cell
-    ## Output sub-total
-    $pdf->SetX($pdf->GetX() - 45); ## Move to the right for sub-total cell
-    $pdf->SetY($pdf->GetY() - 20); 
-    $pdf->Cell(40, 10, 'N'.number_format($row['total_naira'], 2), 1);
-    ## Output transaction ID
-    $pdf->Cell(40, 10, 'GR' . $row['trans_id'], 1);
-    ## Output payment mode
-    $pdf->Cell(40, 10, $row['payment_mode'], 1);
-    ## Output cashier
-    $pdf->Cell(40, 10, $row['cashier'], 1);
-    $pdf->Ln();
+        ## MultiCell for Product Info to allow line breaks
+        $pdf->SetFont('Arial', '', 12); ## Set font size to 12px for Product Info
+        $pdf->MultiCell(80, 10, $row['product_infor'], 1);
+
+        ## Adjust the position for the last four columns to align with their headers
+        $pdf->SetXY(130, $pdf->GetY() - 10); ## Adjust X and Y position
+        $pdf->Cell(40, 10, $row['payment_mode'], 1);
+        $pdf->Cell(40, 10, $row['trans_id'], 1);
+        $pdf->Cell(40, 10, "₦" . $row['total_naira'], 1);
+        $pdf->Cell(40, 10, $row['cashier'], 1);
+        $pdf->Cell(40, 10, $row['day'] . "-" . $row['month'] . "-" . $row['year'], 1);
+        $pdf->Ln();
     }
 
     ## Output PDF
-    $pdf->Output('sales_report.pdf', 'D'); ## 'D' for download
-    } else {
-        echo "No data found in the table for the specified date." . '<br/><br/> <a href="../iamadmin/admin_home.php">go back</a>';
-    }
+    $pdf->Output('sales_report.pdf', 'I'); ## 'I' for inline view
+} else {
+    echo "No sales data found." . '<br/><br/> <a href="../iamadmin/admin_home.php">go back</a>';
+}
 ?>

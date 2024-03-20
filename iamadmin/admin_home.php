@@ -49,7 +49,7 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
       <link  href="../styles/dist/manage_distributor.css" rel="stylesheet">
       <link  href="../styles/dist/configuration.css" rel="stylesheet">
       <link  href="../styles/dist/joter.css" rel="stylesheet">
-      <link  href="../styles/dist/joter.css" rel="stylesheet">
+      <link  href="../styles/dist/sales_report.css" rel="stylesheet">
       <link  href="../styles/dist/dashboard.css" rel="stylesheet">
       <!-- fav-icon -->
       <link rel="shortcut icon" href="../images/shop_logo.png" type="image/x-icon">
@@ -93,9 +93,9 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
             <br/>
             <a href="#" class="nav"><i class="fas fa-list-ul manage_udo"></i><span class="title">UDO list</span></a>
             <br/>
-            <a href="#" class="nav"><i class="fas fa-money-check account"></i><span class="title">Sales account</span></a>
+            <a href="#" class="nav"><i class="fas fa-money-check account"></i><span class="title">Sales report</span></a>
             <br/>
-            <a href="#" class="nav"><i class="fas fa-list-check joter"></i><span class="title">Joter</span></a>
+            <a href="#" class="nav"><i class="fas fa-list-check joter"></i><span class="title">Admin joter</span></a>
             <br/>
             <a href="#" class="nav"><i class="fas fa-users-cog config"></i><span class="title">Configurations</span></a>
             <br/>
@@ -151,22 +151,22 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
                <h2 class="title">Add new product to system</h2> <br/><br/>
                <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" onsubmit="return validateProduct()">
                   <fieldset>
-                     <input type="text" name="product_name" id="product_name" placeholder="Product name ..." autocomplete="off" required="">
+                     <input type="text" name="product_name" id="product_name" placeholder="Product name ..." autocomplete="off" required="" class="add-product-input">
                   </fieldset> <br/>
                   <fieldset>
-                     <input type="text" name="bar_code" placeholder="Product barcode ..." autocomplete="off" required="">
+                     <input type="text" name="bar_code" placeholder="Product barcode ..." autocomplete="off" required="" class="add-product-input">
                   </fieldset> <br/>
                   <fieldset>
-                     <input type="number" name="sale_percent" placeholder="Sale percentage(%) ..." autocomplete="off" required="" min="1">
+                     <input type="number" name="purchace_price" placeholder="Purchace price(&#8358;) ..." autocomplete="off" required="" min="1" class="add-product-input">
                   </fieldset> <br/>
                   <fieldset>
-                     <input type="number" name="purchace_price" placeholder="Purchace price(&#8358;) ..." autocomplete="off" required="" min="1">
+                     <input type="number" name="sale_percent" placeholder="Sale percentage(%) ..." autocomplete="off" required="" min="1" class="add-product-input">
                   </fieldset> <br/>
                   <fieldset>
-                     <input type="number" name="product_vat" placeholder="Product VAT(&#8358;) ..." autocomplete="off" required="" min="0">
+                     <input type="number" name="product_vat" placeholder="Product VAT(&#8358;) ..." autocomplete="off" required="" min="0" class="add-product-input">
                   </fieldset> <br/>
                   <fieldset>
-                     <input type="number" name="quantity" placeholder="Product Quantity ..." autocomplete="off" required="" min="1">
+                     <input type="number" name="quantity" placeholder="Product Quantity ..." autocomplete="off" required="" min="1" class="add-product-input">
                   </fieldset> <br/>
                   <fieldset>
                      <div class="expiry_date">product expiry date</div> <br/>
@@ -519,8 +519,8 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
      ?> <br/><br/>
 
     <span style="display: flex; gap: 10px;">
-     <a href='../sales_report_export/export_pdf.php?year=<?= @$year ?>&month=<?= @$month ?>&day=<?= @$day ?>' class="btn-download">Export to PDF</a> <br/><br/><br/>
-     <a href='../sales_report_export/export_csv.php?year=<?= @$year ?>&month=<?= @$month ?>&day=<?= @$day ?>' class="btn-download">Export to CSV</a>
+     <a href='../sales_snapshot_export/export_pdf.php?year=<?= @$year ?>&month=<?= @$month ?>&day=<?= @$day ?>' class="btn-download">Export to PDF</a> <br/><br/><br/>
+     <a href='../sales_snapshot_export/export_csv.php?year=<?= @$year ?>&month=<?= @$month ?>&day=<?= @$day ?>' class="btn-download">Export to CSV</a>
     </span>
    </section>
    <!-- sales snapshot section ends here -->
@@ -605,11 +605,11 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
     <section class="section7 page">
       <h1 class="title">Configurations ..</h1> <br/><br/>
       <!--- updating expiry countdown starts here --->
-      <span class="sub-title">Configuration &nbsp; <i class="fas fa-angle-right"></i> &nbsp; product expiry &nbsp; <i class="fas fa-angle-right"></i> &nbsp; set expiry countdown [days]</span><br/><br/>
+      <span class="sub-title">Configuration &nbsp; <i class="fas fa-angle-right"></i> &nbsp; product expiry &nbsp; <i class="fas fa-angle-right"></i> &nbsp; set expiry countdown [in days]</span><br/><br/>
 
       <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" onsubmit="return validateExpiryRange()">
          <fieldset>
-            <input type="number" name="expiry_range" class="expiry_range config_input" placeholder="Set expiry countdown.. [days]" autocomplete="off" required="" min="1">
+            <input type="number" name="expiry_range" class="expiry_range config_input" placeholder="Update expiry countdown.. [in days]" autocomplete="off" required="" min="1">
          </fieldset> <br/>
          <fieldset>
          <button type="submit" class="config_btn">
@@ -625,7 +625,7 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
 
         <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" onsubmit="return validateStockRange()">
          <fieldset>
-            <input type="number" name="stock_threshold" class="stock_range config_input" placeholder="Set stock threshold.." autocomplete="off" required="" min="1">
+            <input type="number" name="stock_threshold" class="stock_range config_input" placeholder="Update stock threshold.." autocomplete="off" required="" min="1">
          </fieldset> <br/>
          <fieldset>
          <button type="submit" class="config_btn">
@@ -744,12 +744,43 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
       <!-- manage UDO list ends here -->
 
 
-      <!-- Account section starts here -->
-       <section class="section10 page">
-       <h1 class="title">Account ..</h1> <br/><br/>
-         
-       </section>
-      <!-- Account section ends here -->
+
+    <!-- Sales report section starts here -->
+   <section class="section10 page">
+      <h1 class="title">Generate Sales Report ..</h1>
+    
+     <span style="display: flex; gap: 10px; position: absolute; left: 60%;">
+         <div id="exportPDF" class="btn-download">Export to PDF</div>
+         <div id="exportCSV" class="btn-download">Export to CSV</div>
+     </span>
+
+    <br/><br/>
+    <span class="sub-title">Sales report &nbsp; <i class="fas fa-angle-right"></i> &nbsp; Generate report base on date range</span><br/><br/>
+
+    <form id="salesReportForm">
+        <input type="number" id="start_year" name="start_year" required min="2000" step="1" placeholder="Start year ...">
+        
+        <input type="number" id="start_month" name="start_month" required min="1" max="12" step="1" placeholder="Start month ...">
+        
+        <input type="number" id="start_day" name="start_day" required min="1" max="31" step="1" placeholder="Start day ...">
+
+        <br/><br/>
+
+        <input type="number" id="end_year" name="end_year" required min="2000" step="1" placeholder="End year ...">
+        
+        <input type="number" id="end_month" name="end_month" required min="1" max="12" step="1" placeholder="End month ..."> 
+        
+        <input type="number" id="end_day" name="end_day" required min="1" max="31" step="1" placeholder="End day ...">
+
+        <br/><br/>
+        <input type="submit" value="Generate Report" class="report_btn">
+    </form> <br/><br/>
+
+    <!-- container where table content will be rendered -->
+    <div id="salesReportTable"></div>
+
+    </section>
+    <!-- Sales report section ends here -->
 
 
        <!-- Joter section starts here -->
@@ -769,7 +800,6 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
          <h1 class="title">Help ..</h1> <br/><br/>
 
          <div id="text-container"></div>
-         
          </section>
        <!-- Help section ends here -->
 </main>
@@ -1080,6 +1110,51 @@ function selectinput(list) {
         });
     });
     // JavaScript to handle AJAX request for updating sales_price and tax ends here
+
+
+    // javascript to handle updating of sales report table and dispayimg of datas in different file format starts here 
+    document.addEventListener("DOMContentLoaded", function () {
+        const salesReportForm = document.getElementById("salesReportForm");
+        const exportPDFButton = document.getElementById("exportPDF");
+        const exportCSVButton = document.getElementById("exportCSV");
+        const salesReportTable = document.getElementById("salesReportTable");
+
+        salesReportForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+            generateSalesReport();
+        });
+
+        exportPDFButton.addEventListener("click", function () {
+            exportSalesReport("pdf");
+        });
+
+        exportCSVButton.addEventListener("click", function () {
+            exportSalesReport("csv");
+        });
+
+        function generateSalesReport() {
+            const formData = new FormData(salesReportForm);
+            fetch("../generate_report/generate_sales_report.php", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                salesReportTable.innerHTML = data;
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+        }
+
+        function exportSalesReport(format) {
+            const formData = new FormData(salesReportForm);
+            const url = format === "pdf" ? "../sales_report_export/export_pdf.php" : "../sales_report_export/export_csv.php";
+            const params = new URLSearchParams(formData).toString();
+            window.location.href = `${url}?${params}`;
+        }
+    });
+   // javascript to handle updating of sales report table and dispayimg of datas in different file format ends here 
 </script>
 <noscript>Pls. enable javascript in your browser</noscript>
 </html>
@@ -1267,4 +1342,6 @@ if (isset($_POST["expiry_range"]) && !empty([@$_POST["expiry_range"]]) && $_SERV
    }
 }
 ## updating expiry countdown ends here
+
+
 ?>

@@ -1,0 +1,51 @@
+
+
+.section10 input[type="number"]{
+   padding: 9px 2%;
+   width: 20rem !important;
+   border: none;
+   margin: 5px 0;
+   border-radius: .1rem;
+   background: transparent;
+   border: 1px solid #424242;
+   color: rgb(212, 212, 212);
+   height: 3rem;
+}
+.section10 input[type="submit"]{
+   padding: 9px 2%;
+   width: 10rem !important;
+   border: none;
+   cursor: pointer;
+   margin: 3.5px 0;
+   border-radius: .2rem;
+   background: linear-gradient(20deg, rgb(106, 106, 226), rgb(172, 172, 247));
+   color: rgb(240, 239, 239);
+   height: 3rem;
+
+   &:hover{
+      background: linear-gradient(70deg, rgb(106, 106, 226), rgb(172, 172, 247));
+      transition: ease-in-out .2s;
+   }
+}
+
+table{
+   width: 100%;
+   font-family: sans-serif;
+   border-collapse: collapse;
+}
+.report-title{
+   font-family: sans-serif;
+}
+th, td {
+   padding: 8px;
+   text-align: left;
+   color: rgb(224, 222, 222);
+   border: 1px solid #c5c5c5;
+   font-size: 12.5px;
+   line-height: 22px;
+}
+th {
+   background-color: rgb(96, 126, 223);
+   color: rgb(243, 242, 242);
+}
+

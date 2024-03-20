@@ -1,46 +1,49 @@
 <?php
-## Require connection file
 require_once('../conn.php');
 
-## Retrieve year, month, and day from query parameters
-$year = $_GET['year'];
-$month = $_GET['month'];
-$day = $_GET['day'];
+$start_year = $_GET['start_year'];
+$start_month = $_GET['start_month'];
+$start_day = $_GET['start_day'];
+$end_year = $_GET['end_year'];
+$end_month = $_GET['end_month'];
+$end_day = $_GET['end_day'];
 
-## Fetch data from the database based on the provided date
-$result_infor = mysqli_query($conn, "SELECT * FROM `sales` WHERE `year` = '$year' AND `month` = '$month' AND `day` = '$day'");
-$num_rows = mysqli_num_rows($result_infor);
+$result_sales = mysqli_query($conn, "SELECT * FROM sales WHERE 
+    (YEAR > '$start_year' OR (YEAR = '$start_year' AND MONTH > '$start_month') OR (YEAR = '$start_year' AND MONTH = '$start_month' AND DAY >= '$start_day')) AND 
+    (YEAR < '$end_year' OR (YEAR = '$end_year' AND MONTH < '$end_month') OR (YEAR = '$end_year' AND MONTH = '$end_month' AND DAY <= '$end_day'))");
 
-if ($num_rows > 0) {
-    ## Set CSV headers
+ if (mysqli_num_rows($result_sales) > 0) {
+    ## Set headers for CSV file download
     header('Content-Type: text/csv');
     header('Content-Disposition: attachment; filename="sales_report.csv"');
-
-    ## Open file handle for output
+    
+    ## Open file handle to write CSV data
     $output = fopen('php://output', 'w');
 
-    ## Write CSV header
-    fputcsv($output, array('S/N', 'Product Info', 'Sub-total', 'Transaction ID', 'Payment Mode', 'Cashier'));
+    ## Write headers to CSV file
+    fputcsv($output, array('S/N', 'Product Info', 'Payment Mode', 'Transaction ID', 'Amount', 'Cashier', 'Date'));
 
-    ## Initialize counter
-    $serial_number = 1;
-
-    ## Loop through database results and write to CSV
-    while ($row = mysqli_fetch_assoc($result_infor)) {
-        ## Output CSV row
-        fputcsv($output, array(
-            $serial_number++,
+    ## Fetch and write data rows to CSV file
+    $i = 1;
+    while ($row = mysqli_fetch_assoc($result_sales)) {
+        ## Format data for CSV
+        $csv_data = array(
+            $i++,
             $row['product_infor'],
-            'N'.number_format($row['total_naira'], 2),
-            'GR' . $row['trans_id'],
             $row['payment_mode'],
-            $row["cashier"] 
-        ));
+            $row['trans_id'],
+            "₦" . $row['total_naira'],
+            $row['cashier'],
+            $row['day'] . "-" . $row['month'] . "-" . $row['year']
+        );
+
+        ## Write data to CSV file
+        fputcsv($output, $csv_data);
     }
 
     ## Close file handle
     fclose($output);
-} else {
-   echo "No data found in the table for the specified date." . '<br/><br/> <a href="../iamadmin/admin_home.php">go back</a>';
-}
+  } else {
+    echo "No sales data found." . '<br/><br/> <a href="../iamadmin/admin_home.php">go back</a>';
+ }
 ?>

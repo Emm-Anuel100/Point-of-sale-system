@@ -1,0 +1,51 @@
+.section10 input[type=number] {
+  padding: 9px 2%;
+  width: 20rem !important;
+  border: none;
+  margin: 5px 0;
+  border-radius: 0.1rem;
+  background: transparent;
+  border: 1px solid #424242;
+  color: #d4d4d4;
+  height: 3rem;
+}
+
+.section10 input[type=submit] {
+  padding: 9px 2%;
+  width: 10rem !important;
+  border: none;
+  cursor: pointer;
+  margin: 3.5px 0;
+  border-radius: 0.2rem;
+  background: linear-gradient(20deg, #6a6ae2, #acacf7);
+  color: #f0efef;
+  height: 3rem;
+}
+.section10 input[type=submit]:hover {
+  background: linear-gradient(70deg, #6a6ae2, #acacf7);
+  transition: ease-in-out 0.2s;
+}
+
+table {
+  width: 100%;
+  font-family: sans-serif;
+  border-collapse: collapse;
+}
+
+.report-title {
+  font-family: sans-serif;
+}
+
+th, td {
+  padding: 8px;
+  text-align: left;
+  color: #e0dede;
+  border: 1px solid #c5c5c5;
+  font-size: 12.5px;
+  line-height: 22px;
+}
+
+th {
+  background-color: #607edf;
+  color: #f3f2f2;
+}

@@ -100,7 +100,7 @@ foreach ($_SESSION['cart'] as $product) {
 
             <!-- form to add more details of product -->
             <form action="./clear_cart.php" method="post">
-               <input type="number" name="change_element" placeholder="Change element (&#8358;) ...." min="0" required autocomplete="off" step="1">
+               <input type="number" name="change_element" placeholder="Change element given (&#8358;) ...." min="0" required autocomplete="off" step="1">
                 <br/><br/>
                 <input type="number" name="change_reminant" placeholder="Change reminant (&#8358;) ...." min="0" required autocomplete="off" step="1">
                 <br/><br/>

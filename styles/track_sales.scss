@@ -59,10 +59,11 @@ div.product-wrapper{
 
 }
 
-a.btn-download{
+ .btn-download{
    text-decoration: none;
    background: linear-gradient(50deg, #e76022, #e74022);
    color: #eee;
+   cursor: pointer;
    font-family: sans-serif; 
    font-size: 13.2px;
    padding: 18px 30px;

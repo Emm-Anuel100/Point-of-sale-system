@@ -22,6 +22,10 @@ if ($_SESSION['total'] != 0 && isset($_POST["clear-cart"])) {
     ## session set for change element
     $_SESSION["change_element"] = $change_element;
 
+    $change_reminant = $_POST["change_reminant"];
+    ## session set for change reminant
+    $_SESSION["change_reminant"] = $change_reminant;
+
     ## fetch computer's ip Address posted
     @$ip_address = mysqli_real_escape_string($conn, filter_var($_POST["ip_address"], FILTER_DEFAULT));
 
@@ -67,13 +71,13 @@ if ($_SESSION['total'] != 0 && isset($_POST["clear-cart"])) {
 $product_info = implode(', ', $product_info_array);
 
 ## Prepare the SQL statement with placeholders
-$sql = "INSERT INTO `sales` (product_infor, total_naira, trans_id, change_element, payment_mode, ip_address, cashier, year, month, day) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+$sql = "INSERT INTO `sales` (product_infor, total_naira, trans_id, change_element, change_reminant, payment_mode, ip_address, cashier, year, month, day) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
   
 ## Prepare the statement
 $stmt = $conn->prepare($sql);
 ## Bind parameters to the placeholders
-$stmt->bind_param("siiisssiii", $product_info, $item_total, $trans_id, $change_element, $payment_mode, $ip_address, $cashiers_name, $year, $month, $day);
+$stmt->bind_param("siiiisssiii", $product_info, $item_total, $trans_id, $change_element, $change_reminant, $payment_mode, $ip_address, $cashiers_name, $year, $month, $day);
 
 ## Execute the statement
 if ($stmt->execute() === true) {

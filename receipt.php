@@ -16,7 +16,7 @@ if ($_SESSION['total'] === 0){
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Receipt - Dadral Stores</title>
+   <title>Customer's Receipt - Dadral Stores</title>
 </head>
 <body>
    
@@ -46,7 +46,8 @@ if ($_SESSION['total'] === 0){
    <br/>
    <div class="total">
       <p>Sub-total: &#8358;<?= number_format(@$_SESSION['total'], 2)?></p>
-      <p>Change Element: &#8358;<?= number_format(@$_SESSION["change_element"], 2) ?></p>
+      <p>Change Element given: &#8358;<?= number_format(@$_SESSION["change_element"], 2) ?></p>
+      <p>Change Reminant: &#8358;<?= number_format(@$_SESSION["change_reminant"], 2) ?></p>
       <p>Payment mode: <?= @$_SESSION["payment_mode"] ?> </p>
       <p>Cashier: <?= $_SESSION['cashier_name'] ?></p>
    </div>

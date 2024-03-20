@@ -184,7 +184,7 @@ body{
       overflow-y: var(--overflow-y-scroll);
       padding: var(--padding-1-5);
    }
- }
+}
 
  // sections on page
  section.page{
@@ -206,14 +206,3 @@ body{
    top: 10rem;
    transition: none;
   }
-
-
-// media queries for smaller screens
-// @media screen and (max-width: 600px) {
-//      // ilustration in page
-//    .main-content{
-//       img.illustration{
-//          width: 350px !important;
-//       }
-//    }
-// }
