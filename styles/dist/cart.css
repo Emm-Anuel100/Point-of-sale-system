@@ -3,7 +3,7 @@
   --page-margin: 0;
   --box-sizing: border-box;
   --page-background: #232627;
-  --color-orange: rgb(66, 65, 64);
+  --color-border: rgb(180, 178, 178);
   --font-family: sans-serif;
   --text-color: rgb(204, 203, 203);
 }
@@ -120,7 +120,7 @@ section.main-content section.cart-section input[type=text].bar_code {
   background: none;
   color: #eaeaea;
   font-size: 12.2px;
-  border: 2px solid var(--color-orange);
+  border: 1.7px solid var(--color-border);
   font-family: var(--font-family);
 }
 section.main-content section.cart-section input[type=text].bar_code::placeholder {
@@ -149,7 +149,7 @@ section.main-content section.cart-section div.cart-wrapper .product {
   display: inline;
   align-items: center;
   position: relative;
-  background: var(--color-orange);
+  background: var(--color-border);
 }
 section.main-content section.cart-section div.cart-wrapper .product:hover {
   transform: scale(0.9);
@@ -168,7 +168,7 @@ section.main-content section.cart-section form input[type=number] {
   width: 11rem;
   border-radius: 0.2rem;
   color: var(--text-color);
-  border: 1.1px solid #3f3e3e;
+  border: 1.1px solid var(--color-border);
   padding: 12px 10px;
   font-size: 12.1px;
   background: none;

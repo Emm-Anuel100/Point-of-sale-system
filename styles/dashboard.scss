@@ -10,14 +10,13 @@
 
    // finances section starts here
    .sales-con{
-      background: linear-gradient(40deg, rgba(236, 90, 32, 0.781),rgba(241, 99, 63, 0.986));
+      background: linear-gradient(40deg, rgba(32, 86, 236, 0.781),rgba(241, 99, 63, 0.986));
       padding: 1rem;
       border-radius: .3rem;
       align-items: center;
       box-shadow: 1px 2px 1rem rgb(54, 53, 53);
 
       &:hover{
-         transform: scale(0.9);
          cursor: pointer;
       }
 
@@ -38,7 +37,7 @@
 }
 
 
-// stock & expiry section strts here
+// stock & expiry section starts here
 div.con2{
    width: 80% !important;
    

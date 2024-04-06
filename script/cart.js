@@ -38,10 +38,37 @@ cashier_name.addEventListener('mouseover', (e)=>{
 cashier_name.addEventListener('mouseleave', (e)=>{
    e.preventDefault();
    
-   //## remove logout_btn classList after 2min
+   //## remove logout_btn classList after 3min
    setTimeout(() => {
       logout_btn.classList.remove('active');
-   }, 2000);
+   }, 3000);
   });
 
 //## code to add cashier logout btn ends here
+
+
+//## cashier's calculator starts here
+function appendNumber(num) {
+   document.getElementById('display').value += num;
+ }
+
+ function appendOperator(op) {
+   let display = document.getElementById('display').value;
+   let lastChar = display[display.length - 1];
+   if (!isNaN(lastChar) || lastChar === '.') {
+     document.getElementById('display').value += op;
+   }
+ }
+
+ function calculate() {
+   let displayValue = document.getElementById('display').value;
+   if (displayValue.trim() !== '') {
+     let result = eval(displayValue);
+     document.getElementById('display').value = result;
+   }
+ }
+
+ function clearDisplay() {
+   document.getElementById('display').value = '';
+ }
+ //## cashier's calculator ends here

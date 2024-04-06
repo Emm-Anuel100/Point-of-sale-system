@@ -20,7 +20,7 @@ $row = $result->fetch_assoc();
 
 ## Extract the payment mode and its count
 $most_used_mode = $row['payment_mode'];
-##$mode_count = $row['mode_count'];
+## $mode_count = $row['mode_count'];
 
 ## Output the most used payment mode
 echo "$most_used_mode";

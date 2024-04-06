@@ -4,9 +4,11 @@ require_once("./conn.php");
 ## start session
 session_start();
 
-## if total amount is equal to Zero go back to index
-if ($_SESSION['total'] === 0){
-   header("Location: ./index.php");
+## if cashier id, cashier name is not set or total amount is equal to Zero go back to cashier's login page
+if (!isset($_SESSION['cashier_id']) || !isset($_SESSION['cashier_name']) || $_SESSION['total'] === 0) {
+   ## Redirect to cashier's login page
+   header("Location: ./cashier_login/cashier_login.php");
+   exit();
 }
 ?>
 
@@ -17,16 +19,20 @@ if ($_SESSION['total'] === 0){
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Customer's Receipt - Dadral Stores</title>
+   <!-- Link favIcon -->
+   <link rel="shortcut icon" href="./images/shop_logo.png" type="image/x-icon">
 </head>
 <body>
    
 <section class="wrapper">
-   <h2>Greecs supermarket</h2>
+   <h2 class="store-name">Dadral Stores</h2>
 
-   <p class="address">plot 506 along karu jikwoyi express way<br/>
-     Tel: 08121669013. Date: <?= Date("d/m/Y h:i a") ?></p> 
+   <div class="address">plot 506 along karu jikwoyi express way Abuja. <br/>
+     <?php date_default_timezone_set('Africa/Lagos'); ?>
+     Tel: 08121669013. Date: <?= Date("d/m/Y H:i a") ?>
+   </div> 
 
-   <p class="trans-id">TRANS-ID: GR<?= @$_SESSION["trans_id"] ?></p> <br/>
+   <div class="trans-id">TRANS-ID: GR<?= @$_SESSION["trans_id"] ?></div> <br/>
 
    <div class="header">
       <div>QTY</div>
@@ -34,6 +40,7 @@ if ($_SESSION['total'] === 0){
       <div>AMOUNT</div>
       <div>TOTAL</div>
    </div>
+
    <?php foreach (@$_SESSION['cart'] as $product_id => $product): ?>
    <div class="header items">
       <div><?= @$product['quantity']; ?></div>
@@ -44,104 +51,115 @@ if ($_SESSION['total'] === 0){
    <?php endforeach; ?>
 
    <br/>
-   <div class="total">
-      <p>Sub-total: &#8358;<?= number_format(@$_SESSION['total'], 2)?></p>
-      <p>Change Element given: &#8358;<?= number_format(@$_SESSION["change_element"], 2) ?></p>
-      <p>Change Reminant: &#8358;<?= number_format(@$_SESSION["change_reminant"], 2) ?></p>
-      <p>Payment mode: <?= @$_SESSION["payment_mode"] ?> </p>
-      <p>Cashier: <?= $_SESSION['cashier_name'] ?></p>
+   <div class="sales-infor">
+      <div><?= @$_SESSION["payment_mode"] ?>: &#8358;<?= number_format(@$_SESSION['total'], 2)?></div>
+      <div>Change Element: &#8358;<?= number_format(@$_SESSION["change_element"], 2) ?></div>
+      <div>Change Reminant: &#8358;<?= number_format(@$_SESSION["change_reminant"], 2) ?></div>
+      <div>Cashier: <?= $_SESSION['cashier_name'] ?></div>
    </div>
 
    <p class="vat-inclusive">
       THANK YOU FOR YOUR PATRONAGE <br/>
-      Total is VAT inclusive.
+      Grand Total Is VAT Inclusive <br/>
+      No Returns, No Refunds
    </p>
 
    <div class="print_btn" onclick="print()"></div>
 </section>
 
 
+<!-- style for receipt starts here-->
+<style type="text/css">  
+      body {
+         font-family: Arial, sans-serif;
+        }
 
+      section.wrapper {
+         width: 280px; /* Adjusted width for thermal printers */
+         margin: auto;
+         text-align: center;
+      }
 
+      h2.store-name {
+         font-size: 14px;
+         margin-top: 10px;
+         margin-bottom: 5px;
+         text-transform: uppercase;
+      }
 
+      .address {
+         font-size: 10px;
+         line-height: 14px;
+      }
 
-<!-- intenal style -->
-<style type="text/css">
-body{
-   width: 100%;
-   overflow-x: hidden;
-   transition: none;
-}
-section.wrapper{
-   width: 20rem;
-   text-align: center;
-   justify-content: center;
-}
-h2{
-   font-size: 15px;
-   font-weight: 100;
-   font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-}
-p.address{
-   font-size: 10px;
-   line-height: 20px;
-}
-.trans-id{
-   font-size: 9.4px;
-   font-family: sans-serif;
-   font-weight: 300;
-}
-.header{
-   display: flex;
-   width: 100%;
-   justify-content: space-between;
-   padding: 6px 0;
-   border-top: 1.1px dashed #000;
-   border-bottom: 1.1px dashed #000;
-}
-.header div{
-   font-size: 8px;
-   font-family: sans-serif;
-   width: 40px !important;
-   overflow-x: visible;
-}
-.header div:nth-child(1){
-   width: 0 !important;
-}
-.items{
-   border-top: none;
-   align-items: center;
-}
-.items div{
-   width: 40px !important;
-   overflow-x: visible;
-}
+      .trans-id {
+         font-size: 10px;
+         margin-top: 5px;
+         margin-bottom: 5px;
+      }
 
-div.total{
-   text-align: center;
-   font-family: sans-serif;
-}
-div.total p{
-   font-size: 9px;
-}
-.vat-inclusive{
-   font-size: 9.5px;
-   margin-top: 21px;
-   text-align: center;
-   line-height: 15px;
-}
+      .header, .items {
+         display: flex;
+         justify-content: space-between;
+         border-bottom: 1px dashed #000;
+         padding-bottom: 3px;
+         margin-bottom: 3px;
+         font-size: 10px;
+      }
+
+      .header div:nth-child(1) {
+         width: 30px; /* Width for quantity column */
+         text-align: left;
+      }
+
+      .header div:nth-child(2) {
+         width: 140px; /* Width for description column */
+         text-align: left;
+      }
+
+      .header div:nth-child(3), 
+      .items div:nth-child(3),
+       .items div:nth-child(4) {
+         width: 50px; /* Width for amount and total columns */
+         text-align: right;
+      }
+
+      div.sales-infor{
+      text-align: left;
+      position: relative;
+      left: 10px;
+      font-family: sans-serif;
+     }
+      div.sales-infor div{
+         font-size: 10px !important;
+         margin: 3px 0;
+      }
+
+      .vat-inclusive {
+         font-size: 10px;
+         margin-top: 20px;
+         text-align: left;
+         line-height: 14px;
+      }
 </style>
+<!-- style for receipt ends here-->
 
 
-<!--- Internal script --->
+<!--- script for receipt btn click --->
 <script type="text/javascript">
-
    let print_btn = document.querySelector(".print_btn");
 
-   window.addEventListener('DOMContentLoaded', (e)=>{
+   window.addEventListener('DOMContentLoaded', (e) => {
       e.preventDefault();
 
+      // Perform printing
       print_btn.click();
+
+      // Redirect to cart page after printing or canceling
+      window.addEventListener('afterprint', () => {
+         // Redirect to cart page
+         window.location.href = "./cart.php";
+      });
 
       <?php   
        ## unset cart session
@@ -149,5 +167,6 @@ div.total p{
       ?>
    });
 </script>
+
 </body>
 </html>

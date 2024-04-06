@@ -12,9 +12,12 @@ $current_month = date('n');  ## Retrieve month without leading zeros
 $day = date('j'); ## Retrieve day without leading zeros
 
 ## Query to fetch the number of sales made within the current year, month and day
-$sql_sales_count = "SELECT COUNT(*) AS sales_count FROM sales WHERE YEAR = '$current_year' AND MONTH = '$current_month' AND DAY = '$day'";
+$sql_sales_count = "SELECT COUNT(*) AS sales_count FROM sales WHERE year = '$current_year' AND month = '$current_month' AND day = '$day'";
 
 $result_sales_count = $conn->query($sql_sales_count);
+if(!$result_sales_count){
+    echo("error:" . $conn->error);
+}
 
 if ($result_sales_count->num_rows > 0) {
     ## Fetch the total number of sales
@@ -37,7 +40,7 @@ if ($result_total_naira_sum->num_rows > 0) {
     $row_total_naira_sum = $result_total_naira_sum->fetch_assoc();
     $total_naira_sum = $row_total_naira_sum["total_naira_sum"];
     
-    ## Output the sum of prices
+    ## Output the sum of prices in 2 decimal places
     echo "<h2>&#8358;" . number_format($total_naira_sum, 2) . " <span>Realized</span></h2>";
     } else {
         echo "<h2>&#8358;0.00 <span>Realized</span></h2>";

@@ -18,8 +18,13 @@ $result_sales = mysqli_query($conn, "SELECT * FROM sales WHERE
 if (mysqli_num_rows($result_sales) > 0) {
     $pdf = new FPDF('P', 'mm', array(380, 340));
     $pdf->AddPage();
-    $pdf->SetFont('Arial', '', 12); ## Set font size to 12px without bold
+    $pdf->SetFont('Arial', 'B', 18); ## Set font size to 18px with bold
     $pdf->Cell(0, 10, 'Sales Report', 0, 1, 'C');
+
+    ## Subtitle with start and end dates
+    $pdf->SetFont('Arial', 'B', 12); ## Set font size to 12px with bold
+    $pdf->Cell(0, 10, 'From: ' . $start_year . '-' . $start_month . '-' . $start_day . ' To: ' . $end_year . '-' . $end_month . '-' . $end_day, 0, 1, 'C');
+    
     $pdf->Ln(10);
     $pdf->SetFont('Arial', '', 12); ## Set font size to 12px without bold
     $pdf->Cell(40, 10, 'S/N', 1);

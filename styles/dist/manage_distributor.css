@@ -24,27 +24,32 @@ img.gif {
   visibility: hidden;
 }
 
-.manage_distributor_wrapper > div, .notifications_wrapper > div {
+.manage_distributor_wrapper > div,
+.notifications_wrapper > div {
   margin-top: 1rem;
   width: 600px;
   padding: 1.3rem 2rem;
   display: flex;
   flex-wrap: wrap;
-  background: #3d3d55;
+  background: transparent;
+  border: 1px solid #838080;
   border-radius: 0.3rem;
   align-items: center;
   justify-content: space-between;
 }
-.manage_distributor_wrapper > div samp, .notifications_wrapper > div samp {
-  font-size: 13.5px;
+.manage_distributor_wrapper > div samp,
+.notifications_wrapper > div samp {
+  font-size: 13px;
   font-family: sans-serif;
 }
-.manage_distributor_wrapper > div samp + a, .notifications_wrapper > div samp + a {
+.manage_distributor_wrapper > div samp + a,
+.notifications_wrapper > div samp + a {
   font-size: 13.5px;
   cursor: pointer;
   font-family: sans-serif;
 }
-.manage_distributor_wrapper > div samp + a:hover, .notifications_wrapper > div samp + a:hover {
+.manage_distributor_wrapper > div samp + a:hover,
+.notifications_wrapper > div samp + a:hover {
   text-decoration: underline;
 }
 
@@ -52,7 +57,7 @@ img.gif {
   width: 12rem !important;
   height: 6.3rem;
   line-height: 15px;
-  background: linear-gradient(50deg, #8f8fe7 20%, #b5b5dd 80%) !important;
+  background: linear-gradient(50deg, #8f8fe7 20%, #aaaae2 80%) !important;
   border-radius: 0.2rem !important;
   align-items: baseline;
   padding: 1rem 10px !important;

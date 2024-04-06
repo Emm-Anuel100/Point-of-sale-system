@@ -1,148 +1,63 @@
 
 // light/dark mode toggle starts here
-let theme_btn = document.querySelector('.theme_btn');
-theme_btn.onclick = (e) =>{
-e.preventDefault();
+// let theme_btn = document.querySelector('.theme_btn');
+// theme_btn.onclick = (e) =>{
+// e.preventDefault();
 
-let page_body = document.body;
-page_body.classList.toggle('light_mode');
-}
+// let page_body = document.body;
+// page_body.classList.toggle('light_mode');
+// }
 // light/dark mode toggle ends here
 
 
+    // JavaScript function to show corresponding page section
+    function showPage(sectionNumber) {
+      // Hide all page sections
+      var sections = document.getElementsByClassName('page');
+      for (var i = 0; i < sections.length; i++) {
+        sections[i].style.display = 'none';
+      }
+      
+      // Show the selected page section
+      document.getElementById('section' + sectionNumber).style.display = 'block';
+  
+      // Remove 'active' class from all buttons
+      var buttons = document.querySelectorAll('.nav_bars a.nav i');
+      for (var i = 0; i < buttons.length; i++) {
+        buttons[i].classList.remove('active');
+      }
+  
+      // Add 'active' class to the clicked button
+      document.getElementById('btn' + sectionNumber).classList.add('active');
+    }
 
-document.addEventListener('DOMContentLoaded', () => {
-   // Page nav btns vars...
-   const homeSectionBtn = document.querySelector('.home');
-   const addProductBtn = document.querySelector('.add_product');
-   const manageProductsBtn = document.querySelector('.manage_products');
-   const trackSalesBtn = document.querySelector('.track_sales');
-   const manageDistributorBtn = document.querySelector('.manage_distributor');
-   const notificationsBtn = document.querySelector('.notifications');
-   const configBtn = document.querySelector('.config');
-   const manageCashierBtn = document.querySelector('.manage_cashier');
-   const manageUDOBtn = document.querySelector('.manage_udo');
-   const accountBtn = document.querySelector('.account');
-   const joterBtn = document.querySelector('.joter');
-   const helpBtn = document.querySelector('.help');
+    // When help btn is clicked
+    document.querySelector("#btn12").addEventListener('click', ()=>{
+     // invoke  TypeWriteTextEffect() function
+     TypeWriteTextEffect();
+    })
+  
 
-   // Page sections vars...
-   const homeSection = document.querySelector('.section1');
-   const addProduct = document.querySelector('.section2');
-   const manageProducts = document.querySelector('.section3');
-   const trackSales = document.querySelector('.section4');
-   const manageDistributor = document.querySelector('.section5');
-   const notifications = document.querySelector('.section6');
-   const config = document.querySelector('.section7');
-   const manageCashier = document.querySelector('.section8');
-   const manageUDO = document.querySelector('.section9');
-   const account = document.querySelector('.section10');
-   const joter = document.querySelector('.section11');
-   const help = document.querySelector('.section12');
+  // Typewriter effect fuction starts here
+  function TypeWriteTextEffect(){
+  // Text to be written with typewriter effect
+  const text = 'Developed by Beter Concept Coperate Services Abuja, need help? contact us today at <a href="https://www.beterconcept.com" target="_blank">beterconcept.com</a>';
+ 
+  // Initialize Typed.js
+  const options = {
+   strings: [text],
+   typeSpeed: 40,
+   showCursor: false,
+  };
+ 
+   const typed = new Typed('#text-container', options);
+  }
+ // Typewriter effect fuction ends here
  
 
 
-   // Default background of home icon is set to orange
-   homeSectionBtn.style.background = "rgb(231, 96, 34)";
-   
- 
-   // Keep track of the previously clicked button
-   let previousBtn = homeSectionBtn;
- 
-   // Function to handle button clicks
-   function handleButtonClick(clickedBtn, activeSection) {
-     clickedBtn.classList.add('active');
-     homeSectionBtn.style.background = "rgb(84, 92, 104)";
- 
-     if (previousBtn !== clickedBtn) {
-       previousBtn.classList.remove('active');
-       previousBtn = clickedBtn;
-     }
- 
-     [addProductBtn, manageProductsBtn, trackSalesBtn, manageDistributorBtn, notificationsBtn, configBtn, manageCashierBtn, manageUDOBtn, accountBtn, joterBtn, helpBtn].forEach(btn => {
-       if (btn !== clickedBtn) {
-         btn.classList.remove('active');
-       }
-     });
- 
-     [addProduct, manageProducts, trackSales, manageDistributor, notifications, config, manageCashier, manageUDO, account, joter, help].forEach(section => {
-       section.classList.remove('active');
-     });
- 
-     document.querySelector('.illustration').style.visibility = 
-      activeSection === homeSection ? 'visible' : 'hidden';
-     activeSection.classList.add('active');
-   }
- 
-   // Event listeners for button clicks
-   homeSectionBtn.addEventListener('click', (e) => {
-     e.preventDefault();
-     handleButtonClick(homeSectionBtn, homeSection);
-   });
- 
-   addProductBtn.addEventListener('click', (e) => {
-     e.preventDefault();
-     handleButtonClick(addProductBtn, addProduct);
-   });
- 
-   manageProductsBtn.addEventListener('click', (e) => {
-     e.preventDefault();
-     handleButtonClick(manageProductsBtn, manageProducts);
-   });
- 
-   trackSalesBtn.addEventListener('click', (e) => {
-     e.preventDefault();
-     handleButtonClick(trackSalesBtn, trackSales);
-   });
-
-   manageDistributorBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    handleButtonClick(manageDistributorBtn, manageDistributor);
-  });
-
-   notificationsBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    handleButtonClick(notificationsBtn, notifications);
-  });
-
-   configBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    handleButtonClick(configBtn, config);
-  });
-
-  manageCashierBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    handleButtonClick(manageCashierBtn, manageCashier);
-  });
-
-  manageUDOBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    handleButtonClick(manageUDOBtn, manageUDO);
-  });
-
-  accountBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    handleButtonClick(accountBtn, account);
-  });
-
-  joterBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    handleButtonClick(joterBtn, joter);
-  });
-
-  helpBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    handleButtonClick(helpBtn, help);
-
-    // invoke typewrite function
-    TypeWriteTextEffect();
-  });
- });
- 
-
-
- // Function to create and append a note element
-function appendNote(noteText, index) {
+  // Function to create and append a note element
+ function appendNote(noteText, index) {
   var noteContainer = document.createElement("div");
   noteContainer.className = "noteContainer";
   
@@ -205,16 +120,29 @@ document.getElementById("saveButton").addEventListener("click", saveNote);
 
 
 
-function TypeWriteTextEffect(){
- // Text to be written with typewriter effect
- const text = 'Developed by Beter Concept Coperate Services Abuja, need help? contact us today at <a href="https://www.beterconcept.com" target="_blank">beterconcept.com</a>';
+// sales interest calculator starts here
+const purchasePriceInput = document.getElementById('purchase_price');
+const salePercentInput = document.getElementById('sale_percent');
+const salesOutput = document.getElementById('interest');
 
- // Initialize Typed.js
- const options = {
-  strings: [text],
-  typeSpeed: 40,
-  showCursor: false,
- };
+// Function to calculate and update interest
+function calculateInterest() {
+    const purchasePrice = parseFloat(purchasePriceInput.value);
+    const salePercent = parseFloat(salePercentInput.value);
 
- const typed = new Typed('#text-container', options);
+    // Calculate interest
+    const interest = (purchasePrice * salePercent) / 100;
+
+   // Add interest to purchace price
+   const sales_price = interest + purchasePrice;
+  
+   // Display the sales price with 2 decimal places
+    // salesOutput.textContent = 'Sales Price: ₦' + sales_price.toFixed(2);
+	salesOutput.textContent = sales_price.toFixed(2);
 }
+
+// Attach event listeners to the input field
+salePercentInput.addEventListener('input', calculateInterest);
+purchasePriceInput.addEventListener('input', calculateInterest);
+
+// sales interest calculator ends here

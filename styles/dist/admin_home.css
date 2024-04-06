@@ -45,7 +45,7 @@ body {
   background: var(--page-background);
 }
 
-/*## page scroll bar styles ##*/
+/* ## page scroll bar styles ## */
 ::-webkit-scrollbar {
   width: 3px;
   background: gray;
@@ -151,9 +151,8 @@ body {
 .main-content nav.navigation section.nav_bars div.theme_btn {
   cursor: pointer;
 }
-.main-content section.section1 {
+.main-content section.dashboard {
   position: var(--position-absolute);
-  top: 10rem;
   z-index: var(--z-index-999);
   margin-left: var(--margin-left-19-rem);
   width: var(--width-72vw);
@@ -164,7 +163,7 @@ body {
 
 section.page {
   position: var(--position-absolute);
-  top: 4rem;
+  top: 9.5rem !important;
   display: none;
   z-index: var(--z-index-999);
   margin-left: var(--margin-left-19-rem);
@@ -172,10 +171,4 @@ section.page {
   height: var(--height-30-rem);
   overflow-y: var(--overflow-y-scroll);
   padding: var(--padding-1-5);
-}
-
-.page.active {
-  display: block;
-  top: 10rem;
-  transition: none;
 }

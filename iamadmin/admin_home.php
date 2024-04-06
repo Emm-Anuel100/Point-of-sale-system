@@ -75,40 +75,40 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
          <nav class="navigation">
             <img src="../images/shop_logo.png" alt="logo" class="logo_image">
             <section class="nav_bars">
-            <a href="#" class="nav"><i class="fas fa-dashboard home"></i><span class="title">Dashboard</span></a>
+            <a href="#" class="nav"><i class="fas fa-dashboard active" id="btn1" onclick="showPage(1)"></i><span class="title">Dashboard</span></a>
             <br/>
-            <a href="#" class="nav"><i class="fas fa-store add_product"></i><span class="title">Add new product</span></a>
+            <a href="#" class="nav"><i class="fas fa-store" id="btn2" onclick="showPage(2)"></i><span class="title">Add new product</span></a>
             <br/>
-             <a href="#" class="nav"><i class="fas fa-sack-dollar manage_products"></i><span class="title">Manage price list</span></a>
+             <a href="#" class="nav"><i class="fas fa-sack-dollar" id="btn3" onclick="showPage(3)"></i><span class="title">Manage price list</span></a>
             <br/>
-            <a href="#" class="nav"><i class="fas fa-cart-shopping track_sales"></i><span class="title">Sales Snapshot</span></a>
+            <a href="#" class="nav"><i class="fas fa-cart-shopping" id="btn4" onclick="showPage(4)"></i><span class="title">Sales Snapshot</span></a>
             <br/>
-            <a href="#" class="nav"><i class="fas fa-warehouse manage_distributor"></i><span class="title">Manage distributors</span></a>
+            <a href="#" class="nav"><i class="fas fa-warehouse" id="btn5" onclick="showPage(5)"></i><span class="title">Manage distributors</span></a>
             <br/>
-            <a href="#" class="nav"><i class="fas fa-bell notifications"></i><span id="notification-counter" class="counter"><?= number_format(mysqli_num_rows($notification_result)) ?></span><span class="title">Notifications</span></a>
+            <a href="#" class="nav"><i class="fas fa-bell" id="btn6" onclick="showPage(6)"></i><span id="notification-counter" class="counter"><?= number_format(mysqli_num_rows($notification_result)) ?></span><span class="title">Notifications</span></a>
             <br/>
             <a href="../chart_views/general_chart.php" class="nav"><i class="fas fa-chart-line"></i><span class="title">View sales chart</span></a>
             <br/>
-            <a href="#" class="nav"><i class="fas fa-cash-register manage_cashier"></i><span class="title">Manage cashier</span></a>
+            <a href="#" class="nav"><i class="fas fa-cash-register" id="btn7" onclick="showPage(7)"></i><span class="title">Manage cashier</span></a>
             <br/>
-            <a href="#" class="nav"><i class="fas fa-list-ul manage_udo"></i><span class="title">UDO list</span></a>
+            <a href="#" class="nav"><i class="fas fa-list-ul" id="btn8" onclick="showPage(8)"></i><span class="title">UDO list</span></a>
             <br/>
-            <a href="#" class="nav"><i class="fas fa-money-check account"></i><span class="title">Sales report</span></a>
+            <a href="#" class="nav"><i class="fas fa-money-check" id="btn9" onclick="showPage(9)"></i><span class="title">Sales report</span></a>
             <br/>
-            <a href="#" class="nav"><i class="fas fa-list-check joter"></i><span class="title">Admin joter</span></a>
+            <a href="#" class="nav"><i class="fas fa-list-check" id="btn10" onclick="showPage(10)"></i><span class="title">Admin joter</span></a>
             <br/>
-            <a href="#" class="nav"><i class="fas fa-users-cog config"></i><span class="title">Configurations</span></a>
+            <a href="#" class="nav"><i class="fas fa-users-cog" id="btn11" onclick="showPage(11)"></i><span class="title">Configurations</span></a>
             <br/>
-            <a href="#" class="nav"><i class="fas fa-person-circle-question help"></i><span class="title">Help</span></a>
+            <a href="#" class="nav"><i class="fas fa-person-circle-question" id="btn12" onclick="showPage(12)"></i><span class="title">Help</span></a>
             <br/>
             <a href="../admin_logout/logout.php" class="nav"><i class="fas fa-sign-out-alt"></i><span class="title">Log out</span></a>
-            <br/>
-            <div class="theme_btn nav"><i class="fas fa-adjust"></i> <span class="title">Theme</span></div>
+            <!--<br/>
+            <div class="theme_btn nav"><i class="fas fa-adjust"></i> <span class="title">Theme</span></div> -->
             </section>
          </nav>
 
          <!-- dashboard section starts here -->
-         <section class="section1 illustration">
+         <section class="dashboard page section1" id="section1"  style="display: block;">
             <div class="dashboard-title">
               <i class="fas fa-wallet"></i> Finances ...
             </div> <br/>
@@ -132,7 +132,7 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
              </div> <br/>
              <div class="wrapper-con con2">
                <div class="stock-detail">
-                  <h2>Poduct close to expiry: <span><?php product_expiry(); ?></span></h2><br/>
+                  <h2>Product close to expiry: <span><?php product_expiry(); ?></span></h2><br/>
                </div>
                <div class="expiry-detail">
                   <h2>Product out of stock: <span><?php product_stock(); ?></span></h2><br/>
@@ -146,9 +146,9 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
          
 
          <!-- add product section starts here -->
-         <section class="section2 page">
+         <section class="page" id="section2">
             <section class="form-section">
-               <h2 class="title">Add new product to system</h2> <br/><br/>
+               <h2 class="title">Add new product to the system</h2> <br/><br/>
                <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" onsubmit="return validateProduct()">
                   <fieldset>
                      <input type="text" name="product_name" id="product_name" placeholder="Product name ..." autocomplete="off" required="" class="add-product-input">
@@ -157,10 +157,13 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
                      <input type="text" name="bar_code" placeholder="Product barcode ..." autocomplete="off" required="" class="add-product-input">
                   </fieldset> <br/>
                   <fieldset>
-                     <input type="number" name="purchace_price" placeholder="Purchace price(&#8358;) ..." autocomplete="off" required="" min="1" class="add-product-input">
+                     <input type="number" name="purchace_price" placeholder="Purchace price(&#8358;) ..." autocomplete="off" required="" min="1" class="add-product-input" id="purchase_price">
                   </fieldset> <br/>
                   <fieldset>
-                     <input type="number" name="sale_percent" placeholder="Sale percentage(%) ..." autocomplete="off" required="" min="1" class="add-product-input">
+                     <input type="number" name="sale_percent" placeholder="Sale percentage(%) ..." autocomplete="off" required="" min="1" class="add-product-input" id="sale_percent">
+                  </fieldset> <br/>
+                  <fieldset>
+                     <span class="sales_price">Sales price: ₦<span id="interest"></span></span>
                   </fieldset> <br/>
                   <fieldset>
                      <input type="number" name="product_vat" placeholder="Product VAT(&#8358;) ..." autocomplete="off" required="" min="0" class="add-product-input">
@@ -169,63 +172,43 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
                      <input type="number" name="quantity" placeholder="Product Quantity ..." autocomplete="off" required="" min="1" class="add-product-input">
                   </fieldset> <br/>
                   <fieldset>
-                     <div class="expiry_date">product expiry date</div> <br/>
-                   <select name="year">
-                      <option disabled selected>year</option>
-                      <option value="24">2024</option>
-                      <option value="25">2025</option>
-                      <option value="26">2026</option>
-                      <option value="27">2027</option>
-                      <option value="28">2028</option>
-                      <option value="29">2029</option>
-                      <option value="30">2030</option>
-                      <option value="31">2031</option>
-                      <option value="32">2032</option>
-                      <option value="33">2033</option>
-                      <option value="34">2034</option>
-                      <option value="35">2035</option>
-                      <option value="36">2036</option>
-                      <option value="37">2037</option>
-                      <option value="38">2038</option>
-                      <option value="39">2039</option>
-                      <option value="40">2040</option>
-                      <option value="41">2041</option>
-                      <option value="42">2042</option>
-                      <option value="43">2043</option>
-                      <option value="44">2044</option>
-                      <option value="45">2045</option>
-                      <option value="46">2046</option>
-                      <option value="47">2047</option>
-                      <option value="48">2048</option>
-                      <option value="49">2049</option>
-                      <option value="50">2050</option>
-                      </select>
-                      <select name="month">
-                       <option disabled selected>month</option>
-                       <option value="01">january</option>
-                       <option value="02">february</option>
-                       <option value="03">march</option>
-                       <option value="04">april</option>
-                       <option value="05">may</option>
-                       <option value="06">june</option>
-                       <option value="07">july</option>
-                       <option value="08">august</option>
-                       <option value="09">september</option>
+                  <div class="expiry_date">product expiry date</div> <br/>
+                     <select name="year" class="date">
+                     <?php
+                     ## Get the current year
+                     $currentYear = date('Y');
+
+                     ## Loop to generate options for the next 30 years
+                     for ($i = 0; $i <= 30; $i++) {
+                        $year = $currentYear + $i;
+                        echo "<option value='$year'>$year</option>";
+                     }
+                     ?>
+                     </select>
+                      <select name="month" class="date">
+                       <option value="1">january</option>
+                       <option value="2">february</option>
+                       <option value="3">march</option>
+                       <option value="4">april</option>
+                       <option value="5">may</option>
+                       <option value="6">june</option>
+                       <option value="7">july</option>
+                       <option value="8">august</option>
+                       <option value="9">september</option>
                        <option value="10">october</option>
                        <option value="11">november</option>
                        <option value="12">december</option>
                        </select>
-                      <select name="day">
-                      <option disabled selected>day</option>
-                      <option value="01">01</option>
-                      <option value="02">02</option>
-                      <option value="03">03</option>
-                      <option value="04">04</option>
-                      <option value="05">05</option>
-                      <option value="06">06</option>
-                      <option value="07">07</option>
-                      <option value="08">08</option>
-                      <option value="09">09</option>
+                      <select name="day" class="date">
+                      <option value="1">01</option>
+                      <option value="2">02</option>
+                      <option value="3">03</option>
+                      <option value="4">04</option>
+                      <option value="5">05</option>
+                      <option value="6">06</option>
+                      <option value="7">07</option>
+                      <option value="8">08</option>
+                      <option value="9">09</option>
                       <option value="10">10</option>
                       <option value="11">11</option>
                       <option value="12">12</option>
@@ -280,6 +263,58 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
          </section>
          <!-- add product section ends here -->
 
+         <?php  
+          ## Adding of new product to the system starts here
+          if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["product_name"]) && isset($_POST["year"]) && isset($_POST["month"]) && isset($_POST["day"]) && isset($_POST["distributor"])) {
+            ## Initialize variables and sanitize input
+            $product_name = mysqli_real_escape_string($conn, filter_var($_POST["product_name"], FILTER_DEFAULT));
+            $barcode = mysqli_real_escape_string($conn, filter_var($_POST["bar_code"], FILTER_DEFAULT));
+            $sale_percent = mysqli_real_escape_string($conn, filter_var($_POST["sale_percent"], FILTER_DEFAULT));
+            $purchace_price = mysqli_real_escape_string($conn, filter_var($_POST["purchace_price"], FILTER_DEFAULT));
+
+            ## Convert sale percent to decimal
+            $convert_to_decimal = $sale_percent / 100;
+
+            ## Calculate interest
+            $interest = $purchace_price * $convert_to_decimal;
+
+            ## Sum interest with purchase price
+            $sales_price = $interest + $purchace_price;
+            $product_vat = mysqli_real_escape_string($conn, filter_var($_POST["product_vat"], FILTER_DEFAULT));
+            $product_quantity = mysqli_real_escape_string($conn, filter_var($_POST["quantity"], FILTER_DEFAULT));
+            $distributor = mysqli_real_escape_string($conn, filter_var($_POST["distributor"], FILTER_DEFAULT));
+
+            ## Get product expiry date
+            $expiry_year = mysqli_real_escape_string($conn, filter_var($_POST["year"], FILTER_DEFAULT));
+            $expiry_month = mysqli_real_escape_string($conn, filter_var($_POST["month"], FILTER_DEFAULT));
+            $expiry_day = mysqli_real_escape_string($conn, filter_var($_POST["day"], FILTER_DEFAULT));
+
+            ## Check if product with the same barcode already exists
+            $query = "SELECT * FROM products WHERE bar_code = '$barcode' LIMIT 1";
+            $result = mysqli_query($conn, $query);
+            if (mysqli_num_rows($result) > 0) {
+               echo '<script>alert("Product with this barcode already exists!");</script>';
+            } else {
+               ## Insert new product into the database
+               $sql = "INSERT INTO `products` (product_name, sales_price, sale_percent, purchace_price, distributor, bar_code, tax, quantity, expiry_year, expiry_month, expiry_day)
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+               $stmt = $conn->prepare($sql);
+               $stmt->bind_param("siiissiiiii", $product_name, $sales_price, $sale_percent, $purchace_price, $distributor, $barcode, $product_vat, $product_quantity, $expiry_year, $expiry_month, $expiry_day);
+               if ($stmt->execute() === true) {
+                  ## Alert success message and redirect
+                  echo '<script>alert("Product added successfully!"); window.location = "./admin_home.php";</script>';
+               } else {
+                  ## Display error message
+                  echo "An error occurred while adding the product: " . $conn->error;
+               }
+            }
+          } elseif (isset($_POST["add_product_btn"])) {
+            ## Display error message if any input field is empty
+            echo '<span style="font-size: 13.5px; color: orange; top: 0; left: -15px; position: relative; font-family: sans-serif">⚠ &nbsp; All input fields must be filled.</span>';
+         }
+         ## Adding of new product to the system ends here
+         ?>
+
 
          <!-- manage price section starts here -->
          <?php 
@@ -293,7 +328,7 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
             $row = mysqli_fetch_array($result_recent);
          }
          ?>
-         <section class="section3 page">
+         <section class="page" id="section3">
             <h2 class="title title-2"><?= number_format(mysqli_num_rows($result)) ?> <span class="sm-text">Products added..</span></h2> 
             <br/> 
             <div class="product-wrapper">
@@ -395,19 +430,19 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
 
 
          <!-- sales snapshot section starts here -->
-         <section class="section4 page">
-            <h2 class="title">Sales snapshot ..</h2>
-            <br/>
+         <section class="page" id="section4">
+            <h2 class="title">Sales snapshot .. <span style="font-size: 12px">| Get all sales, total income, infor. of products sold on a specific date |</span></h2>
+            <br/><br/><br/>
             <section class="form-section track">
                <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" onsubmit="return validateSales()">
                   <fieldset>
                      <input type="number" name="year" id="year" placeholder="Enter year e.g (<?= date('Y') ?>) ..." autocomplete="off" required="" min="1">
                   </fieldset> <br/>
                   <fieldset>
-                     <input type="number" name="month" placeholder="Enter month e.g (<?= number_format(date('m')) ?>) ..." autocomplete="off" required="" min="1" max="12">
+                     <input type="number" name="month" placeholder="Enter month e.g (<?= date('n') ?>) ..." autocomplete="off" required="" min="1" max="12">
                   </fieldset> <br/>
                   <fieldset>
-                     <input type="number" name="day" placeholder="Enter day e.g (<?= number_format(date('d')) ?>) ..." autocomplete="off" required="" min="1" max="31">
+                     <input type="number" name="day" placeholder="Enter day e.g (<?= date('j') ?>) ..." autocomplete="off" required="" min="1" max="31">
                   </fieldset> <br/>
                   <fieldset>
                      <button type="submit">
@@ -419,32 +454,33 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
             </section>
 
             <br/><br/>
-            <?php
-            if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["month"]) && !empty($_POST["month"])) {
-            ## Initialize variables
-            $year = mysqli_real_escape_string($conn, filter_var($_POST["year"], FILTER_DEFAULT));
-            $month = mysqli_real_escape_string($conn, filter_var($_POST["month"], FILTER_DEFAULT));
-            $day = mysqli_real_escape_string($conn, filter_var($_POST["day"], FILTER_DEFAULT));
+         <?php
+        if ($_SERVER["REQUEST_METHOD"] === "POST" && !empty($_POST["month"]) && isset($_POST["month"])) {
+        ## Initialize variables
+        $year = mysqli_real_escape_string($conn, filter_var($_POST["year"], FILTER_DEFAULT));
+        $month = mysqli_real_escape_string($conn, filter_var($_POST["month"], FILTER_DEFAULT));
+        $day = mysqli_real_escape_string($conn, filter_var($_POST["day"], FILTER_DEFAULT));
 
-            ## Query to fetch sales data
-            $result_infor = mysqli_query($conn, "SELECT * FROM `sales` WHERE `year` = '$year' AND `month` = '$month' AND `day` = '$day'");
+        ## Query to fetch sales data
+        $result_infor = mysqli_query($conn, "SELECT * FROM `sales` WHERE `year` = '$year' AND `month` = '$month' AND `day` = '$day'");
 
-            ## Variables to store total amount and number of rows
-            $totalamount = 0;
-            $num_rows = mysqli_num_rows($result_infor);
+        ## Variables to store total amount and number of rows
+        $totalamount = 0;
+        $num_rows = mysqli_num_rows($result_infor);
 
-            ## Process sales data
-            if ($num_rows > 0) {
+        ## Process sales data
+        if ($num_rows > 0) {
             while ($row = mysqli_fetch_array($result_infor)) {
-            ## Calculate total amount
-            $totalamount += $row["total_naira"];
+                ## Calculate total amount
+                $totalamount += $row["total_naira"];
             }
-           } else {
-           ## if no sale was found for the selected date
-           echo '<script>alert("No sale matches the date inputed!")</script>';
-          }
-        }
+         } ## elseif ($num_rows === 0) {
+            ## if no sale was found for the selected date
+           ## echo '<script>alert("No sale matches the date inputted!")</script>';
+          ## }
+         }
        ?>
+
 
       <div class="product-wrapper">
       <div class="product sales-count">
@@ -527,8 +563,8 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
 
 
    <!-- manage distributor section starts here -->
-   <section class="section5 page">
-      <h1 class="title">Manage distributors ..</h1> <br/>
+   <section class="page" id="section5">
+      <h1 class="title">Manage distributors .. <span style="font-size: 12px">| Add or remove a distributor |</span></h1> <br/>
       <span class="sub-title">Manage distributors &nbsp; <i class="fas fa-angle-right"></i> &nbsp; add distributor</span><br/><br/>
 
          <section class="form-section track">
@@ -591,7 +627,7 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
 
 
     <!-- notifications section starts here -->
-    <section class="section6 page">
+    <section class="page section6" id="section6">
       <h1 class="title">Notifications ..</h1> <br/>
       <span><i class="fas fa-bell"></i> Notifications in the last four days ..</span>  <br/><br/>
 
@@ -602,10 +638,28 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
 
 
     <!-- configurations section starts here -->
-    <section class="section7 page">
+    <section class="page" id="section11">
       <h1 class="title">Configurations ..</h1> <br/><br/>
       <!--- updating expiry countdown starts here --->
       <span class="sub-title">Configuration &nbsp; <i class="fas fa-angle-right"></i> &nbsp; product expiry &nbsp; <i class="fas fa-angle-right"></i> &nbsp; set expiry countdown [in days]</span><br/><br/>
+
+       <?php
+        ## Query to get current countdown value from the database
+         $sql = "SELECT expiry_range FROM expiry_config";
+         $result = $conn->query($sql);
+
+         if ($result->num_rows > 0) {
+         ## Output data of each row
+         while($row = $result->fetch_assoc()) {
+            $expiry_range = $row["expiry_range"];
+         }
+         } else {
+         echo "0 results";
+         }
+      ?>
+      <br/>
+      <span>Current Countdown: <samp><?= $expiry_range; ?></samp></span>
+      <br/><br/>
 
       <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" onsubmit="return validateExpiryRange()">
          <fieldset>
@@ -620,8 +674,27 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
          </form> <br/><br/>
          <!--- updating expiry countdown ends here --->
 
+
          <!--- updating stock threshold starts here --->
          <span class="sub-title">Configuration &nbsp; <i class="fas fa-angle-right"></i> &nbsp; stock threshold</span><br/><br/>
+
+         <?php
+         ## Query to get current threshold value from the database
+         $sql = "SELECT quantity FROM quantity_config";
+         $result = $conn->query($sql);
+
+         if ($result->num_rows > 0) {
+         ## Output data of each row
+         while($row = $result->fetch_assoc()) {
+            $stock_threshold = $row["quantity"];
+         }
+         } else {
+         echo "0 results";
+         }
+        ?>
+         <br/>
+          <span>Current Threshold: <samp><?= $stock_threshold; ?></samp></span>
+         <br/><br/>
 
         <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" onsubmit="return validateStockRange()">
          <fieldset>
@@ -636,8 +709,27 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
          </form> <br/><br/>
          <!--- updating stock threshold ends here --->
 
-         <!--- updating admin username starts here --->
-         <span class="sub-title">Configuration &nbsp; <i class="fas fa-angle-right"></i> &nbsp; update admin username</span><br/><br/>
+
+       <!--- updating admin username starts here --->
+       <span class="sub-title">Configuration &nbsp; <i class="fas fa-angle-right"></i> &nbsp; update admin username</span><br/><br/>
+
+        <?php
+         ## Query to get current admin username from the database
+         $sql = "SELECT admin_name FROM admin_config";
+         $result = $conn->query($sql);
+
+         if ($result->num_rows > 0) {
+         ## Output data of each row
+         while($row = $result->fetch_assoc()) {
+            $admin_name = $row["admin_name"];
+         }
+         } else {
+         echo "0 results";
+         }
+         ?>
+         <br/>
+          <span>Current Username: <samp><?= $admin_name; ?></samp></span>
+         <br/><br/>
 
          <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" onsubmit="return updateAdminUsername()">
          <fieldset>
@@ -651,6 +743,7 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
          </fieldset>
          </form> <br/><br/>
          <!--- updating admin username ends here --->
+
 
          <!--- updating admin password start here --->
          <span class="sub-title">Configuration &nbsp; <i class="fas fa-angle-right"></i> &nbsp; update admin password</span><br/><br/>
@@ -671,9 +764,9 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
     <!-- configurations section ends here -->
 
 
-     <!-- manage cashier starts here -->
-      <section class="section8 page">
-      <h1 class="title">Manage cashier ..</h1> <br/><br/>
+     <!-- manage cashier section starts here -->
+      <section class="page" id="section7">
+      <h1 class="title">Manage cashier .. <span style="font-size: 12px">| Add or remove a cashier |</span></h1> <br/><br/>
 
       <span class="sub-title">Manage cashier &nbsp; <i class="fas fa-angle-right"></i> &nbsp; add cashier</span><br/><br/>
 
@@ -733,20 +826,49 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
             }
             ?>             
       </section>
-     <!-- manage cashier ends here -->
+      <!-- manage cashier section ends here -->
 
 
-      <!-- manage UDO list starts here -->
-       <section class="section9 page">
-       <h1 class="title">Manage UDO list ..</h1> <br/><br/>
+      <!-- manage UDO list section starts here -->
+       <section class="page" id="section8">
+       <?php
+         ## Fetch product data from the database alphabetically
+         $sql_fetch_products = "SELECT id, product_name FROM products ORDER BY product_name";
+         $result_fetch_products = mysqli_query($conn, $sql_fetch_products);
+         $products = mysqli_fetch_all($result_fetch_products, MYSQLI_ASSOC);
+         ?>
+       <h1 class="title">Manage UDO list .. <span style="font-size: 12px">| Mark Product as Unsold/internally used, Destroyed, or Other |</span></h1> <br/><br/><br/>
           
-       </section>
-      <!-- manage UDO list ends here -->
+       <form method="post" action="<?= htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+        <label for="product_id" style="font-family: sans-serif; color: #cfcfcf;">Select Product:</label> <br/><br/>
 
+        <select name="product_id" id="product_id" style="color: #fcfcfc; background: none; padding: 1rem; border-radius: .2rem; border: 1px solid gray">
+            <?php foreach ($products as $product): ?>
+                <option value="<?= $product['id']; ?>" style="color: #696767"><?= $product['product_name']; ?></option> 
+            <?php endforeach; ?> 
+        </select>
+        <br/><br/><br/>
+
+        <label for="udo_quantity" style="font-family: sans-serif; color: #cfcfcf;">Quantity:</label> <br/><br/>
+        <input type="number" name="udo_quantity" id="udo_quantity" placeholder="...." min="1" required autocomplete="off" step="1" style="background: none; padding: 1rem; border: 1px solid gray; border-radius: .2rem; color: #eee">
+        <br/><br/><br/>
+
+        <label for="action" style="font-family: sans-serif; color: #cfcfcf;">Action:</label> <br/><br/>
+        <select name="action" id="action" style="color: #fcfcfc; background: none; padding: 1rem; border-radius: .2rem; border: 1px solid gray">
+            <option value="unsold/internally used" style="color: #696767">Unsold/internally used</option>
+            <option value="destroyed" style="color: #696767">Destroyed</option>
+            <option value="other" style="color: #696767">Other</option>
+        </select>
+        <br/><br/><br/>
+
+        <input type="submit" value="Submit" name="UDOsubmitBtn" style="width: 10rem; color: #f0efef; height: 3rem; border-radius: 0.2rem; padding: 9px 2%; background: linear-gradient(20deg, #6a6ae2, #acacf7); cursor: pointer;">
+       </form>
+       </section>
+      <!-- manage UDO list section ends here -->
 
 
     <!-- Sales report section starts here -->
-   <section class="section10 page">
+   <section class="page section9" id="section9">
       <h1 class="title">Generate Sales Report ..</h1>
     
      <span style="display: flex; gap: 10px; position: absolute; left: 60%;">
@@ -758,25 +880,25 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
     <span class="sub-title">Sales report &nbsp; <i class="fas fa-angle-right"></i> &nbsp; Generate report base on date range</span><br/><br/>
 
     <form id="salesReportForm">
-        <input type="number" id="start_year" name="start_year" required min="2000" step="1" placeholder="Start year ...">
+        <input type="number" class="sales-report" id="start_year" name="start_year" required min="2000" step="1" placeholder="Start year ...">
         
-        <input type="number" id="start_month" name="start_month" required min="1" max="12" step="1" placeholder="Start month ...">
+        <input type="number" class="sales-report" id="start_month" name="start_month" required min="1" max="12" step="1" placeholder="Start month ...">
         
-        <input type="number" id="start_day" name="start_day" required min="1" max="31" step="1" placeholder="Start day ...">
+        <input type="number" class="sales-report" id="start_day" name="start_day" required min="1" max="31" step="1" placeholder="Start day ...">
 
         <br/><br/>
 
-        <input type="number" id="end_year" name="end_year" required min="2000" step="1" placeholder="End year ...">
+        <input type="number" class="sales-report" id="end_year" name="end_year" required min="2000" step="1" placeholder="End year ...">
         
-        <input type="number" id="end_month" name="end_month" required min="1" max="12" step="1" placeholder="End month ..."> 
+        <input type="number" class="sales-report" id="end_month" name="end_month" required min="1" max="12" step="1" placeholder="End month ..."> 
         
-        <input type="number" id="end_day" name="end_day" required min="1" max="31" step="1" placeholder="End day ...">
+        <input type="number" class="sales-report" id="end_day" name="end_day" required min="1" max="31" step="1" placeholder="End day ...">
 
         <br/><br/>
-        <input type="submit" value="Generate Report" class="report_btn">
+        <input type="submit" class="sales-report" value="Generate Report" class="report_btn">
     </form> <br/><br/>
 
-    <!-- container where table content will be rendered -->
+    <!-- container where sales report table will be rendered -->
     <div id="salesReportTable"></div>
 
     </section>
@@ -784,7 +906,7 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
 
 
        <!-- Joter section starts here -->
-        <section class="section11 page">
+        <section class="page" id="section10">
         <h1 class="title">Admin joter ..</h1> <br/><br/>
 
          <textarea id="noteInput" placeholder="Write your note here..."></textarea> <br/>
@@ -796,14 +918,68 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
 
 
        <!-- Help section starts here -->
-         <section class="section12 page">
+         <section class="page" id="section12">
          <h1 class="title">Help ..</h1> <br/><br/>
 
+         <!-- help infor. wrapper-->
          <div id="text-container"></div>
          </section>
        <!-- Help section ends here -->
 </main>
 </body>
+
+
+<style type="text/css">
+/* styles for sales report starts here*/
+input[type="number"].sales-report{
+   padding: 9px 2%;
+   width: 18rem;
+   border: none;
+   margin: 5px 3px;
+   border-radius: .1rem;
+   background: transparent;
+   border: 1px solid #424242;
+   color: rgb(212, 212, 212);
+   height: 3rem;
+}
+input[type="submit"].sales-report{
+   padding: 9px 2%;
+   width: 10rem !important;
+   border: none;
+   cursor: pointer;
+   margin: 3.5px 0;
+   border-radius: .2rem;
+   background: linear-gradient(20deg, rgb(106, 106, 226), rgb(172, 172, 247));
+   color: rgb(240, 239, 239);
+   height: 3rem;
+}
+input[type="submit"].sales-report:hover{
+   background: linear-gradient(70deg, rgb(106, 106, 226), rgb(172, 172, 247));
+   transition: ease-in-out .2s;
+}
+
+table{
+   width: 100%;
+   font-family: sans-serif;
+   border-collapse: collapse;
+}
+.report-title{
+   font-family: sans-serif;
+}
+th, td {
+   padding: 8px;
+   text-align: left;
+   color: rgb(224, 222, 222);
+   border: 1px solid #c5c5c5;
+   font-size: 12.5px;
+   line-height: 22px;
+}
+th {
+   background-color: rgb(96, 126, 223);
+   color: rgb(243, 242, 242);
+}
+/* syles for sales report ends here*/
+</style>
 
 <script src="../script/admin_home.js"></script>
 <script type="text/javascript">
@@ -1161,55 +1337,6 @@ function selectinput(list) {
 
 
 <?php
-## Check if the form for adding new products is submitted
-if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["product_name"]) && isset($_POST["year"]) && isset($_POST["month"]) && isset($_POST["day"]) && isset($_POST["distributor"])) {
-    ## Initialize variables and sanitize input
-    $product_name = mysqli_real_escape_string($conn, filter_var($_POST["product_name"], FILTER_DEFAULT));
-    $barcode = mysqli_real_escape_string($conn, filter_var($_POST["bar_code"], FILTER_DEFAULT));
-    $sale_percent = mysqli_real_escape_string($conn, filter_var($_POST["sale_percent"], FILTER_DEFAULT));
-    $purchace_price = mysqli_real_escape_string($conn, filter_var($_POST["purchace_price"], FILTER_DEFAULT));
-
-    ## Convert sale percent to decimal
-    $convert_to_decimal = $sale_percent / 100;
-
-    ## Calculate interest
-    $interest = $purchace_price * $convert_to_decimal;
-
-    ## Sum interest with purchase price
-    $sales_price = $interest + $purchace_price;
-    $product_vat = mysqli_real_escape_string($conn, filter_var($_POST["product_vat"], FILTER_DEFAULT));
-    $product_quantity = mysqli_real_escape_string($conn, filter_var($_POST["quantity"], FILTER_DEFAULT));
-    $distributor = mysqli_real_escape_string($conn, filter_var($_POST["distributor"], FILTER_DEFAULT));
-
-    ## Get product expiry date
-    $expiry_year = mysqli_real_escape_string($conn, filter_var($_POST["year"], FILTER_DEFAULT));
-    $expiry_month = mysqli_real_escape_string($conn, filter_var($_POST["month"], FILTER_DEFAULT));
-    $expiry_day = mysqli_real_escape_string($conn, filter_var($_POST["day"], FILTER_DEFAULT));
-
-    ## Check if product with the same barcode already exists
-    $query = "SELECT * FROM products WHERE bar_code = '$barcode' LIMIT 1";
-    $result = mysqli_query($conn, $query);
-    if (mysqli_num_rows($result) > 0) {
-        echo '<script>alert("Product with this barcode already exists!");</script>';
-    } else {
-        ## Insert new product into the database
-        $sql = "INSERT INTO `products` (product_name, sales_price, sale_percent, purchace_price, distributor, bar_code, tax, quantity, expiry_year, expiry_month, expiry_day)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("siiissiiiii", $product_name, $sales_price, $sale_percent, $purchace_price, $distributor, $barcode, $product_vat, $product_quantity, $expiry_year, $expiry_month, $expiry_day);
-        if ($stmt->execute() === true) {
-            ## Alert success message and redirect
-            echo '<script>alert("Product added successfully!"); window.location = "./admin_home.php";</script>';
-        } else {
-            ## Display error message
-            echo "An error occurred while adding the product: " . $conn->error;
-        }
-    }
-  } elseif (isset($_POST["add_product_btn"])) {
-    ## Display error message if any input field is empty
-    echo '<span style="font-size: 13.5px; color: orange; top: 3px; left: 25px; position: relative; font-family: sans-serif">⚠ &nbsp; All input fields must be filled.</span>';
-}
-
 
 ## adding of distributor starts here
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["distributor_name"]) && isset($_POST["distributor_address"]) && isset($_POST["distributor_reg_no"])) {
@@ -1271,13 +1398,14 @@ if (isset($_POST["admin_username"]) && !empty([@$_POST["admin_username"]]) && $_
    if($conn->query($username_update_query) === true){
       echo('
       <script> alert("Admin username updated successfully!");
+        window.location = "./admin_home.php";
       </script>
       ');
    } else {
       echo('AN ERROR OCCURED WHILE UPDATING ADMIN USERNAME:' .$conn->error);
    }
 }
-## updating admin password ends here
+## updating admin username ends here
 
 
 ## updating admin password starts here
@@ -1289,10 +1417,11 @@ if (isset($_POST["admin_password"]) && !empty([@$_POST["admin_password"]]) && $_
    ## query to update admin password
    $password_update_query = "UPDATE `admin_config` SET `admin_password` = '$password_hash' WHERE `id` = 1";
 
-   ## check if error
+   ## check if error occured
    if($conn->query($password_update_query) === true){
       echo('
       <script> alert("Admin password updated successfully!");
+        window.location = "./admin_home.php";
       </script>
       ');
    } else {
@@ -1314,6 +1443,7 @@ if (isset($_POST["stock_threshold"]) && !empty([@$_POST["stock_threshold"]]) && 
    if($conn->query($stock_threshold) === true){
       echo('
       <script> alert("Stock threshold updated successfully!");
+      window.location = "./admin_home.php";
       </script>
       ');
     } else {
@@ -1335,6 +1465,7 @@ if (isset($_POST["expiry_range"]) && !empty([@$_POST["expiry_range"]]) && $_SERV
    if($conn->query($expiry_range_query) === true){
       echo('
       <script> alert("Expiry countdown updated successfully!");
+       window.location = "./admin_home.php";
       </script>
       ');
    } else {
@@ -1344,4 +1475,36 @@ if (isset($_POST["expiry_range"]) && !empty([@$_POST["expiry_range"]]) && $_SERV
 ## updating expiry countdown ends here
 
 
+## adding of UDO list starts here
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['udo_quantity']) && !empty($_POST['udo_quantity'])) {
+   ## Retrieve form data
+   $product_id = mysqli_real_escape_string($conn, filter_var($_POST["product_id"], FILTER_DEFAULT));
+   $quantity = mysqli_real_escape_string($conn, filter_var($_POST["udo_quantity"], FILTER_DEFAULT));
+   $action = mysqli_real_escape_string($conn, filter_var($_POST["action"], FILTER_DEFAULT));
+   
+   ## Update product quantity
+   $sql_update_quantity = "UPDATE products SET quantity = quantity - $quantity WHERE id = $product_id";
+   $result_update_quantity = mysqli_query($conn, $sql_update_quantity);
+   
+   if ($result_update_quantity) {
+       ## Insert into UDO list
+       $sql_insert_udo = "INSERT INTO udo_list (product_id, quantity, action) VALUES ('$product_id', '$quantity', '$action')";
+       $result_insert_udo = mysqli_query($conn, $sql_insert_udo);
+       
+       if ($result_insert_udo) {
+            echo '
+            <script>alert("Product quantity updated and UDO record inserted successfully.!")</script>
+            ';
+        } else {
+           echo "Error inserting UDO list: " . mysqli_error($conn);
+       }
+    } else {
+       echo "Error Updating product quantity: " . mysqli_error($conn);
+   }
+} elseif(isset($_POST['UDOsubmitBtn'])){
+   echo '
+   <script>alert("all input fields must be filled!")</script>
+   ';
+}
+## adding of UDO list ends here
 ?>

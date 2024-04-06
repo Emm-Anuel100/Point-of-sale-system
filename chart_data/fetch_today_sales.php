@@ -1,6 +1,5 @@
 <?php
 ## this file is used to fetch all sold products for the day
-## and output the frequently bought ones in order
 ## also invoked in (chart_views/today's_chart.php ln:49) 
 ## inplemented ajax for real time update on chart
 
@@ -10,7 +9,7 @@ require_once '../conn.php';
 ## get current year and month and day
 $year = DATE('Y');
 $month = DATE('n'); ## Retrieve month without leading zeros
-$day = DATE('d');
+$day = DATE('j');  ## Retrieve day without leading zeros
 
 ## Fetch data from the database
 $sql = "SELECT product_infor FROM `sales` WHERE `year` = '$year' AND `month` = '$month' AND `day` = '$day'";
@@ -26,7 +25,7 @@ if ($result->num_rows > 0) {
         $productInfo = $row['product_infor'];
 
         ## Parse the product information using regular expression
-        preg_match_all('/(\w+\s*\w*)\s*\(Quantity:\s*(\d+),\s*Price:\s*[^)]+\)/', $productInfo, $matches, PREG_SET_ORDER);
+        preg_match_all('/(.+?)\s*\(Quantity:\s*(\d+),\s*Price:\s*[^)]+\)/', $productInfo, $matches, PREG_SET_ORDER);
         
         ## Extract product name and quantity for each match
         foreach ($matches as $match) {

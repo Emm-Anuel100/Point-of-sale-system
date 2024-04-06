@@ -3,7 +3,7 @@
    --page-margin: 0;
    --box-sizing: border-box;
    --page-background: #232627;
-   --color-orange: rgb(66, 65, 64);
+   --color-border: rgb(180, 178, 178);
    --font-family: sans-serif;
    --text-color: rgb(204, 203, 203);
 }
@@ -134,7 +134,7 @@ section.main-content{
          }
          // usage
          @include text-input(3rem, 35%, 1.5rem 2%, 5px, 1px, none, #eaeaea, 12.2px);
-         border: 2px solid var(--color-orange);
+         border: 1.7px solid var(--color-border);
          font-family: var(--font-family);
 
          &::placeholder{
@@ -165,7 +165,7 @@ section.main-content{
          display: inline;
          align-items: center;
          position: relative;
-         background: var(--color-orange);
+         background: var(--color-border);
 
          &:hover{
             transform: scale(0.9);
@@ -187,7 +187,7 @@ section.main-content{
             width: 11rem;
             border-radius: .2rem;
             color: var(--text-color);
-            border: 1.1px solid rgb(63, 62, 62);
+            border: 1.1px solid var(--color-border);
             padding: 12px 10px;
             font-size: 12.1px;
             background: none;

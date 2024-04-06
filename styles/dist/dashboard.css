@@ -9,14 +9,13 @@
   grid-template-columns: 1fr 1fr 1fr;
 }
 .section1 > .wrapper-con .sales-con {
-  background: linear-gradient(40deg, rgba(236, 90, 32, 0.781), rgba(241, 99, 63, 0.986));
+  background: linear-gradient(40deg, rgba(32, 86, 236, 0.781), rgba(241, 99, 63, 0.986));
   padding: 1rem;
   border-radius: 0.3rem;
   align-items: center;
   box-shadow: 1px 2px 1rem #363535;
 }
 .section1 > .wrapper-con .sales-con:hover {
-  transform: scale(0.9);
   cursor: pointer;
 }
 .section1 > .wrapper-con .sales-con h2 {

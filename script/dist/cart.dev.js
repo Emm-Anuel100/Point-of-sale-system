@@ -30,9 +30,36 @@ cashier_name.addEventListener('mouseover', function (e) {
 }); //## remove btn when mouse leaves element
 
 cashier_name.addEventListener('mouseleave', function (e) {
-  e.preventDefault(); //## remove logout_btn classList after 2min
+  e.preventDefault(); //## remove logout_btn classList after 3min
 
   setTimeout(function () {
     logout_btn.classList.remove('active');
-  }, 2000);
+  }, 3000);
 }); //## code to add cashier logout btn ends here
+//## cashier's calculator starts here
+
+function appendNumber(num) {
+  document.getElementById('display').value += num;
+}
+
+function appendOperator(op) {
+  var display = document.getElementById('display').value;
+  var lastChar = display[display.length - 1];
+
+  if (!isNaN(lastChar) || lastChar === '.') {
+    document.getElementById('display').value += op;
+  }
+}
+
+function calculate() {
+  var displayValue = document.getElementById('display').value;
+
+  if (displayValue.trim() !== '') {
+    var result = eval(displayValue);
+    document.getElementById('display').value = result;
+  }
+}
+
+function clearDisplay() {
+  document.getElementById('display').value = '';
+} //## cashier's calculator ends here

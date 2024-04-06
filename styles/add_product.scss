@@ -1,9 +1,9 @@
 
 :root{
-   --color-title: rgb(202, 199, 199);
+   --color-title: #cac7c7;
    --box-shadow: 0px 0px 1.5rem rgb(20, 20, 20); 
-   --placeholder-color: rgb(204, 203, 203);
-   --color-select-option: gray;
+   --placeholder-color: #fcfcfc;
+   --color-select-option: #696767;
 }
 // light mode toggle
 .light_mode{
@@ -34,26 +34,28 @@ h2.title,
     margin: 0; 
    }
 
-  input[type="date"].date{
-   // mixin
-   @mixin input_date($appearance){
-      -webkit-appearance: $appearance !important;
-      -moz-appearance: $appearance !important;
-      appearance: $appearance !important;
-   }
-   // usage
-   @include input_date(none);
+//   input[type="date"].date{
+//    // mixin
+//    @mixin input_date($appearance){
+//       -webkit-appearance: $appearance !important;
+//       -moz-appearance: $appearance !important;
+//       appearance: $appearance !important;
+//    }
+//    // usage
+//    @include input_date(none);
 
-   // style calender picker icon
-   &::-webkit-calendar-picker-indicator{
-      cursor: pointer;
-   }
-}
+//    // style calender picker icon
+//    &::-webkit-calendar-picker-indicator{
+//       cursor: pointer;
+//    }
+// }
 
-select{
+select.date,
+select.distributor
+{
    background: none;
    border-radius: .2rem;
-   color: var(--color-select-option);
+   color: var(--placeholder-color);
 
    option{
       color: var(--color-select-option);
@@ -71,7 +73,15 @@ section.form-section{
    padding: 2rem 2% !important;
    left: 25% !important; 
    width: 26rem !important;
-   height: 44rem !important;
+   height: 46rem !important;
+
+   span.sales_price{
+      color: var(--placeholder-color);
+      font-family: sans-serif;
+      font-size: 14px;
+      position: relative;
+      left: 17px;
+   }
 }
 input.add-product-input{
    width: 23.4rem !important;

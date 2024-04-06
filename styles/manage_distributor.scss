@@ -1,7 +1,5 @@
 
 
-
-
 h1.title{
    // mixin
    @mixin title($font-size,$font-family,$font-weight){
@@ -32,19 +30,22 @@ img.gif{
    width: 130px;
    visibility: hidden;
 }
-.manage_distributor_wrapper > div, .notifications_wrapper > div{
+.manage_distributor_wrapper > div, 
+.notifications_wrapper > div
+{
    margin-top: 1rem;
    width: 600px;
    padding: 1.3rem 2rem;
    display: flex;
    flex-wrap: wrap;
-   background: rgb(61, 61, 85);
+   background: transparent;
+   border: 1px solid #838080;
    border-radius: .3rem;
    align-items: center;
    justify-content: space-between;
 
    samp{
-      font-size: 13.5px;
+      font-size: 13px;
       font-family: sans-serif;
 
       &+a{
@@ -63,7 +64,7 @@ img.gif{
    width: 12rem !important;
    height: 6.3rem;
    line-height: 15px;
-   background: linear-gradient(50deg, rgb(143, 143, 231) 20% , rgb(181, 181, 221) 80%) !important;
+   background: linear-gradient(50deg, rgb(143, 143, 231) 20% , rgb(170, 170, 226) 80%) !important;
    border-radius: .2rem !important;
    align-items: baseline;
    padding: 1rem 10px !important;

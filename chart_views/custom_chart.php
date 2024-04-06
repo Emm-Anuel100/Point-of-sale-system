@@ -26,8 +26,8 @@
     <!-- Form for custom chart -->
     <form method="post" class="chart_form">
         <input type="number" name="chart_year" placeholder="Enter year (<?= date('Y') ?>).." autocomplete="off" required min="1"> <br/><br/>
-        <input type="number" name="chart_month" placeholder="Enter month (<?= date('m') ?>).." autocomplete="off" required min="1" max="12"> <br/><br/>
-        <input type="number" name="chart_day" placeholder="Enter day (<?= date('d') ?>).." autocomplete="off" required min="1" max="31"> <br/><br/>
+        <input type="number" name="chart_month" placeholder="Enter month (<?= date('n') ?>).." autocomplete="off" required min="1" max="12"> <br/><br/>
+        <input type="number" name="chart_day" placeholder="Enter day (<?= date('j') ?>).." autocomplete="off" required min="1" max="31"> <br/><br/>
         <button type="submit" class="navigator"><span class="message">View Custom Chart</span></button>
     </form> <br/><br/><br/>
 

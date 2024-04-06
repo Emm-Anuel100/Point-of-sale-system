@@ -41,7 +41,8 @@ body{
    overflow-x: hidden !important;
    background: var(--page-background);
 }
-/*## page scroll bar styles ##*/
+
+/* ## page scroll bar styles ## */
 ::-webkit-scrollbar{
    width: 3px;
    background: gray;
@@ -91,9 +92,7 @@ body{
          display: flex;
          width: 14rem;
          flex-direction: column;
-         // border: var( --border-style);
          justify-content: center;
-         // box-shadow: var(--box-shadow);
          padding: 1.5rem;
 
          .nav{
@@ -132,12 +131,9 @@ body{
                font-size: 13px;
                color: var(--menu-title-color);
                font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-               // background: var(--gray);
                display: inline-block;
                height: 25px;
-               // border-radius: .4rem;
                line-height: 24px;
-               // width: auto;
                padding: 0 8px;
              }
            
@@ -151,12 +147,11 @@ body{
                height: 50px;
                background: var(--icon-background);
 
-
-               // active classlist for btn
                &.active{
                   background: var(--icon-background-active) !important;
                   transition: inherit;
-                  }
+
+               } 
               }
            
                &:hover span.title{
@@ -173,10 +168,9 @@ body{
       }
    }
 
-   // dashboard section
-   section.section1{
+   // dashboard section starts here
+   section.dashboard{
       position: var(--position-absolute);
-      top: 10rem;
       z-index: var(--z-index-999);
       margin-left: var(--margin-left-19-rem);
       width: var(--width-72vw);
@@ -184,13 +178,14 @@ body{
       overflow-y: var(--overflow-y-scroll);
       padding: var(--padding-1-5);
    }
-}
+ }
+ // dashboard section ends here
+
 
  // sections on page
  section.page{
       position: var(--position-absolute);
-      top: 4rem;
-      // visibility: hidden;
+      top: 9.5rem !important;
       display: none;
       z-index: var(--z-index-999);
       margin-left: var(--margin-left-19-rem);
@@ -200,9 +195,8 @@ body{
       padding: var(--padding-1-5);
   }
    // active classlist for page sections
-  .page.active{
-   // visibility: visible;
-   display: block;
-   top: 10rem;
-   transition: none;
-  }
+//   .page.active{
+//    display: block;
+//    top: 10rem;
+//    transition: none;
+//   }

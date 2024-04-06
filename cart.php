@@ -59,7 +59,31 @@ foreach ($_SESSION['cart'] as $product) {
          </header> <br/>
          <!-- page header section ends here -->
        
+        <div class="calculator">
+        <input type="text" title="result" class="display" id="display" readonly>
+        <div class="buttons">
+         <button onclick="appendNumber('7')">7</button>
+         <button onclick="appendNumber('8')">8</button>
+         <button onclick="appendNumber('9')">9</button>
+         <button onclick="appendOperator('+')">+</button>
+         <button onclick="appendNumber('4')">4</button>
+         <button onclick="appendNumber('5')">5</button>
+         <button onclick="appendNumber('6')">6</button>
+         <button onclick="appendOperator('-')">-</button>
+         <button onclick="appendNumber('1')">1</button>
+         <button onclick="appendNumber('2')">2</button>
+         <button onclick="appendNumber('3')">3</button>
+         <button onclick="appendOperator('*')">*</button>
+         <button onclick="appendNumber('0')">0</button>
+         <button onclick="appendOperator('.')">.</button>
+         <button onclick="calculate()">=</button>
+         <button onclick="appendOperator('/')">/</button>
+         <button class="clear" onclick="clearDisplay()">C</button>
+      </div>
+      </div>
+
         <section class="cart-section">
+
           <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" id="barcode_form">
             <fieldset>
               <input type="text" name="bar_code" class="bar_code" id="bar_code" required="" autocomplete="off" placeholder="Barcode here ...">
@@ -93,7 +117,7 @@ foreach ($_SESSION['cart'] as $product) {
 
            <!-- total sum of cart items -->  
             <samp class="title">
-              Total: &#8358;<?= number_format($total, 2) ?> 
+               Total: <b>&#8358;<?= number_format($total, 2) ?> </b>
               <?php @$_SESSION['total'] = $total ?>
             </samp>
             <br/><br/><br/>
@@ -127,15 +151,89 @@ foreach ($_SESSION['cart'] as $product) {
             <br/><br/><br/>
             <!-- page footer starts here -->
             <footer class="footer">
-             Blue Ocean Stores <span>&copy;2012 - <?= Date('Y'); ?>.</span>
+             Dadral Stores <span>&copy;2012 - <?= Date('Y'); ?>.</span>
             </footer>
             <!-- page footer ends here -->
             <br/><br/><br/>
          </section>
         </section>
       </section>
-      <img src="./images/claymorphic.png" alt="img" class="claymorphic" style="position: fixed; top: 36vh; left: 75%; height: 25rem; opacity: 20%">
+
+      
+      <!-- <img src="./images/claymorphic.png" alt="img" class="claymorphic" style="position: fixed; top: 36vh; left: 75%; height: 25rem; opacity: 20%"> -->
    </body>
+
+
+<!-- styles for calculator starts here -->
+<style type="text/css">
+.calculator {
+    position: fixed;
+    top: 28vh;
+    left: 52%;
+    width: 18rem;
+    background-color: #f8f6f6;
+    border-radius: 10px;
+    overflow-x: hidden;
+    padding: 20px;
+    cursor: pointer;
+    z-index: 9999;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    transform: scale(1);
+    transition: 0.3s ease;
+  }
+
+ @media all and (orientation: landscape) and (max-width: 1200px){
+  .calculator {
+    height: 73% !important;
+    top: 25vh;
+  }
+ }
+
+  .calculator .display {
+    width: 99%;
+    padding: 10px;
+    background: rgb(244, 244, 245);
+    box-shadow: 0px 0px 9px rgb(190, 188, 188);
+    margin-right: 3rem;
+    margin-bottom: 30px;
+    font-family: Arial, sans-serif;
+    border-radius: 5px;
+    text-align: right;
+    font-size: 24px;
+    border: none;
+    outline: none;
+  }
+
+  .calculator .buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 10px;
+  }
+
+  .calculator button {
+    padding: 15px;
+    font-family: Arial, sans-serif;
+    font-size: 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+    transition: 0.3s ease;
+  }
+
+  .calculator button:hover {
+    background-color: #0056b3;
+  }
+
+  /* styles for clear button */
+  .calculator button.clear {
+    grid-column: span 4;
+    background-color: #dc3545;
+  }
+ </style>
+ <!-- styles for calculator starts here -->
+
 
    <!-- external script source -->
    <script src="./script/cart.js"></script>
@@ -196,7 +294,6 @@ foreach ($_SESSION['cart'] as $product) {
        foreach ($_SESSION['cart'] as $product) {
            $total += $product['price'] * $product['quantity'];
        } 
-
        echo'
        <script>window.location = "./cart.php"</script>
        ';
@@ -205,5 +302,4 @@ foreach ($_SESSION['cart'] as $product) {
        echo '<script>alert("Barcode mismatch!");</script>';
    }
 }
-//   unset($_SESSION['cart']);
 ?>

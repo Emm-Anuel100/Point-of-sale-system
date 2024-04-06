@@ -3,7 +3,7 @@
 ## check for product that are equal to zero
 ## and delete them automatically
 ## also invoked in (admin_home.php ln:546) 
-## inplemented ajax for real time actions
+## implemented ajax for real time actions
 
 ## Require database connection file
 require_once '../conn.php';
@@ -24,6 +24,6 @@ if ($result->num_rows > 0) {
     echo "No rows found with quantity equal to zero";
 }
 
-## Close connection
+## Close database connection
 $conn->close();
 ?>

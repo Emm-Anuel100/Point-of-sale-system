@@ -1,6 +1,5 @@
 <?php
 ## this file is used to fetch all sold products for the year
-## and output the frequently bought ones in order
 ## also invoked in (chart_views/year_chart.php ln:47) 
 ## inplemented ajax for real time update on chart
 
@@ -24,7 +23,7 @@ if ($result->num_rows > 0) {
         $productInfo = $row['product_infor'];
 
         ## Parse the product information using regular expression
-        preg_match_all('/(\w+\s*\w*)\s*\(Quantity:\s*(\d+),\s*Price:\s*[^)]+\)/', $productInfo, $matches, PREG_SET_ORDER);
+        preg_match_all('/(.+?)\s*\(Quantity:\s*(\d+),\s*Price:\s*[^)]+\)/', $productInfo, $matches, PREG_SET_ORDER);
         
         ## Extract product name and quantity for each match
         foreach ($matches as $match) {
