@@ -3,7 +3,7 @@
   --page-margin: 0;
   --box-sizing: border-box;
   --page-background: #232627;
-  --color-border: rgb(180, 178, 178);
+  --color-border: rgb(97 96 96);
   --font-family: sans-serif;
   --text-color: rgb(204, 203, 203);
 }
@@ -149,7 +149,7 @@ section.main-content section.cart-section div.cart-wrapper .product {
   display: inline;
   align-items: center;
   position: relative;
-  background: var(--color-border);
+  background: #343333;
 }
 section.main-content section.cart-section div.cart-wrapper .product:hover {
   transform: scale(0.9);
