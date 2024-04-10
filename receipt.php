@@ -86,18 +86,15 @@ if (!isset($_SESSION['cashier_id']) || !isset($_SESSION['cashier_name']) || $_SE
          margin-bottom: 5px;
          text-transform: uppercase;
       }
-
       .address {
          font-size: 10px;
          line-height: 14px;
       }
-
       .trans-id {
          font-size: 10px;
          margin-top: 5px;
          margin-bottom: 5px;
       }
-
       .header, .items {
          display: flex;
          justify-content: space-between;
@@ -106,17 +103,14 @@ if (!isset($_SESSION['cashier_id']) || !isset($_SESSION['cashier_name']) || $_SE
          margin-bottom: 3px;
          font-size: 10px;
       }
-
       .header div:nth-child(1) {
          width: 30px; /* Width for quantity column */
          text-align: left;
       }
-
       .header div:nth-child(2) {
          width: 140px; /* Width for description column */
          text-align: left;
       }
-
       .header div:nth-child(3), 
       .items div:nth-child(3),
        .items div:nth-child(4) {

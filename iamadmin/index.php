@@ -85,7 +85,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['username']) && !empty(
            ## Password is correct, set session variables and redirect to dashboard
            $_SESSION['admin_id'] = $id;
            $_SESSION['admin_username'] = $db_username;
-           header("Location: ./admin_home.php");
+           ## redirect to admin home page
+           ?>
+            <script>
+               window.location.href = "./admin_home.php";
+            </script>
+            <?php
            exit();
        } else {
            echo('

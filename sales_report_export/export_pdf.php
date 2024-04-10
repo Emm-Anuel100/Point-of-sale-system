@@ -16,15 +16,27 @@ $result_sales = mysqli_query($conn, "SELECT * FROM sales WHERE
     (YEAR < '$end_year' OR (YEAR = '$end_year' AND MONTH < '$end_month') OR (YEAR = '$end_year' AND MONTH = '$end_month' AND DAY <= '$end_day'))");
 
 if (mysqli_num_rows($result_sales) > 0) {
+    ## Calculate total revenue
+    $total_naira = 0;
+    while ($row = mysqli_fetch_assoc($result_sales)) {
+        $total_naira += $row['total_naira'];
+    }
+
     $pdf = new FPDF('P', 'mm', array(380, 340));
     $pdf->AddPage();
+
+    ## Title
     $pdf->SetFont('Arial', 'B', 18); ## Set font size to 18px with bold
     $pdf->Cell(0, 10, 'Sales Report', 0, 1, 'C');
-
+    
     ## Subtitle with start and end dates
     $pdf->SetFont('Arial', 'B', 12); ## Set font size to 12px with bold
     $pdf->Cell(0, 10, 'From: ' . $start_year . '-' . $start_month . '-' . $start_day . ' To: ' . $end_year . '-' . $end_month . '-' . $end_day, 0, 1, 'C');
     
+    ## Display total revenue as a title at the center of the page
+    $pdf->SetFont('Arial', 'B', 15); ## Set font size to 15px with bold
+    $pdf->Cell(0, 10, 'Total Revenue: ₦' . number_format($total_naira, 2), 0, 1, 'C');
+
     $pdf->Ln(10);
     $pdf->SetFont('Arial', '', 12); ## Set font size to 12px without bold
     $pdf->Cell(40, 10, 'S/N', 1);
@@ -37,6 +49,7 @@ if (mysqli_num_rows($result_sales) > 0) {
     $pdf->Ln();
 
     $i = 1;
+    mysqli_data_seek($result_sales, 0); ## Reset result pointer
     while ($row = mysqli_fetch_assoc($result_sales)) {
         $pdf->Cell(40, 10, $i++, 1);
 

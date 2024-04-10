@@ -1337,7 +1337,6 @@ function selectinput(list) {
 
 
 <?php
-
 ## adding of distributor starts here
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["distributor_name"]) && isset($_POST["distributor_address"]) && isset($_POST["distributor_reg_no"])) {
    ## initialise vars...
@@ -1493,7 +1492,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['udo_quantity']) && !em
        
        if ($result_insert_udo) {
             echo '
-            <script>alert("Product quantity updated and UDO record inserted successfully.!")</script>
+            <script>alert("Product quantity updated and UDO record inserted successfully!");
+            window.location.href = "./admin_home.php";
+            </script>
             ';
         } else {
            echo "Error inserting UDO list: " . mysqli_error($conn);

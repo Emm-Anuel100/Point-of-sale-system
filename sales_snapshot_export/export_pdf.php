@@ -14,6 +14,9 @@ $result_infor = mysqli_query($conn, "SELECT * FROM `sales` WHERE `year` = '$year
 $num_rows = mysqli_num_rows($result_infor);
 
 if ($num_rows > 0) {
+    ## Initialize total naira
+    $total_naira = 0;
+
     ## Create new PDF instance
     $pdf = new FPDF('P', 'mm', array(350, 330)); 
     $pdf->AddPage();
@@ -32,7 +35,7 @@ if ($num_rows > 0) {
     ## Add table header
     $pdf->SetFont('Arial', 'B', 12);
     $pdf->Cell(40, 10, 'S/N', 1);
-    $pdf->Cell(80, 10, 'Product Info', 1); // Increase width for product_info
+    $pdf->Cell(80, 10, 'Product Info', 1); ## Increase width for product_info
     $pdf->Cell(40, 10, 'Sub-total', 1);
     $pdf->Cell(40, 10, 'Transaction ID', 1);
     $pdf->Cell(40, 10, 'Payment Mode', 1);
@@ -68,11 +71,25 @@ if ($num_rows > 0) {
         $pdf->Cell(40, 10, $row['cashier'], 1); ## Cashier
 
         $pdf->Ln(); ## Move to the next row
+
+        ## Add total naira
+        $total_naira += $row['total_naira'];
     }
 
-    ## Output PDF
-    $pdf->Output('sales_snapshot.pdf', 'I'); ## 'I' for inline view
-  } else {
+    ## Add space before displaying total naira
+    $pdf->Ln(10);
+
+    ## Add Total Revenue at the bottom of page
+    $pdf->SetFont('Arial', 'B', 14);
+    $pdf->Cell(0, 10, 'Total Revenue: ₦' . number_format($total_naira, 2), 0, 1, 'C');
+    $pdf->Ln(10);
+
+    ## Set filename with date
+    $filename = "sales_snapshot_$year-$month-$day.pdf";
+
+    ## Output PDF with filename
+    $pdf->Output($filename, 'I'); ## 'I' for inline view
+} else {
     echo "No data found." . '<br/><br/> <a href="../iamadmin/admin_home.php">go back</a>';
 }
 ?>

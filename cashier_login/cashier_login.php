@@ -124,7 +124,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cashier_name']) && !e
             $_SESSION['cashier_id'] = $cashier_id;
             $_SESSION['cashier_name'] = $cashier_name;
             ## Redirect to cart page
-            header("Location: ../cart.php");
+            ?>
+            <script>
+               window.location.href = "../cart.php";
+            </script>
+            <?php
             exit();
           } else {
             ## Incorrect cashier ID

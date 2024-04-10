@@ -36,6 +36,13 @@ $result_sales = mysqli_query($conn, "SELECT * FROM sales WHERE
    (YEAR < '$end_year' OR (YEAR = '$end_year' AND MONTH < '$end_month') OR (YEAR = '$end_year' AND MONTH = '$end_month' AND DAY <= '$end_day'))");
 
 if (mysqli_num_rows($result_sales) > 0) {
+   $total_naira = 0; ## Initialize total naira
+   while ($row = mysqli_fetch_assoc($result_sales)) {
+       $total_naira += $row['total_naira']; ## Add current row's total_naira to total_naira
+   }
+   
+   echo "<h4 class='report-title'>Total Revenue: <b style='color: rgb(172, 172, 247)'> ₦ " . number_format($total_naira, 2) . "</b></h4><br/><br/>";
+
    $output = "<h5 class='report-title'>Sales Report from $start_date to $end_date</h5><br/><br/>";
    $output .= "<table>
                 <tr>
@@ -48,6 +55,7 @@ if (mysqli_num_rows($result_sales) > 0) {
                    <th>Date</th>
                 </tr>";
    $i = 1;
+   mysqli_data_seek($result_sales, 0); ## Reset the result pointer to start from the beginning
    while ($row = mysqli_fetch_assoc($result_sales)) {
        $output .= "<tr>";
        $output .= "<td>" . $i . "</td>";
