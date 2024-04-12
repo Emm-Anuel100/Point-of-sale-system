@@ -50,7 +50,7 @@ function get_product_expiry_date() {
             $currentDate = mktime(0, 0, 0, $currentMonth, $currentDay, $currentYear);
             $remainingDays = round(($expiryDate - $currentDate) / (60 * 60 * 24));
 
-            ## Check if remaining days is less than or equal to the product expiry count down
+            ## Check if remaining days is less than or equal to the product expiry countdown
             if ($remainingDays <= $expiry_range) {
                 ## Get product name
                 $product_name = $row["product_name"];

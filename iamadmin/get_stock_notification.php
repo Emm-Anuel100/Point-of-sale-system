@@ -1,6 +1,6 @@
 <?php
 ## what this file does is to go through the products table 
-## and then get product that are out of stock
+## and then get product that are out of stock base on the stock threshold set by the admin
 ## if it finds any it will be stored in the notifications table
 ## also invoked in (admin_home.php ln:525) 
 ## inplemented ajax for real time update

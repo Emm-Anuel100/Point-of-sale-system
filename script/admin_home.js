@@ -10,8 +10,9 @@
 // light/dark mode toggle ends here
 
 
-    // JavaScript function to show corresponding page section
-    function showPage(sectionNumber) {
+
+     // JavaScript function to show corresponding page section
+     function showPage(sectionNumber) {
       // Hide all page sections
       var sections = document.getElementsByClassName('page');
       for (var i = 0; i < sections.length; i++) {
@@ -31,11 +32,13 @@
       document.getElementById('btn' + sectionNumber).classList.add('active');
     }
 
+    
     // When help btn is clicked
-    document.querySelector("#btn12").addEventListener('click', ()=>{
-     // invoke  TypeWriteTextEffect() function
-     TypeWriteTextEffect();
-    })
+     document.querySelector("#btn13").addEventListener('click', ()=>{
+      // invoke TypeWriteTextEffect() function
+      TypeWriteTextEffect();
+     })
+
   
 
   // Typewriter effect fuction starts here
@@ -120,29 +123,37 @@ document.getElementById("saveButton").addEventListener("click", saveNote);
 
 
 
-// sales interest calculator starts here
-const purchasePriceInput = document.getElementById('purchase_price');
-const salePercentInput = document.getElementById('sale_percent');
-const salesOutput = document.getElementById('interest');
+//##  Sales Price calculator starts here
+const purchasePriceInputs = document.querySelectorAll('.purchase_price');
+const salePercentInputs = document.querySelectorAll('.sale_percent');
+const salesOutputs = document.querySelectorAll('.interest');
 
-// Function to calculate and update interest
+// Function to calculate interest
 function calculateInterest() {
-    const purchasePrice = parseFloat(purchasePriceInput.value);
-    const salePercent = parseFloat(salePercentInput.value);
+    purchasePriceInputs.forEach(function(purchasePriceInput, index) {
+        const salePercentInput = salePercentInputs[index];
+        const salesOutput = salesOutputs[index];
 
-    // Calculate interest
-    const interest = (purchasePrice * salePercent) / 100;
+        const purchasePrice = parseFloat(purchasePriceInput.value);
+        const salePercent = parseFloat(salePercentInput.value);
 
-   // Add interest to purchace price
-   const sales_price = interest + purchasePrice;
-  
-   // Display the sales price with 2 decimal places
-    // salesOutput.textContent = 'Sales Price: ₦' + sales_price.toFixed(2);
-	salesOutput.textContent = sales_price.toFixed(2);
+        // Calculate interest
+        const interest = (purchasePrice * salePercent) / 100;
+
+        // Add interest to purchase price
+        const salesPrice = interest + purchasePrice;
+
+        // Display the sales price with 2 decimal places
+        salesOutput.textContent = salesPrice.toFixed(2);
+    });
 }
 
-// Attach event listeners to the input field
-salePercentInput.addEventListener('input', calculateInterest);
-purchasePriceInput.addEventListener('input', calculateInterest);
+// Attach event listeners to the input fields
+salePercentInputs.forEach(function(salePercentInput) {
+    salePercentInput.addEventListener('input', calculateInterest);
+});
 
-// sales interest calculator ends here
+purchasePriceInputs.forEach(function(purchasePriceInput) {
+    purchasePriceInput.addEventListener('input', calculateInterest);
+});
+//## sales Price calculator ends here

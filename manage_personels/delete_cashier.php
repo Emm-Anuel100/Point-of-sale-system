@@ -16,7 +16,7 @@ if (isset($_GET['cashierid'])) {
         exit;
      } else {
         ## Handle deletion error
-        echo "An error occurred while deleting the cashier." . $conn->error;
+        echo "An error occurred while deleting cashier." . $conn->error;
      }
     } else {
     ## Redirect back to admin home page if ID is not provided

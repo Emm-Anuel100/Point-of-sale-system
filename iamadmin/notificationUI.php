@@ -21,7 +21,7 @@ if (mysqli_num_rows($result_notifications) > 0) {
     }
     ## Return notifications as JSON
     echo json_encode($notifications);
-  } else {
+   } else {
     echo json_encode(array("message" => "You have no notifications yet."));
 }
 ?>

@@ -40,20 +40,21 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
    <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
-      <!-- external stylings -->
+      <!-- External stylings -->
       <link href="../styles/dist/admin_home.css" rel="stylesheet">
       <link href="../styles/dist/admin_index.css" rel="stylesheet">
       <link href="../styles/dist/add_product.css" rel="stylesheet">
       <link href="../styles/dist/manage_product_price.css" rel="stylesheet">
       <link href="../styles/dist/track_sales.css" rel="stylesheet">
-      <link  href="../styles/dist/manage_distributor.css" rel="stylesheet">
-      <link  href="../styles/dist/configuration.css" rel="stylesheet">
-      <link  href="../styles/dist/joter.css" rel="stylesheet">
-      <link  href="../styles/dist/sales_report.css" rel="stylesheet">
-      <link  href="../styles/dist/dashboard.css" rel="stylesheet">
-      <!-- fav-icon -->
+      <link href="../styles/dist/manage_distributor.css" rel="stylesheet">
+      <link href="../styles/dist/configuration.css" rel="stylesheet">
+      <link href="../styles/dist/joter.css" rel="stylesheet">
+      <link href="../styles/dist/sales_report.css" rel="stylesheet">
+      <link href="../styles/dist/dashboard.css" rel="stylesheet">
+      <link href="../styles/dist/Product_restock.css" rel="stylesheet">
+      <!-- Fav-icon -->
       <link rel="shortcut icon" href="../images/shop_logo.png" type="image/x-icon">
-      <!-- font awesome cdn link  -->
+      <!-- Font awesome cdn link  -->
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/brands.min.css" integrity="sha512-8RxmFOVaKQe/xtg6lbscU9DU0IRhURWEuiI0tXevv+lXbAHfkpamD4VKFQRto9WgfOJDwOZ74c/s9Yesv3VvIQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -99,7 +100,9 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
             <br/>
             <a href="#" class="nav"><i class="fas fa-users-cog" id="btn11" onclick="showPage(11)"></i><span class="title">Configurations</span></a>
             <br/>
-            <a href="#" class="nav"><i class="fas fa-person-circle-question" id="btn12" onclick="showPage(12)"></i><span class="title">Help</span></a>
+            <a href="#" class="nav"><i class="fas fa-boxes-stacked" id="btn12" onclick="showPage(12)"></i><span class="title">Product restock</span></a>
+            <br/>
+            <a href="#" class="nav"><i class="fas fa-person-circle-question" id="btn13" onclick="showPage(13)"></i><span class="title">Help</span></a>
             <br/>
             <a href="../admin_logout/logout.php" class="nav"><i class="fas fa-sign-out-alt"></i><span class="title">Log out</span></a>
             <!--<br/>
@@ -157,13 +160,13 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
                      <input type="text" name="bar_code" placeholder="Product barcode ..." autocomplete="off" required="" class="add-product-input">
                   </fieldset> <br/>
                   <fieldset>
-                     <input type="number" name="purchace_price" placeholder="Purchace price(&#8358;) ..." autocomplete="off" required="" min="1" class="add-product-input" id="purchase_price">
+                     <input type="number" name="purchace_price" placeholder="Purchace price(&#8358;) ..." autocomplete="off" required="" min="1" class="add-product-input purchase_price">
                   </fieldset> <br/>
                   <fieldset>
-                     <input type="number" name="sale_percent" placeholder="Sale percentage(%) ..." autocomplete="off" required="" min="1" class="add-product-input" id="sale_percent">
+                     <input type="number" name="sale_percent" placeholder="Sale percentage(%) ..." autocomplete="off" required="" min="1" class="add-product-input sale_percent">
                   </fieldset> <br/>
                   <fieldset>
-                     <span class="sales_price">Sales price: ₦<span id="interest"></span></span>
+                     <span class="sales_price">Sales price: ₦<span class="interest"></span></span>
                   </fieldset> <br/>
                   <fieldset>
                      <input type="number" name="product_vat" placeholder="Product VAT(&#8358;) ..." autocomplete="off" required="" min="0" class="add-product-input">
@@ -178,8 +181,8 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
                      ## Get the current year
                      $currentYear = date('Y');
 
-                     ## Loop to generate options for the next 30 years
-                     for ($i = 0; $i <= 30; $i++) {
+                     ## Loop to generate options for the next 50 years
+                     for ($i = 0; $i <= 50; $i++) {
                         $year = $currentYear + $i;
                         echo "<option value='$year'>$year</option>";
                      }
@@ -200,37 +203,13 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
                        <option value="12">december</option>
                        </select>
                       <select name="day" class="date">
-                      <option value="1">01</option>
-                      <option value="2">02</option>
-                      <option value="3">03</option>
-                      <option value="4">04</option>
-                      <option value="5">05</option>
-                      <option value="6">06</option>
-                      <option value="7">07</option>
-                      <option value="8">08</option>
-                      <option value="9">09</option>
-                      <option value="10">10</option>
-                      <option value="11">11</option>
-                      <option value="12">12</option>
-                      <option value="13">13</option>
-                      <option value="14">14</option>
-                      <option value="15">15</option>
-                      <option value="16">16</option>
-                      <option value="17">17</option>
-                      <option value="18">18</option>
-                      <option value="19">19</option>
-                      <option value="20">20</option>
-                      <option value="21">21</option>
-                      <option value="22">22</option>
-                      <option value="23">23</option>
-                      <option value="24">24</option>
-                      <option value="25">25</option>
-                      <option value="26">26</option>
-                      <option value="27">27</option>
-                      <option value="28">28</option>
-                      <option value="29">29</option>
-                      <option value="30">30</option>
-                      <option value="31">31</option>
+                     <?php
+                     ## Loop to generate 31 days 
+                     for ($i = 1; $i <= 31; $i++) {
+                        $value = sprintf("%02d", $i); ## Add leading zeros for display
+                        echo "<option value=\"$i\">$value</option>\n";
+                     }
+                     ?>
                     </select>
                   </fieldset> <br/>
                   <fieldset>
@@ -253,7 +232,7 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
                     </select>
                     </fieldset> <br/><br/>
                     <fieldset>
-                     <button type="submit" name="add_product_btn">
+                     <button type="submit" name="empty_field_btn">
                       Add product
                      </button>
                      <img src="../images/Loading-gif-unscreen.gif" alt="gif" class="gif gif3">
@@ -308,8 +287,8 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
                   echo "An error occurred while adding the product: " . $conn->error;
                }
             }
-          } elseif (isset($_POST["add_product_btn"])) {
-            ## Display error message if any input field is empty
+          } elseif (isset($_POST["empty_field_btn"])) {
+            ## Display warning message if any input field is empty
             echo '<span style="font-size: 13.5px; color: orange; top: 0; left: -15px; position: relative; font-family: sans-serif">⚠ &nbsp; All input fields must be filled.</span>';
          }
          ## Adding of new product to the system ends here
@@ -565,7 +544,7 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
    <!-- manage distributor section starts here -->
    <section class="page" id="section5">
       <h1 class="title">Manage distributors .. <span style="font-size: 12px">| Add or remove a distributor |</span></h1> <br/>
-      <span class="sub-title">Manage distributors &nbsp; <i class="fas fa-angle-right"></i> &nbsp; add distributor</span><br/><br/>
+      <span class="sub-title">Manage distributors &nbsp; <i class="fas fa-caret-right"></i> &nbsp; add distributor</span><br/><br/>
 
          <section class="form-section track">
                <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" onsubmit="return validateAddress()">
@@ -587,7 +566,7 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
                </form>
             </section> <br/><br/><br/><br/>
 
-            <span class="sub-title">Manage distributors &nbsp; <i class="fas fa-angle-right"></i> &nbsp; remove distributor</span><br/><br/>
+            <span class="sub-title">Manage distributors &nbsp; <i class="fas fa-caret-right"></i> &nbsp; remove distributor</span><br/><br/>
 
             <?php
             ## Check if delete request is received
@@ -641,7 +620,7 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
     <section class="page" id="section11">
       <h1 class="title">Configurations ..</h1> <br/><br/>
       <!--- updating expiry countdown starts here --->
-      <span class="sub-title">Configuration &nbsp; <i class="fas fa-angle-right"></i> &nbsp; product expiry &nbsp; <i class="fas fa-angle-right"></i> &nbsp; set expiry countdown [in days]</span><br/><br/>
+      <span class="sub-title">Configuration &nbsp; <i class="fas fa-caret-right"></i> &nbsp; product expiry &nbsp; <i class="fas fa-caret-right"></i> &nbsp; set expiry countdown [in days]</span><br/><br/>
 
        <?php
         ## Query to get current countdown value from the database
@@ -676,7 +655,7 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
 
 
          <!--- updating stock threshold starts here --->
-         <span class="sub-title">Configuration &nbsp; <i class="fas fa-angle-right"></i> &nbsp; stock threshold</span><br/><br/>
+         <span class="sub-title">Configuration &nbsp; <i class="fas fa-caret-right"></i> &nbsp; stock threshold</span><br/><br/>
 
          <?php
          ## Query to get current threshold value from the database
@@ -711,7 +690,7 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
 
 
        <!--- updating admin username starts here --->
-       <span class="sub-title">Configuration &nbsp; <i class="fas fa-angle-right"></i> &nbsp; update admin username</span><br/><br/>
+       <span class="sub-title">Configuration &nbsp; <i class="fas fa-caret-right"></i> &nbsp; update admin username</span><br/><br/>
 
         <?php
          ## Query to get current admin username from the database
@@ -745,8 +724,8 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
          <!--- updating admin username ends here --->
 
 
-         <!--- updating admin password start here --->
-         <span class="sub-title">Configuration &nbsp; <i class="fas fa-angle-right"></i> &nbsp; update admin password</span><br/><br/>
+         <!--- updating admin password starts here --->
+         <span class="sub-title">Configuration &nbsp; <i class="fas fa-caret-right"></i> &nbsp; update admin password</span><br/><br/>
 
          <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" onsubmit="return updateAdminPassword()">
          <fieldset>
@@ -768,7 +747,7 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
       <section class="page" id="section7">
       <h1 class="title">Manage cashier .. <span style="font-size: 12px">| Add or remove a cashier |</span></h1> <br/><br/>
 
-      <span class="sub-title">Manage cashier &nbsp; <i class="fas fa-angle-right"></i> &nbsp; add cashier</span><br/><br/>
+      <span class="sub-title">Manage cashier &nbsp; <i class="fas fa-caret-right"></i> &nbsp; add cashier</span><br/><br/>
 
       <section class="form-section track">
                <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" onsubmit="return validateCashier()">
@@ -790,7 +769,7 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
                </form>
             </section> <br/><br/><br/><br/>
 
-            <span class="sub-title">Manage cashier &nbsp; <i class="fas fa-angle-right"></i> &nbsp; remove cashier</span><br/><br/>
+            <span class="sub-title">Manage cashier &nbsp; <i class="fas fa-caret-right"></i> &nbsp; remove cashier</span><br/><br/>
 
             <?php
             ## Check if delete request is received
@@ -800,7 +779,7 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
                echo "
                <script>
                   if (confirm('Are you sure you want to delete this cashier?')) {
-                     window.location.href = '../manage_personels/delete_cashier.php?cashierid=$CashierID ';
+                     window.location.href = '../manage_personels/delete_cashier.php?cashierid=$CashierID';
                   } else {
                      window.location.href = './admin_home.php';
                   }
@@ -831,7 +810,7 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
 
       <!-- manage UDO list section starts here -->
        <section class="page" id="section8">
-       <?php
+        <?php
          ## Fetch product data from the database alphabetically
          $sql_fetch_products = "SELECT id, product_name FROM products ORDER BY product_name";
          $result_fetch_products = mysqli_query($conn, $sql_fetch_products);
@@ -844,7 +823,7 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
 
         <select name="product_id" id="product_id" style="color: #fcfcfc; background: none; padding: 1rem; border-radius: .2rem; border: 1px solid gray">
             <?php foreach ($products as $product): ?>
-                <option value="<?= $product['id']; ?>" style="color: #696767"><?= $product['product_name']; ?></option> 
+            <option value="<?= $product['id']; ?>" style="color: #696767"><?= $product['product_name']; ?></option> 
             <?php endforeach; ?> 
         </select>
         <br/><br/><br/>
@@ -861,7 +840,7 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
         </select>
         <br/><br/><br/>
 
-        <input type="submit" value="Submit" name="UDOsubmitBtn" style="width: 10rem; color: #f0efef; height: 3rem; border-radius: 0.2rem; padding: 9px 2%; background: linear-gradient(20deg, #6a6ae2, #acacf7); cursor: pointer;">
+        <input type="submit" value="Add Udo" name="UDOsubmitBtn" style="width: 10rem; color: #f0efef; height: 3rem; border-radius: 0.2rem; padding: 9px 2%; background: linear-gradient(20deg, #6a6ae2, #acacf7); cursor: pointer;">
        </form>
        </section>
       <!-- manage UDO list section ends here -->
@@ -877,7 +856,7 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
      </span>
 
     <br/><br/>
-    <span class="sub-title">Sales report &nbsp; <i class="fas fa-angle-right"></i> &nbsp; Generate report base on date range</span><br/><br/>
+    <span class="sub-title">Sales report &nbsp; <i class="fas fa-caret-right"></i> &nbsp; Generate report base on date range</span><br/><br/>
 
     <form id="salesReportForm">
         <input type="number" class="sales-report" id="start_year" name="start_year" required min="2000" step="1" placeholder="Start year ...">
@@ -888,7 +867,7 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
 
         <br/><br/>
 
-        <input type="number" class="sales-report" id="end_year" name="end_year" required min="2000" step="1" placeholder="End year ...">
+        <input type="number" class="sales-report" id="end_year" name="end_year" required min="2000" max="<?= Date('Y'); ?>" step="1" placeholder="End year ...">
         
         <input type="number" class="sales-report" id="end_month" name="end_month" required min="1" max="12" step="1" placeholder="End month ..."> 
         
@@ -896,10 +875,10 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
 
         <br/><br/>
         <input type="submit" class="sales-report" value="Generate Report" class="report_btn">
-    </form> <br/><br/>
+     </form> <br/><br/>
 
-    <!-- container where sales report table will be rendered -->
-    <div id="salesReportTable"></div>
+     <!-- container where sales report table will be rendered -->
+     <div id="salesReportTable"></div>
 
     </section>
     <!-- Sales report section ends here -->
@@ -917,8 +896,129 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
        <!-- Joter section ends here -->
 
 
+       <!-- Product restock section starts here -->
+       <section class="page" id="section12">
+         <h1 class="title">Product restock ..</h1> <br/><br/>
+
+         <section class="form-section">
+            <h2 class="title">Restock a product in the system</h2> <br/><br/><br/>
+
+               <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" onsubmit="return productRestock()">
+                  <fieldset>
+                     <?php
+                     ## SQL query to select products with quantity 0
+                     $sql = "SELECT * FROM products WHERE quantity = 0";
+
+                     ## Execute the query
+                     $result = $conn->query($sql);
+
+                     ## Check if the query was successful
+                     if (!$result) {
+                        echo "Error getting product with quantity equal to zero: " . $conn->error;
+                       } else {
+                        ?>
+                        <select name="product_name_restock" class="product_name_restock">
+                           <?php
+                           ## Fetch all products as an associative array
+                           while ($product = $result->fetch_assoc()) {
+                              echo "<option value=\"" . $product['product_name'] . "\">" . $product['product_name'] . "</option>";
+                           }
+                           ?>
+                        </select>
+                        <?php
+                     }
+                     ?>
+                  </fieldset> <br/>
+                  <fieldset>
+                     <input type="text" name="bar_code_restock" placeholder="Product barcode ..." autocomplete="off" required="" class="add-product-input">
+                  </fieldset> <br/>
+                  <fieldset>
+                     <input type="number" name="purchase_price_restock" placeholder="Purchace price(&#8358;) ..." autocomplete="off" required="" min="1" class="add-product-input purchase_price">
+                  </fieldset> <br/>
+                  <fieldset>
+                     <input type="number" name="sale_percent_restock" placeholder="Sale percentage(%) ..." autocomplete="off" required="" min="1" class="add-product-input sale_percent">
+                  </fieldset> <br/>
+                  <fieldset>
+                     <span class="sales_price">Sales price: ₦<span class="interest"></span></span>
+                  </fieldset> <br/>
+                  <fieldset>
+                     <input type="number" name="product_vat_restock" placeholder="Product VAT(&#8358;) ..." autocomplete="off" required="" min="0" class="add-product-input">
+                  </fieldset> <br/>
+                  <fieldset>
+                     <input type="number" name="quantity_restock" placeholder="Product Quantity ..." autocomplete="off" required="" min="1" class="add-product-input" id="restock_quantity">
+                  </fieldset> <br/>
+                  <fieldset>
+                  <div class="expiry_date">product expiry date</div> <br/>
+                    <select name="year_restock" class="date">
+                    <?php
+                     ## Get the current year
+                     $currentYear = date('Y');
+
+                     ## Loop to generate options for the next 50 years
+                     for ($i = 0; $i <= 50; $i++) {
+                        $year = $currentYear + $i;
+                        echo "<option value='$year'>$year</option>";
+                     }
+                     ?>
+                     </select>
+                      <select name="month_restock" class="date">
+                       <option value="1">january</option>
+                       <option value="2">february</option>
+                       <option value="3">march</option>
+                       <option value="4">april</option>
+                       <option value="5">may</option>
+                       <option value="6">june</option>
+                       <option value="7">july</option>
+                       <option value="8">august</option>
+                       <option value="9">september</option>
+                       <option value="10">october</option>
+                       <option value="11">november</option>
+                       <option value="12">december</option>
+                       </select>
+                      <select name="day_restock" class="date">
+                     <?php
+                     ## Loop to generate 31 days 
+                     for ($i = 1; $i <= 31; $i++) {
+                        $value = sprintf("%02d", $i); ## Add leading zeros for display
+                        echo "<option value=\"$i\">$value</option>\n";
+                     }
+                     ?>
+                    </select>
+                  </fieldset> <br/>
+
+                  <fieldset>
+                   <!-- get distributors from distributors table -->
+                   <?php
+                    $result = mysqli_query($conn, "SELECT `distributor_name` FROM `distributors` ORDER BY `id`");
+                    if (mysqli_num_rows($result) < 0) {
+                    # code...
+                    $row = mysqli_fetch_array($result);
+                    }
+                    ?>
+                    <select required="" name="distributor_restock" title="select distributor" class="distributor">
+                     <option selected="" disabled="">Select Distributor</option>
+                     <?php
+                     $i = 1;
+                     while ($row = mysqli_fetch_array($result)){               
+                     ?> 
+                     <option value="<?= $row["distributor_name"] ?>"><?= $row["distributor_name"] ?></option>
+                     <?php  $i++; }  ?>
+                    </select>
+                    </fieldset> <br/><br/>
+                    <fieldset>
+                     <button type="submit" name="restock_empty_field_btn">
+                      Update stock
+                     </button>
+                     <img src="../images/Loading-gif-unscreen.gif" alt="gif" class="gif gif9">
+                  </fieldset>
+               </form>
+            </section>
+       </section>
+       <!-- Product restock ends here -->
+
+
        <!-- Help section starts here -->
-         <section class="page" id="section12">
+         <section class="page" id="section13">
          <h1 class="title">Help ..</h1> <br/><br/>
 
          <!-- help infor. wrapper-->
@@ -1028,7 +1128,7 @@ th {
 
 
    // Function to get the current stock of all product
-   // and push to notification section if any is out of stock
+   // and push to the notification section if any is out of stock base on the stock threshold set by the Admin
    function StockNotification() {
             $.ajax({
                 url: './get_stock_notification.php', // File containing product stock details
@@ -1095,7 +1195,7 @@ th {
    setInterval(deleteProduct, 5000); // 5000 milliseconds = 5 seconds
 
 
-   // function to pop up preloader on the add distributor section when submiting form
+   // function to pop up preloader on the add distributor section 
    function validateAddress() {
     let input = document.getElementById('distributor_name');
 
@@ -1111,7 +1211,7 @@ th {
     }
 
 
-    // function to pop up preloader on the track sales section when submiting form
+    // function to pop up preloader on the track sales section 
     function validateSales(){
       let input = document.getElementById('year');
 
@@ -1127,7 +1227,7 @@ th {
    }
 
 
-   // function to pop up preloader on the add product section when submiting form
+   // function to pop up preloader on the add product section 
    function validateProduct(){
    let input = document.getElementById('product_name');
 
@@ -1213,6 +1313,22 @@ th {
 
     if (query !== '') {
      document.querySelector('img.gif8').style.visibility = "visible";
+      return true;
+     } else {
+      return false;
+      }
+   }
+
+
+   // function to pop up preloader on the product restock section
+    function productRestock(){
+    let input = document.querySelector('#restock_quantity');
+
+    // Get the value of the input field
+    let query = input.value.trim();
+
+    if (query !== '') {
+     document.querySelector('img.gif9').style.visibility = "visible";
       return true;
      } else {
       return false;
@@ -1475,7 +1591,7 @@ if (isset($_POST["expiry_range"]) && !empty([@$_POST["expiry_range"]]) && $_SERV
 
 
 ## adding of UDO list starts here
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['udo_quantity']) && !empty($_POST['udo_quantity'])) {
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['udo_quantity']) && !empty($_POST['udo_quantity'])) {
    ## Retrieve form data
    $product_id = mysqli_real_escape_string($conn, filter_var($_POST["product_id"], FILTER_DEFAULT));
    $quantity = mysqli_real_escape_string($conn, filter_var($_POST["udo_quantity"], FILTER_DEFAULT));
@@ -1502,10 +1618,51 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['udo_quantity']) && !em
     } else {
        echo "Error Updating product quantity: " . mysqli_error($conn);
    }
-} elseif(isset($_POST['UDOsubmitBtn'])){
+ } elseif(isset($_POST['UDOsubmitBtn'])){
    echo '
    <script>alert("all input fields must be filled!")</script>
    ';
 }
 ## adding of UDO list ends here
+
+
+## Product restock starts here
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["product_name_restock"]) && isset($_POST["distributor_restock"])) {
+    ## Get form inputs
+    $productName = mysqli_real_escape_string($conn, filter_var($_POST["product_name_restock"], FILTER_SANITIZE_SPECIAL_CHARS));
+    $barcode = mysqli_real_escape_string($conn, filter_var($_POST["bar_code_restock"], FILTER_SANITIZE_SPECIAL_CHARS));
+    $purchasePrice = filter_var($_POST["purchase_price_restock"], FILTER_SANITIZE_NUMBER_INT);
+    $salePercent = filter_var($_POST["sale_percent_restock"], FILTER_SANITIZE_NUMBER_INT);
+    $vat = filter_var($_POST["product_vat_restock"], FILTER_SANITIZE_NUMBER_INT);
+    $quantity = filter_var($_POST["quantity_restock"], FILTER_SANITIZE_NUMBER_INT);
+    $year = filter_var($_POST["year_restock"], FILTER_SANITIZE_NUMBER_INT);
+    $month = filter_var($_POST["month_restock"], FILTER_SANITIZE_NUMBER_INT);
+    $day = filter_var($_POST["day_restock"], FILTER_SANITIZE_NUMBER_INT);
+    $distributor = mysqli_real_escape_string($conn, filter_var($_POST["distributor_restock"], FILTER_SANITIZE_SPECIAL_CHARS));
+
+    ## Calculate sales price
+    $interest = ($purchasePrice * $salePercent) / 100;
+    $salesPrice = $purchasePrice + $interest;
+
+    ## Update products table
+    $updateSql = "UPDATE products SET bar_code = '$barcode', purchace_price = $purchasePrice, sale_percent = $salePercent, 
+    tax = $vat, quantity = $quantity, expiry_year = $year, expiry_month = $month, expiry_day = $day, distributor = '$distributor', 
+    sales_price = $salesPrice, timestamp = CURRENT_TIMESTAMP WHERE product_name = '$productName'";
+
+    if ($conn->query($updateSql) === TRUE) {
+        echo '<script>
+        alert("Stock updated successfully!");
+        window.location.href = "./admin_home.php";
+        </script>';
+     } else {
+        echo "Error updating stock: " . $conn->error;
+    }
+} elseif (isset($_POST["restock_empty_field_btn"])) {
+   ## Display warning message if any input field is empty
+   echo '
+    <script>alert("⚠ All input fields must be filled!");</script>
+   ';
+}
+## Product restock nds here
+
 ?>

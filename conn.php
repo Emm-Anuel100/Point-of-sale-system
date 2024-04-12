@@ -14,8 +14,6 @@ if ($conn->connect_error) {
 }
 
 
-
-
 // $HOST = "localhost";
 // $USERNAME = "id22025454_pos_userdb";
 // $PASSWORD = "Pos12345@";
