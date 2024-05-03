@@ -30,7 +30,7 @@ This POS web software solution offers a comprehensive system for managing sales 
 - **Cashier Management**: Admin can add or remove cashiers from the system.
 - **Settings**:
     - Adjust system settings such as resetting expiry countdown and product out-of-stock threshold.
-    - Manage products close to expiry and products that are out of stock.
+    - Updating of the admin login details.
 
 - **Notifications**:
    - Admin can get notification on products out of stock base on the threshold set or products close to expiry base on the countdown set.
