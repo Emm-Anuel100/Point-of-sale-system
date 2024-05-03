@@ -34,7 +34,7 @@ This POS web software solution offers a comprehensive system for managing sales 
 
 - **Notifications**:
    - Admin can get real time notification on products out of stock base on the threshold set or products close to expiry base on the countdown set.
-   - 
+    
 - **UDO(unsold,destroyed,other) list**:
    - Admin can can also remove any product along side it quantity whenever if it is destroyed, unsold/internally used or others.
 
