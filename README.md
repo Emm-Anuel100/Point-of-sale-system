@@ -37,6 +37,9 @@ This POS web software solution offers a comprehensive system for managing sales 
     
 - **UDO (unsold,destroyed,other) list**:
    - Admin can remove any product along with its quantity if it is destroyed, unsold, internally used, or for other reasons.
+     
+ - **Product restocking**:
+   - When a product is out of stock, it can be restocked efficiently.
 
 - **Updating of sales price**:
    - In situations where sales prices or tax values need to be updated, you can easily do so with a click.
