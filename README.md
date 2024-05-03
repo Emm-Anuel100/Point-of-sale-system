@@ -22,7 +22,7 @@ This POS web software solution offers a comprehensive system for managing sales 
 - **Admin and Cashier Login and Logout**: Secure access for administrators and cashiers.
 - **Receipt Generation**: Automatically generate receipts after sales transactions.
 - **Sales Reports**: 
-    - View sales charts (daily, weekly, monthly,  yearly, and custom) and snapshots for an easy  overview of business performance.
+    - View real time sales charts (daily, weekly, monthly,  yearly, and custom) and snapshots for an easy  overview of business performance.
     - Generate PDF and CSV files for sales reports.
     - View detailed sales reports including cashier information, sale time, items bought, and payment method.
 - **Notes**: Add and store notes to the local storage of the browser.
@@ -33,7 +33,7 @@ This POS web software solution offers a comprehensive system for managing sales 
     - Updating of admin login details.
 
 - **Notifications**:
-   - Admin can get notification on products out of stock base on the threshold set or products close to expiry base on the countdown set.
+   - Admin can get real time notification on products out of stock base on the threshold set or products close to expiry base on the countdown set.
    - 
 - **UDO(unsold,destroyed,other) list**:
    - Admin can can also remove any product along side it quantity whenever if it is destroyed, unsold/internally used or others.
