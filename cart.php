@@ -6,8 +6,9 @@ require_once "./conn.php";
 
 ## Check if the cart exists in the session, create it if not
 if (!isset($_SESSION['cart'])) {
-   $_SESSION['cart'] = array();
+  $_SESSION['cart'] = array();
 }
+
 
 ## Check if cashier session variables are not set
 if (!isset($_SESSION['cashier_id']) || !isset($_SESSION['cashier_name'])) {
@@ -99,12 +100,24 @@ foreach ($_SESSION['cart'] as $product) {
           <br/><br/><br/>
 
          <section class="cart-detail">
+         <div class="cart-wrapper">
+               <samp class="product" style="background: #91aecd">
+               Product name
+               </samp>
+               <samp class="product" style="background: #91aecd">
+                Product price
+               </samp>
+               <samp class="product" style="background: #91aecd">
+                 Quantity
+               </samp>
+             </div> <br/>
+
          <?php foreach ($_SESSION['cart'] as $product_id => $product): ?>
             <div class="cart-wrapper">
-               <samp class="product product-name">
+               <samp class="product">
                <?= @$product['name']; ?>
                </samp>
-               <samp class="product product-price">
+               <samp class="product">
                   &#8358;<?= @number_format($product['price']); ?> <span>+ VAT</span>
                </samp>
                <samp class="product">
@@ -115,8 +128,8 @@ foreach ($_SESSION['cart'] as $product) {
            <?php endforeach; ?>
            <br/>
 
-           <!-- total sum of cart items -->  
-            <samp class="title">
+            <!-- total sum of cart items -->  
+            <samp class="title" style="font-size: 19px">
                Total: <b>&#8358;<?= number_format($total, 2) ?> </b>
               <?php @$_SESSION['total'] = $total ?>
             </samp>

@@ -4,7 +4,7 @@
 
 This POS web software solution offers a comprehensive system for managing sales and inventory for businesses. It includes functionalities for both administrators and cashiers to streamline the sales process and manage inventory efficiently. 
 
-![Pos chart page](./images/pos_img.JPG)
+![Pos chart image](./images/pos_img.JPG)
 
 ## Technologies
 
@@ -22,7 +22,7 @@ This POS web software solution offers a comprehensive system for managing sales 
 - **Admin and Cashier Login and Logout**: Secure access for administrators and cashiers.
 - **Receipt Generation**: Automatically generate receipts after sales transactions.
 - **Sales Reports**: 
-    - View sales charts (daily, weekly, monthly,  yearly, and custom) and snapshots for an easy  overview of business performance.
+    - View real time sales charts (daily, weekly, monthly,  yearly, and custom) and snapshots for an easy  overview of business performance.
     - Generate PDF and CSV files for sales reports.
     - View detailed sales reports including cashier information, sale time, items bought, and payment method.
 - **Notes**: Add and store notes to the local storage of the browser.
@@ -33,7 +33,7 @@ This POS web software solution offers a comprehensive system for managing sales 
     - Manage products close to expiry and products that are out of stock.
 
 - **Notifications**:
-   - Admin can get notification on products out of stock base on the threshold set or products close to expiry base on the countdown set.
+   - Admin can get real time notification on products out of stock base on the threshold set or products close to expiry base on the countdown set.
 
 - **Updating of sales price**:
    - In situations where sales prices or tax values need to be updated, you can easily do so with a click.

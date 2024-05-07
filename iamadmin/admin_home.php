@@ -568,6 +568,17 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
 
             <span class="sub-title">Manage distributors &nbsp; <i class="fas fa-caret-right"></i> &nbsp; remove distributor</span><br/><br/>
 
+            <div class="manage_distributor_wrapper">
+               <!-- manage distributor header section starts here -->
+               <div style="background: linear-gradient(50deg, #e76022, #e74022)">
+                  <samp>s/n</samp> 
+                  <samp>name</samp>
+                  <samp>address</samp>
+                  <samp>action</samp>
+               </div>
+              </div><br/>
+              <!-- manage distributor header section ends here -->
+
             <?php
             ## Check if delete request is received
             if (isset($_GET['id']) && !empty($_GET['id'])) { 
@@ -739,8 +750,8 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
          </fieldset>
          </form> <br/><br/>
          <!--- updating admin password ends here --->
-    </section>
-    <!-- configurations section ends here -->
+       </section>
+      <!-- configurations section ends here -->
 
 
      <!-- manage cashier section starts here -->
@@ -771,6 +782,18 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
 
             <span class="sub-title">Manage cashier &nbsp; <i class="fas fa-caret-right"></i> &nbsp; remove cashier</span><br/><br/>
 
+             <div class="manage_distributor_wrapper">
+               <!-- manage cashier header section starts here -->
+               <div style="background: linear-gradient(50deg, #e76022, #e74022)">
+                  <samp>s/n</samp> 
+                  <samp>name</samp>
+                  <samp>gender</samp>
+                  <samp>ID</samp>
+                  <samp>action</samp>
+               </div>
+              </div><br/>
+              <!-- manage cashier header section ends here -->
+
             <?php
             ## Check if delete request is received
             if (isset($_GET['cashierid']) && !empty($_GET['cashierid'])) { 
@@ -796,7 +819,7 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
                $i = 1;
                ## Display cashier details with delete link
                while ($row = mysqli_fetch_array($result_cashier)) {
-                  echo "<div> $i <samp>{$row['name']}</samp> <samp>{$row['cashier_id']}</samp> <a href='?cashierid={$row['id']}'>delete</a></div><br/>";
+                  echo "<div> $i <samp>{$row['name']}</samp> <samp>{$row['gender']}</samp> <samp>{$row['cashier_id']}</samp> <a href='?cashierid={$row['id']}'>delete</a></div><br/>";
                   $i++;
                } 
                echo "</div>";
@@ -1057,7 +1080,6 @@ input[type="submit"].sales-report:hover{
    background: linear-gradient(70deg, rgb(106, 106, 226), rgb(172, 172, 247));
    transition: ease-in-out .2s;
 }
-
 table{
    width: 100%;
    font-family: sans-serif;
@@ -1179,7 +1201,7 @@ th {
     // Set interval to fetch new notifications every 4 seconds
     setInterval(fetchNotifications, 4000); // 4000 milliseconds = 4 seconds
   });
-
+ 
 
    // Function to remove product with quantity equal to zero
    function deleteProduct() {
@@ -1253,10 +1275,10 @@ th {
    if (query !== '') {
    document.querySelector('img.gif4').style.visibility = "visible";
       return true;
-   } else {
+    } else {
       return false;
       }
-   }
+   }   
 
    // function to pop up preloader on the stock threshold section
    function validateStockRange(){
@@ -1346,14 +1368,14 @@ fetch('./fetch_all_products.php')
   .then(productNames => {
     const available_words = productNames;
 
-    input_box.oninput = ()=> {
+    input_box.oninput = () => {
       let result = [];
       let input = input_box.value;
       if (input.length) {
          result = available_words.filter((keyword)=>{
           return keyword.toLowerCase().includes(input.toLowerCase());
          });
-      }
+      } 
       display_outputs(result);
 
       if (!result.length) {

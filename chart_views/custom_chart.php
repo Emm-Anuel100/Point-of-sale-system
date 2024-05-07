@@ -18,7 +18,7 @@
       <a href="./week_chart.php" class="navigator"><span>this week's chart</span></a>
       <a href="./month_chart.php" class="navigator"><span>this month's chart</span></a>
       <a href="./year_chart.php" class="navigator"><span>this year's chart</span></a>
-    </span>
+    </span> <br/><br/><br/>
 
     <!-- Canvas element for the bar chart -->
     <canvas id="productSalesChart"></canvas>
@@ -56,6 +56,7 @@
                 // check if response is empty
                 if(response.length === 0){
                   console.log("No data found for the selected date.");
+                  // alert ("No data found for the selected date.");
                 } else {
                    // Update the chart with the new aggregated data
                    updateChartData(response);
@@ -100,7 +101,7 @@
                 data: [],
                 fill: false,  // set background color to false
                 tension: 0.4, // tension value for curved lines
-                pointRadius: 6 // point radius for thicker dots
+                pointRadius: 5 // point radius for thicker dots
             }]
         };
         var options = {
@@ -123,7 +124,7 @@
 
         // Chart instance
         var myChart = new Chart(ctx, {
-            type: 'line',
+            type: 'bar',
             data: data,
             options: options
         });

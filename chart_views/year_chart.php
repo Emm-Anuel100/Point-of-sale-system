@@ -1,7 +1,6 @@
 <?php
 ## start session
 session_start();
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,7 +22,7 @@ session_start();
       <a href="./week_chart.php" class="navigator"><span>this week's chart</span></a>
       <a href="./month_chart.php" class="navigator"><span>this month's chart</span></a>
       <a href="./year_chart.php" class="navigator"><span>this year's chart</span></a>
-    </span>
+    </span> <br/><br/><br/>
 
     <!-- Canvas element for the bar chart -->
     <canvas id="productSalesChart"></canvas>
@@ -83,7 +82,7 @@ session_start();
                 data: [],
                 fill: false,  // set background color to false
                 tension: 0.4, // tension value for curved lines
-                pointRadius: 6 // point radius for thicker dots
+                pointRadius: 5 // point radius for thicker dots
             }]
         };
         var options = {
@@ -106,7 +105,7 @@ session_start();
 
         // Chart instance
         var myChart = new Chart(ctx, {
-            type: 'line',
+            type: 'bar',
             data: data,
             options: options
         });
