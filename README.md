@@ -11,6 +11,7 @@ This POS web software solution offers a comprehensive system for managing sales 
 - Html5 
 - Scss(sassy css)
 - Javascript
+- Ajax
 - Npm
 - Chart.js
 - Fpdf
