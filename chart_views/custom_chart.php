@@ -124,7 +124,7 @@
 
         // Chart instance
         var myChart = new Chart(ctx, {
-            type: 'bar',
+            type: 'pie',
             data: data,
             options: options
         });
